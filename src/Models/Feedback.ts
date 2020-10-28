@@ -15,4 +15,4 @@ class Feedback extends Schema
     retorno_curso:{type:number, required:true}       //int   [not null]  //QE_I30
 }
 
-mongoose.model('Feedback', new Feedback);
+export default mongoose.model('Feedback', new Feedback);

@@ -1,17 +1,39 @@
-import mongoose, { mongo } from 'mongoose';
-const Schema = mongoose.Schema;
+import { Schema, Document, model } from 'mongoose';
 
-
-
-//esquece das foreign key n namoral
-class Cursos extends Schema
-{
-    id_aluno:{type:number, required:true}            //int   [ref: > aluno.id_aluno, not null]
-    area_curso:{type:number, required:true}          //int   [not null]  //CO_GRUPO
-    curso_estado:{type:number, required:true}        //int   [not null]  //CO_UF_CURSO
-    tipo_org_acad:{type:number, required:true}       //int   [not null]  //CO_ORGACAD
-    modalidade_ensino:{type:number, required:true}   //int   [not null]  //CO_MODALIDADE
+export interface ICurso extends Document {
+     id_aluno:{type:Number, required:true},            //int   [ref: > aluno.id_aluno, not null]
+     area_curso:{type:Number, required:true},          //int   [not null]  //CO_GRUPO
+     curso_estado:{type:Number, required:true},        //int   [not null]  //CO_UF_CURSO
+     tipo_org_acad:{type:Number, required:true},       //int   [not null]  //CO_ORGACAD
+     modalidade_ensino:{type:Number, required:true}, 
 }
 
+const CursoSchema: Schema = new Schema({
+    id_aluno:{type:Number, required:true},            //int   [ref: > aluno.id_aluno, not null]
+    area_curso:{type:Number, required:true},          //int   [not null]  //CO_GRUPO
+    curso_estado:{type:Number, required:true},        //int   [not null]  //CO_UF_CURSO
+    tipo_org_acad:{type:Number, required:true}, 
+});
 
-mongoose.model('Cursos', new Cursos);
+// Export the model and return your IUser interface
+export default model<ICurso>('Cursos', CursoSchema);
+
+
+
+
+
+
+// import mongoose , { mongo, Schema } from 'mongoose';
+
+
+
+// const Cursos = new Schema({
+//     id_aluno:{type:Number, required:true},            //int   [ref: > aluno.id_aluno, not null]
+//     area_curso:{type:Number, required:true},          //int   [not null]  //CO_GRUPO
+//     curso_estado:{type:Number, required:true},        //int   [not null]  //CO_UF_CURSO
+//     tipo_org_acad:{type:Number, required:true},       //int   [not null]  //CO_ORGACAD
+//     modalidade_ensino:{type:Number, required:true}, 
+//   });
+// //esquece das foreign key n namoral
+
+// export default mongoose.model<>('Cursos', Cursos);

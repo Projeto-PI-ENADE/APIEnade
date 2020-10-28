@@ -6,7 +6,9 @@ const routes = Router();
 
 
 
-routes.get("/",API.show);
+routes.get("/Teste",API.showTeste);
+routes.get("/Cursos", API.showCursos);
+routes.get("/Provas", API.showDadosProvas);
 
 
 export default routes;

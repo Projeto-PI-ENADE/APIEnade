@@ -9,7 +9,7 @@ class Provas extends Schema
   tipo_presenca:{type:number, required:true}      // int   [not null]  //TP_PRES
 }
 
-mongoose.model('Provas', new Provas)
+export default mongoose.model('Provas', new Provas)
 
 
 

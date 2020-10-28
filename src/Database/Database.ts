@@ -1,22 +1,31 @@
-import mongo from 'mongoose';
+import { MongoClient } from 'mongodb';
+
 
 //importar esta classe configura uma instancia nova do banco de dados
-// ja conectada ao banco de dados e com as configuracoes certinhas e brabas
+
+const uri =  "mongodb+srv://enade:enade123@cluster0.5f6xz.mongodb.net/<dbname>?retryWrites=true&w=majority";
+
 class Database
 {
+    client:MongoClient;
     constructor()
     {
-        mongo.Promise = global.Promise;
+        this.client = new MongoClient(uri,{ useUnifiedTopology: true });
     }
-
     connect()
     {
-        mongo.connect("string diferente por favor pra dar certo").
-        then(() => {
-            console.log("Conectado ao DB");
-        }).catch((error) => {
-            console.log("Erro ao conectar");
-        })
+        try
+        {
+            this.client.connect(err => {
+                const collection = this.client.db("test").collection("devices");
+                this.client.close();
+            });
+            console.log("Conectado ao banco");
+        }
+        catch(error)
+        {
+            console.log("Erro ao conectar: ");
+        }
     }
 }
 

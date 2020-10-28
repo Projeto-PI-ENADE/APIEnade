@@ -16,4 +16,4 @@ class Alunos extends Schema
 }
 
 
-mongoose.model('Alunos', new Alunos);
+export default mongoose.model('Alunos', new Alunos);
