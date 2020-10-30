@@ -16,7 +16,7 @@ const CursoSchema: Schema = new Schema({
 });
 
 // Export the model and return your IUser interface
-export default model<ICurso>('Cursos', CursoSchema);
+export default model<ICurso>('Curso', CursoSchema);
 
 
 
