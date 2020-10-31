@@ -1,4 +1,4 @@
-import {Request, Response} from 'express';
+import { Request, Response } from 'express';
 import Curso from '../Models/Curso';
 import mg from 'mongodb';
 
@@ -6,24 +6,29 @@ import mg from 'mongodb';
 
 export default {
 
-    async showTeste(req:Request, res:Response)
-    {       
-        console.log("Consulta iniciada")
-        const c = await Curso.find({tipo_org_acad:10020},(error,curso) => {  
-            console.log("Fiz uma query aqui");
-        });
-        return res.json(c);
+    async showTeste(req: Request, res: Response) {
+        return res.status(200).send("Teste!");
     },
 
     //dados sobre as provas     
-    async showDadosProvas(req:Request, res:Response)
-    {
-        return res.json({message:"Provas aqui"});
+    async showDadosProvas(req: Request, res: Response) {
+        return res.status(400).send("Not implemented");
     },
 
-    async showCursos(req:Request, res:Response)
-    {
-        return res.json({message:"Curso x", Tipo:"Bacharelado"});
+    async showCursos(req: Request, res: Response) {
+        console.log("Show Cursos");
+
+        await Curso.find({}, (error, curso) => {
+
+            if (error) {
+                res.status(404).send('Not Found')
+            }
+            else {
+                res.status(200).json(curso);
+            }
+        }).lean();
+
+
     }
 
 
