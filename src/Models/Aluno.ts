@@ -1,18 +1,30 @@
+import { Mongoose } from 'mongoose';
 import mongoose from '../db';
 const Schema = mongoose.Schema;
 
-
-class Alunos extends Schema {
-    sexo: { type: string, required: true }               //char  [not null]  //TP_SEXO
-    idade: { type: number, required: true }               //int   [not null]  //NU_IDADE
-    renda_fam: { type: string, required: true }           //char  [not null]  //QE_I08
-    trabalho: { type: string, required: true }            //char  [not null]  //QE_I10
-    tipo_ens_medio: { type: string, required: true }      //char  [not null]  //QE_I17
-    bolsa_estudo: { type: string, required: true }        //char  [not null]  //QE_I11
-    familiar_curso: { type: string, required: true }      //char  [not null]  //QE_I21
-    extraclasse: { type: string, required: true }         //char  [not null]  //QE_I23
-    razao_insti_sup: { type: string, required: true }     //char  [not null]  //QE_I26
+export interface IAluno {
+    sexo: string
+    idade: number
+    renda_fam: string
+    trabalho: string
+    tipo_ens_medio: string
+    bolsa_estudo: string
+    familiar_curso: string
+    extraclasse: string
+    razao_insti_sup: string
 }
 
+const AlunoSchema: mongoose.Schema = new mongoose.Schema({
+    sexo: { type: String, required: true },
+    idade: { type: Number, required: true },
+    renda_fam: { type: String, required: true },
+    trabalho: { type: String, required: true },
+    tipo_ens_medio: { type: String, required: true },
+    bolsa_estudo: { type: String, required: true },
+    familiar_curso: { type: String, required: true },
+    extraclasse: { type: String, required: true },
+    razao_insti_sup: { type: String, required: true },
+})
 
-export default mongoose.model('Alunos', new Alunos);
+
+export default mongoose.model('alunos', AlunoSchema);
