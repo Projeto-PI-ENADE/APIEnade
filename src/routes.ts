@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import API from './Controllers/ApiController';
+
 import AlunoController from './Controllers/AlunoController';
 import ProvaController from './Controllers/ProvaController';
 import FeedbackController from './Controllers/FeedbackController';
