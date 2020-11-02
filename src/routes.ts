@@ -7,7 +7,7 @@ const routes = Router();
 
 
 routes.get("/Teste",API.showTeste);
-routes.get("/Cursos", API.showCursos);
+routes.get("/", API.showCursos);
 routes.get("/Provas", API.showDadosProvas);
 routes.get("/Excel", API.Excel);
 
