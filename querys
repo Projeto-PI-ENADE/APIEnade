@@ -1,0 +1,133 @@
+//##############################//
+//------IDÉIAS DE CONSULTAS-----//
+// 
+// 
+// 
+// 
+// 
+// // 
+// 
+// 10 - ALGUMA REPRESENTAÇÃO SOBRE O ESTADO (Maíra)
+// 11 - Quantidade (porcentagem) dos alunos EAD e Presencial
+// 12 - Quantidade (porcentagem) instituições separados pelo tipo da org
+
+
+
+============================ APLICAÇÃO ==================================
+
+NOTAS:
+    3 - Ranking de notas (porcentagem):
+        100 a 81: 20 alunos   (20%)
+        80 a 61 : 50 alunos (50%)
+        60 a 41 : 20 alunos (20%)
+        40 a 21 : 9 alunos (9%)
+        20 a 0  : 1 alunos (1%) 
+
+        Query: (API side)
+
+        Output(previa):
+        {
+            "0_20"   : {qnt: 1, prc: 1.0f},
+            "21_40"  : {qnt: 9, prc: 9.0f},
+            "41_60"  : {qnt: 20, prc: 20.0f},
+            "61_80"  : {qnt: 50, prc: 50.0f},
+            "81_100" : {qnt: 20, prc: 20.0f},
+        }
+
+    4 - modalidade de ensino com relação a nota
+
+        Output(previa):
+        {
+            "0_20"  : {qnt_pres: 1, qnt_ead: 0},
+            "21_40" : {qnt_pres: 5, qnt_ead: 4}
+            "41_60" : {qnt_pres: 8, qnt_ead: 12}
+            "61_80" : {qnt_pres: 34, qnt_ead: 16}
+            "81_100": {qnt_pres: 13, qnt_ead: 7}
+        }
+
+
+PRESENÇA:
+    1 - Quantidade (porcentagem) de alunos ausentes e presentes na prova
+
+        Output(previa):
+        {
+            "ausentes": 20.0f,
+            "presentes": 80.0f
+        }
+
+    2 - Total de cada tipo de presença (desnecessário)
+        
+
+    5 - Quais foram os cursos avaliados
+        {
+            "Bacharelado": ["","",""],
+            "Tecnologia" : ["","",""]
+        }
+
+    6 - Qtd total de alunos participantes e separados por curso
+        {
+            "Bacharelado": 
+            [
+                {
+                    "nome": "Administração",
+                    "quantidade": 0
+                },
+                {
+                    "nome": "Direito",
+                    "quantidade": 0
+                }
+            ],
+            "Tecnologia" : [
+                {
+                    "nome": "Tecnologia em Gastronomia",
+                    "quantidade": 0
+                },
+                {
+                    "nome": "Tecnologia em Logística",
+                    "quantidade": 0
+                }
+            ],
+        }
+
+    7 - Qtd total de alunos participantes e separados por sexo
+    {
+      "feminino"  : 0 
+      "masculino" : 0  
+    }
+
+    8 - Qtd total de alunos participantes e separados por idade
+    {
+        "16_24" : 0,
+        "25_33" : 0,
+        "34_42" : 0,
+        "43_51" : 0,
+        "52_60" : 0,
+        "61_69" : 0,
+        "70_78" : 0,
+        "79_87" : 0, 
+    }
+
+    9 - Quantidade (porcentagem) dos tipos de ensino médio
+    {
+        "escola publica" : 0,
+        "escola privada" : 0,
+        "exterior" : 0,
+        "predominante publica": 0,
+        "predominante privada": 0,
+        "nacional e internacional": 0
+    }
+
+    11 - Quantidade (porcentagem) dos alunos EAD e Presencial
+    {
+        "ead": 0,
+        "presencial": 0
+    }
+
+    12 - Quantidade (porcentagem) instituições separados pelo tipo da org
+    {
+        "CFET": 0,
+        "Centro Universitario": 0,
+        "Faculdade": 0,
+        "IFECT": 0,
+        "Universidade"
+    }
