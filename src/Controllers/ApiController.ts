@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import Curso from '../Models/Curso';
-import mg from 'mongodb';
+import Curso, { ICurso } from '../Models/Curso';
+import Prova from '../Models/Prova';
+
 
 //var id = new mg.ObjectID("5f91c05ca1b9bbd434e5b3ac");
 
@@ -12,21 +13,32 @@ export default {
 
     //dados sobre as provas     
     async showDadosProvas(req: Request, res: Response) {
-        return res.status(400).send("Not implemented");
-    },
-
-    async showCursos(req: Request, res: Response) {
-        console.log("Show Cursos");
-
-        await Curso.find({}, (error, curso) => {
+        console.log("Show provas")
+        let v = await Prova.find((error: any, prova: any) => {
 
             if (error) {
                 res.status(404).send('Not Found')
             }
             else {
-                res.status(200).json(curso);
+                res.status(200).json(prova);
             }
-        }).lean();
+        });
+    },
+
+    async showCursos(req: Request, res: Response) {
+        console.log("Show Cursos");
+
+        try {
+
+            let v = await Curso.find();
+
+            // Curso.create({ area_curso: 9090 }).then((res) => { console.log(res) });
+            return res.status(200).json(v);
+        } catch (error) {
+            return res.send(error)
+        }
+
+
 
 
     }
