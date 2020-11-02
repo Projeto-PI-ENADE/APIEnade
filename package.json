@@ -15,11 +15,8 @@
     "@types/mongodb": "^3.5.31",
     "@types/mongoose": "^5.7.36",
     "@types/objects-to-csv": "^1.3.0",
-    "excel-export": "^0.5.1",
-    "export-to-csv": "^0.2.1",
     "express": "^4.17.1",
     "mongoose": "^5.10.11",
-    "node-excel-export": "^1.4.4",
     "objects-to-csv": "^1.3.6"
   }
 }
