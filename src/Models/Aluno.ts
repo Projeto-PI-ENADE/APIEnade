@@ -12,6 +12,7 @@ export interface IAluno {
     familiar_curso: string
     extraclasse: string
     razao_insti_sup: string
+    grupo:string
 }
 
 const AlunoSchema: mongoose.Schema = new mongoose.Schema({
