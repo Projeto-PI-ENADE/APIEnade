@@ -23,7 +23,7 @@ export default {
 
     },
 
-    async NotasPorIdade(req: Request, res: Response) {
+    async RankingNotas(req: Request, res: Response) {
 
         const result = [
             {
@@ -50,7 +50,6 @@ export default {
 
         class rnk { qnt: number; prc: number };
         let ranking: Array<rnk> = new Array<rnk>();
-        const total = await ProvaModel.countDocuments()
 
         const a = await ProvaModel.countDocuments({ nota_bruta: { $gte: 0, $lt: 20 } }, (error: any, notas: any) => {
             return notas
@@ -67,6 +66,9 @@ export default {
         const e = await ProvaModel.countDocuments({ nota_bruta: { $gte: 80, $lt: 100 } }, (error: any, notas: any) => {
             return notas
         });
+
+        const total = a + b + c + d + e;
+
         ranking.push({ qnt: a, prc: (100 * a) / total });
         ranking.push({ qnt: b, prc: (100 * b) / total });
         ranking.push({ qnt: c, prc: (100 * c) / total });
