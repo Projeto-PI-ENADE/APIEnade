@@ -23,7 +23,7 @@ export default {
 
     },
 
-    async RankingNotas(req: Request, res: Response) {
+    async NotasPorIdade(req: Request, res: Response) {
 
         const result = [
             {
@@ -74,5 +74,11 @@ export default {
         ranking.push({ qnt: e, prc: (100 * e) / total });
 
         return res.status(200).json(ranking)
+    },
+
+    async NotasProModalidadeEnsino(req: Request, res: Response) {
+
     }
+
+
 }
