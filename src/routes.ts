@@ -14,4 +14,6 @@ routes.get("/cursos", CursoController.Index);
 routes.get('/alunos', AlunoController.Index);
 routes.get('/feedback', FeedbackController.Index);
 
+routes.get('/Provas/:sexo', ProvaController.NotasPorSexo);
+
 export default routes;

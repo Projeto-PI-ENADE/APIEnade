@@ -2,16 +2,29 @@ import { ExportToCsv } from "export-to-csv";
 const ObjectsToCsv = require('objects-to-csv');
 
 
-export default async function ExportarCSV(path:string, list:Array<Object>)
-{
-  const csv =  new ObjectsToCsv(list);
 
-  try
+
+class Exporter
+{
+  path:string;
+
+  constructor(str:string)
   {
-    await csv.toDisk(path);
-  }catch(err)
+    this.path = str;
+  }
+
+  async ExportToCSV(list:Array<Object>) 
   {
-    console.log(err);
+    const csv =  new ObjectsToCsv(list);
+    try
+    {
+      await csv.toDisk(this.path);
+    }catch(err)
+    {
+      console.log(err);
+    }
   }
 
 }
+
+export default Exporter;

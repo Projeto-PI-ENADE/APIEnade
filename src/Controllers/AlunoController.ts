@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
+import Aluno from '../Models/Aluno';
 import AlunoModel from '../Models/Aluno'
-
 
 export default {
     async Index(req: Request, res: Response) {
@@ -21,5 +21,8 @@ export default {
             console.log('[ERROR]: ', error)
         }
 
-    }
+    },
+
+ 
+
 }

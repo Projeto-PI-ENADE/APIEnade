@@ -21,5 +21,16 @@ export default {
             console.log('[ERROR]: ', error)
         }
 
+    },
+
+    //passar o ano como parametro e retornar o json com os cursos
+    async Ano(req:Request, res: Response)
+    {
+        //paginacao
+        const pageSize: number = 5;
+        const page: number = req.query.page;
+
+        return res.json({message:"Espere, ainda estou fazendo ajustes"});
+
     }
 }
