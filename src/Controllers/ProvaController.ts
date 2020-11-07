@@ -11,14 +11,14 @@ export default {
 
         var parametro = req.params
         try {
-            let response = await ProvaModel.find(parametro,(error: any, prova: any) => {
+            let response = await ProvaModel.find((error: any, prova: any) => {
                 if (error) {
                     return res.status(404).send('Not Found')
                 }
                 else {
                     return res.status(200).json(prova);
                 }
-            }).populate('alunos').skip(pageSize * page).limit(pageSize);
+            }).skip(pageSize * page).limit(pageSize);
 
         } catch (error) {
             console.log('[ERROR]: ', error)
@@ -83,7 +83,20 @@ export default {
 
     async NotasProModalidadeEnsino(req: Request, res: Response) {
 
+    },
+
+    async NotasPorSexo(req:Request,res:Response)
+    {
+        const pageSize: number = 5;
+        const page: number = req.query.page;
+        var {parametro} = req.params;
+        try
+        {
+            var resultado =  await ProvaModel.find().populate('id_aluno', 'sexo').skip(pageSize * page).limit(pageSize);
+            return res.status(200).json(resultado);
+        }catch(error)
+        {
+            console.log(error);
+        }
     }
-
-
 }
