@@ -1,6 +1,7 @@
-import { Request, Response } from 'express';
+import { json, Request, Response } from 'express';
 import { ObjectID } from 'mongodb';
 import ProvaModel from '../Models/Prova'
+
 
 
 export default {
@@ -35,25 +36,22 @@ export default {
         //var {parametro} = req.params;
         var parametro = req.params
         console.log(parametro);
+        console.log(req.query.page)
         try
         {
-            await ProvaModel.find({_id:"5fa160e2fb962b9d670ddac0"},(error:any, provas:any) =>{
-                if(error)
-                {
-                    console.log(error);
-                }else
-                {
-                    console.log(provas.id_aluno);
-                    return res.status(200).json(provas);
-                }
-            }).populate('alunos','sexo').skip(pageSize * page).limit(pageSize);
-        }
-        catch(err)
+            let resultado  = await ProvaModel.find({_id: new ObjectID("5fa160e2fb962b9d670ddb8c")}).populate('alunos');
+
+            return res.status(200).json(resultado);
+        }catch(err)
         {
             console.log('[ERROR]: ', err)
         }
 
-    }
+    },
+
+
+
+
 
 
 

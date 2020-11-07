@@ -13,7 +13,8 @@ export default {
                     return res.status(404).send('Not Found')
                 }
                 else {
-                    return res.status(200).json(aluno);
+                    var{nota} = aluno.nota_bruta;
+                    return res.status(200).json(nota);
                 }
             }).skip(pageSize * page).limit(pageSize);
 
