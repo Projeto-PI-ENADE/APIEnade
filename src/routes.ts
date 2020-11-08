@@ -17,6 +17,7 @@ routes.get("/cursos/PercentualTipoInstituicao", CursoController.PercentualTipoIn
 routes.get("/cursos/ProporcaoPresencialEAD", CursoController.ProporcaoPresencialEAD)
 
 routes.get('/alunos', AlunoController.Index);
+routes.get("/alunos/NumeroAlunos", AlunoController.NumeroAlunos);
 routes.get('/alunos/TotalPorSexo', AlunoController.TotalPorSexo);
 routes.get('/alunos/TotalPorIdade', AlunoController.TotalPorIdade);
 routes.get('/alunos/PercentualModalidadeEM', AlunoController.PercentualModalidadeEM);

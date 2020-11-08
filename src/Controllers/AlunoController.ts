@@ -28,7 +28,14 @@ export default {
             console.log('[ERROR]: ', error)
         }
     },
-
+    async NumeroAlunos(req: Request, res: Response) {
+        try {
+            let response = await AlunoModel.countDocuments()
+            return res.status(200).json(response)
+        } catch (error) {
+            console.log('[ERROR]: ', error)
+        }
+    },
     async TotalPorSexo(req: Request, res: Response) {
         const value = {
             "feminino": 244334,
