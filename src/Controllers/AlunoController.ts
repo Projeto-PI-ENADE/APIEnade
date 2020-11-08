@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import AlunoModel, { IAluno } from '../Models/Aluno'
-import ExportarCSV from '../Services/Exportador'
+
 
 interface IPage {
     page: number
@@ -17,10 +17,7 @@ export default {
                     res.status(404).send('Not Found')
                 }
                 else {
-                    let a = []
-                    a.push(aluno[0].toObject())
-                    a.push(aluno[1].toObject())
-                    ExportarCSV('Files/alunoIndex.csv', a)
+
                     res.status(200).json(aluno);
                 }
             }).skip(pageSize * page).limit(pageSize);
