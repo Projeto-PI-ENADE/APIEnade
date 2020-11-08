@@ -8,7 +8,7 @@ import CursoController from './Controllers/CursoController'
 const routes = Router();
 
 routes.get("/provas", ProvaController.Index);
-routes.get("/provas/NotasPorIdade", ProvaController.RankingNotas);
+routes.get("/provas/RankingNotas", ProvaController.RankingNotas);
 
 routes.get("/cursos", CursoController.Index);
 routes.get("/cursos/TotalPorCurso", CursoController.TotalPorCurso);
