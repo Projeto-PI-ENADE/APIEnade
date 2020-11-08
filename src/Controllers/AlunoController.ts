@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import AlunoModel from '../Models/Aluno'
+import AlunoModel, { IAluno } from '../Models/Aluno'
+import ExportarCSV from '../Services/Exportador'
 
 interface IPage {
     page: number
@@ -13,12 +14,18 @@ export default {
         try {
             let response = await AlunoModel.find((error: any, aluno: any) => {
                 if (error) {
-                    return res.status(404).send('Not Found')
+                    res.status(404).send('Not Found')
                 }
                 else {
-                    return res.status(200).json(aluno);
+                    let a = []
+                    a.push(aluno[0].toObject())
+                    a.push(aluno[1].toObject())
+                    ExportarCSV('Files/alunoIndex.csv', a)
+                    res.status(200).json(aluno);
                 }
             }).skip(pageSize * page).limit(pageSize);
+
+
 
         } catch (error) {
             console.log('[ERROR]: ', error)
