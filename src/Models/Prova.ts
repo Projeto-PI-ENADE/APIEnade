@@ -1,15 +1,20 @@
-import mongoose from 'mongoose';
+import mongoose from '../db';
 const Schema = mongoose.Schema;
 
-class Provas extends Schema
-{
-  id_aluno:{type:number, required: true}//foreign Key, esquece n           // int   [ref: > aluno.id_aluno, not null]
-  data_prova:{type:Date, required: true}         // int   [not null]  //NU_ANO
-  nota_bruta:{type:number, required:true}         // float [not null]  //NT_GER
-  tipo_presenca:{type:number, required:true}      // int   [not null]  //TP_PRES
+export interface IProva {
+  id_aluno: number,
+  data_prova: Date,
+  nota_bruta: number,
+  tipo_presenca: number
 }
 
-mongoose.model('Provas', new Provas)
+const ProvaSchema: mongoose.Schema = new mongoose.Schema({
+  id_aluno: [{ type: Schema.Types.ObjectId, ref: 'alunos', required: true }],
+  data_prova: { type: Date, required: true },
+  nota_bruta: { type: Number, required: true },
+  tipo_presenca: { type: Number, required: true }
+})
 
+export default mongoose.model('provas', ProvaSchema)
 
 

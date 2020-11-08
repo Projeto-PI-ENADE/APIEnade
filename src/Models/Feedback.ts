@@ -1,18 +1,30 @@
-import mongoose, { mongo } from 'mongoose';
+import mongoose from '../db';
 const Schema = mongoose.Schema;
 
-class Feedback extends Schema
-{
-    id_aluno:{type:number, required:true}            //int   [ref: > aluno.id_aluno, not null]
-    dif_forma_geral:{type:string, required:true}     //char  [not null]  //CO_RS_I1
-    dif_forma_especif:{type:string, required:true}   //char  [not null]  //CO_RS_I2
-    ext_temp_prova:{type:string, required:true}      //char  [not null]  //CO_RS_I3
-    clarez_prov_geral:{type:string, required:true}   //char  [not null]  //CO_RS_I4
-    clarez_prov_espe:{type:string, required:true}    //char  [not null]  //CO_RS_I5
-    tempo_gasto:{type:string, required:true}         //char  [not null]  //CO_RS_I9
-    disc_contribu_form:{type:number, required:true}  ///int   [not null]  //QE_I27
-    conteu_contr_atv:{type:number, required:true}    //int   [not null]  //QE_I28
-    retorno_curso:{type:number, required:true}       //int   [not null]  //QE_I30
+export interface IFeedback {
+    id_aluno: number
+    dif_forma_geral: string
+    dif_forma_especif: string
+    ext_temp_prova: string
+    clarez_prov_geral: string
+    clarez_prov_espe: string
+    tempo_gasto: string
+    disc_contribu_form: number
+    conteu_contr_atv: number
+    retorno_curso: number
 }
 
-mongoose.model('Feedback', new Feedback);
+const FeedbackSchema: mongoose.Schema = new mongoose.Schema({
+    id_aluno: [{ type: Schema.Types.ObjectId, ref: 'aluno', required: true }],
+    dif_forma_geral: { type: String, required: true },
+    dif_forma_especif: { type: String, required: true },
+    ext_temp_prova: { type: String, required: true },
+    clarez_prov_geral: { type: String, required: true },
+    clarez_prov_espe: { type: String, required: true },
+    tempo_gasto: { type: String, required: true },
+    disc_contribu_form: { type: Number, required: true },
+    conteu_contr_atv: { type: Number, required: true },
+    retorno_curso: { type: Number, required: true },
+});
+
+export default mongoose.model('feedbacks', FeedbackSchema);
