@@ -1,4 +1,5 @@
 import mongoose from '../db';
+const Schema = mongoose.Schema;
 
 export interface ICurso {
     id_aluno: number,
@@ -9,7 +10,7 @@ export interface ICurso {
 }
 
 const CursoSchema: mongoose.Schema = new mongoose.Schema({
-    id_aluno: { type: Number, required: true },
+    id_aluno: [{ type: Schema.Types.ObjectId, ref: 'aluno', required: true }],
     area_curso: { type: Number, required: true },
     curso_estado: { type: Number, required: true },
     tipo_org_acad: { type: Number, required: true },

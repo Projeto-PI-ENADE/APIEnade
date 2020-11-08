@@ -1,0 +1,3 @@
+_id,sexo,idade,grupo,renda_fam,trabalho,bolsa_estudo,tip_ens_medio,familiar_curso,extraclasse
+"""5fa160e2fb962b9d670ddae7""",M,23,D,C,E,H,A,A,B
+"""5fa160e2fb962b9d670ddaeb""",M,24,A,E,D,H,E,A,C

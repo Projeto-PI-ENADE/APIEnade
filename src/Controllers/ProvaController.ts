@@ -2,23 +2,26 @@ import { json, Request, Response } from 'express';
 import { ObjectID } from 'mongodb';
 import ProvaModel from '../Models/Prova'
 
+interface IPage {
+    page: number
+}
 
 
 export default {
     async Index(req: Request, res: Response) {
         const pageSize: number = 5;
-        const page: number = req.query.page;
+        const page: number = (req.query as unknown as IPage).page;
 
         var parametro = req.params
         try {
-            let response = await ProvaModel.find((error: any, prova: any) => {
+            let response = await ProvaModel.find().skip(pageSize * page).limit(pageSize).exec((error: any, prova: any) => {
                 if (error) {
                     return res.status(404).send('Not Found')
                 }
                 else {
                     return res.status(200).json(prova);
                 }
-            }).skip(pageSize * page).limit(pageSize);
+            });
 
         } catch (error) {
             console.log('[ERROR]: ', error)
@@ -50,6 +53,8 @@ export default {
                 "prc": 0.3857481755493456
             }
         ]
+
+        return await res.status(200).json(result)
 
         class rnk { qnt: number; prc: number };
         let ranking: Array<rnk> = new Array<rnk>();

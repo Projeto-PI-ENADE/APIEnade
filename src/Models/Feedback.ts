@@ -1,4 +1,3 @@
-import { mongo } from 'mongoose';
 import mongoose from '../db';
 const Schema = mongoose.Schema;
 
@@ -16,7 +15,7 @@ export interface IFeedback {
 }
 
 const FeedbackSchema: mongoose.Schema = new mongoose.Schema({
-    id_aluno: { type: Number, required: true },
+    id_aluno: [{ type: Schema.Types.ObjectId, ref: 'aluno', required: true }],
     dif_forma_geral: { type: String, required: true },
     dif_forma_especif: { type: String, required: true },
     ext_temp_prova: { type: String, required: true },
