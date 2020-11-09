@@ -11,14 +11,13 @@ class Ranking
     rank:Array<IRank>
     
 
-    constructor(grupo:string, list:Array<any>)
+    constructor(str:string)
     {
-        this.grupo = grupo; 
-        this.CalculaRankNotas(list);
-
+        this.grupo = str;
+        this.rank = new Array<IRank>();
     }
 
-    private CalculaRankNotas(list:Array<any>):void
+    public CalculaRankNotas(list:Array<any>):void
     {
         var a = 0,b = 0,c = 0,d = 0, e = 0;
         list.forEach(element => {
@@ -53,3 +52,6 @@ class Ranking
     }
 
 }
+
+
+export default Ranking;
