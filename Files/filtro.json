@@ -1,0 +1,280 @@
+{
+    "values": [],
+    "child": [
+        {
+            "values": [
+                {
+                    "title": "Por idade",
+                    "checked": false
+                },
+                {
+                    "title": "Por sexo",
+                    "checked": false
+                },
+                {
+                    "title": "Por cor",
+                    "checked": false
+                },
+                {
+                    "title": "Por modalidade de ensino",
+                    "checked": false
+                }
+            ],
+            "child": [],
+            "title": "FiltroAluno"
+        },
+        {
+            "values": [
+                {
+                    "title": "CSV",
+                    "checked": false
+                },
+                {
+                    "title": "XLSX",
+                    "checked": false
+                },
+                {
+                    "title": "JSON",
+                    "checked": false
+                }
+            ],
+            "child": [],
+            "title": ""
+        },
+        {
+            "values": [
+                {
+                    "title": "Por quantidade total de alunos",
+                    "checked": false
+                },
+                {
+                    "title": "Por idade",
+                    "checked": false
+                },
+                {
+                    "title": "Por sexo",
+                    "checked": false
+                }
+            ],
+            "child": [],
+            "title": "FiltroPresenca"
+        },
+        {
+            "values": [
+                {
+                    "title": "2018",
+                    "checked": false
+                },
+                {
+                    "title": "2017",
+                    "checked": false
+                },
+                {
+                    "title": "2016",
+                    "checked": false
+                },
+                {
+                    "title": "2015",
+                    "checked": false
+                },
+                {
+                    "title": "2014",
+                    "checked": false
+                },
+                {
+                    "title": "2013",
+                    "checked": false
+                },
+                {
+                    "title": "2012",
+                    "checked": false
+                },
+                {
+                    "title": "2011",
+                    "checked": false
+                },
+                {
+                    "title": "2010",
+                    "checked": false
+                },
+                {
+                    "title": "2009",
+                    "checked": false
+                }
+            ],
+            "child": [],
+            "title": "FiltroAnos"
+        },
+        {
+            "values": [
+                {
+                    "title": "Por quantidade de alunos",
+                    "checked": false
+                },
+                {
+                    "title": "Por idade",
+                    "checked": false
+                },
+                {
+                    "title": "Por sexo",
+                    "checked": false
+                },
+                {
+                    "title": "Por renda familiar",
+                    "checked": false
+                },
+                {
+                    "title": "Modalidade de Ensino",
+                    "checked": false
+                }
+            ],
+            "child": [],
+            "title": "FiltroNotas"
+        },
+        {
+            "values": [
+                {
+                    "title": "Bacharelado",
+                    "checked": false
+                },
+                {
+                    "title": "Licenciatura",
+                    "checked": false
+                },
+                {
+                    "title": "Tecnologo",
+                    "checked": false
+                }
+            ],
+            "child": [
+                {
+                    "values": [
+                        {
+                            "title": "Administração",
+                            "checked": false
+                        },
+                        {
+                            "title": "Administração Pública",
+                            "checked": false
+                        },
+                        {
+                            "title": "Ciências Contábeis",
+                            "checked": false
+                        },
+                        {
+                            "title": "Ciências Econômicas",
+                            "checked": false
+                        },
+                        {
+                            "title": "Design",
+                            "checked": false
+                        },
+                        {
+                            "title": "Direito",
+                            "checked": false
+                        },
+                        {
+                            "title": "Jornalismo",
+                            "checked": false
+                        },
+                        {
+                            "title": "Psicologia",
+                            "checked": false
+                        },
+                        {
+                            "title": "Publicidade e Propaganda",
+                            "checked": false
+                        },
+                        {
+                            "title": "Relações Internacionais",
+                            "checked": false
+                        },
+                        {
+                            "title": "Secretariado Executivo",
+                            "checked": false
+                        },
+                        {
+                            "title": "Serviço Social",
+                            "checked": false
+                        },
+                        {
+                            "title": "Teologia",
+                            "checked": false
+                        },
+                        {
+                            "title": "Turismo",
+                            "checked": false
+                        }
+                    ],
+                    "child": [],
+                    "title": "FiltroBacharelado"
+                },
+                {
+                    "values": [],
+                    "child": [],
+                    "title": "FiltroLicenciatura"
+                },
+                {
+                    "values": [
+                        {
+                            "title": "Tecnologia em Comércio Exterior",
+                            "checked": false
+                        },
+                        {
+                            "title": "Tecnologia em Design de Interiores",
+                            "checked": false
+                        },
+                        {
+                            "title": "Tecnologia em Design de Moda",
+                            "checked": false
+                        },
+                        {
+                            "title": "Tecnologia em Design Gráfico",
+                            "checked": false
+                        },
+                        {
+                            "title": "Tecnologia em Gastronomia",
+                            "checked": false
+                        },
+                        {
+                            "title": "Tecnologia em Gestão Comercial",
+                            "checked": false
+                        },
+                        {
+                            "title": "Tecnologia em Gestão da Qualidade",
+                            "checked": false
+                        },
+                        {
+                            "title": "Tecnologia em Gestão de Rec. Humanos",
+                            "checked": false
+                        },
+                        {
+                            "title": "Tecnologia em Gestão Financeira",
+                            "checked": false
+                        },
+                        {
+                            "title": "Tecnologia em Gestão Pública",
+                            "checked": false
+                        },
+                        {
+                            "title": "Tecnologia em Logística",
+                            "checked": false
+                        },
+                        {
+                            "title": "Tecnologia em Marketing",
+                            "checked": false
+                        },
+                        {
+                            "title": "Tecnologia em Processos Gerenciais",
+                            "checked": false
+                        }
+                    ],
+                    "child": [],
+                    "title": "FiltroTecnologo"
+                }
+            ],
+            "title": "FiltroCurso"
+        }
+    ],
+    "title": ""
+}
