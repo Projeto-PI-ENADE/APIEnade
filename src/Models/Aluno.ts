@@ -25,6 +25,7 @@ const AlunoSchema: mongoose.Schema = new mongoose.Schema({
     familiar_curso: { type: String, required: true },
     extraclasse: { type: String, required: true },
     razao_insti_sup: { type: String, required: true },
+    grupo:{type:String, required:true}
 })
 
 
