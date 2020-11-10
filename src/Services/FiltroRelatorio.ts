@@ -81,6 +81,7 @@ class FiltroTecnologo extends INode {
     }
 }
 
+
 class FiltroCurso extends INode {
     constructor() {
         super()
@@ -125,7 +126,6 @@ class FiltroAnos extends INode {
         this.AddValue({ title: '2009', checked: false })
     }
 }
-
 
 class FiltroPresenca extends INode {
     constructor() {
