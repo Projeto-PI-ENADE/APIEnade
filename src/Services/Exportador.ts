@@ -168,13 +168,4 @@ export default class Exporter {
     }
   }
 }
-// export default async function ExportarCSV(path: string, list: Array<Object>) {
-//   const csv = new ObjectsToCsv(list);
 
-//   try {
-//     await csv.toDisk(path);
-//   } catch (err) {
-//     console.log(err);
-//   }
-
-// }
