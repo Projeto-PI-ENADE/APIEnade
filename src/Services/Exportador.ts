@@ -1,58 +1,181 @@
-const ObjectsToCsv = require('objects-to-csv');
-
 const filePath = 'Files/'
+const fs = require('fs');
 
-interface FileExporter {
+const { convertArrayToCSV } = require('convert-array-to-csv');
+const xlsx = require("node-xlsx");
+
+
+
+
+abstract class FileExporter {
   data: Array<Object>;
-  CreateFile(): void;
-  ExportFile(): string;
+  ext: string;
+  time: number
+
+  constructor(data: Array<Object>, ext: string) {
+    this.data = data;
+    this.ext = ext;
+    this.time = Date.now()
+  }
+
+  abstract async CreateFile(): Promise<void>;
+  abstract BuildData(values: any): any;
+
+  FileName(): string {
+    return this.ext + '_' + this.time + '.' + this.ext;
+  }
+
+  async ExportFile(): Promise<string> {
+    try {
+      await this.CreateFile();
+      return this.FileName();
+    } catch (error) {
+      console.log('File Exporter: .', this.ext)
+      console.log(error)
+    }
+
+  }
 }
 
-class CSVExporter implements FileExporter {
-  data: Array<Object>;
+abstract class TableExporter extends FileExporter {
+  BuildData(values: any): any {
+    let tmp_data = []
+
+    let header = ['', '', 'Sexo', '', 'Idade', '', '', '', '', '', '', '', 'Renda', '', '', '', '', '', '', 'Tipo Ensino Médio', '', '', '', '', '', 'Cor', '', '', '', '', '']
+    let header2 = [
+      '', 'Quantidade',
+      'Feminino', 'Masculino',
+      '16 - 24', '25 - 33', '34 - 42', '43- 51', '52 - 60', '61 - 69', '70 - 78', '79 - 87',
+      '0 - 1,5', '1,5 - 3', '3 - 4,5', '4,5 - 6', '6 - 10', '10 - 30', '30 - ?',
+      'Tradicional', 'Profissionalizante Tecnico', 'Profissionalizante', 'Magisterio', 'EJA', 'Outro',
+      'Branca', 'Preta', 'Amarela', 'Parda', 'Indigena', 'Não Declarado']
+
+    tmp_data.push(header)
+    tmp_data.push(header2)
+    return tmp_data
+  }
+}
+
+class CSVExporter extends TableExporter {
 
   constructor(data: Array<Object>) {
-    this.data = data;
+    super(data, 'csv')
   }
 
-  CreateFile(): void {
+  async CreateFile(): Promise<void> {
+    let v = this.BuildData(this.data)
 
+    const csvFromArrayOfArrays = convertArrayToCSV(v, { separator: ';' });
+
+    await fs.writeFileSync(filePath + this.FileName(), csvFromArrayOfArrays, function (err) {
+      if (err) return console.log(err);
+    })
   }
-
-  ExportFile(): string {
-    this.CreateFile();
-    const path = filePath + 'csv_' + Date.now() + '.csv'
-    return path;
-  }
-
 }
 
-class XLSXExporter implements FileExporter {
-
-  data: Array<Object>;
+class XLSXExporter extends TableExporter {
 
   constructor(data: Array<Object>) {
-    this.data = data;
+    super(data, 'xlsx')
   }
 
-  CreateFile(): void {
+  async CreateFile(): Promise<void> {
+    let v = this.BuildData(this.data)
 
-  }
+    const buffer = xlsx.build([{ name: this.FileName(), data: v }])
 
-  ExportFile(): string {
-    this.CreateFile();
-    const path = filePath + 'xlsx_' + Date.now() + '.xlsx'
-    return path;
+    await fs.writeFileSync(filePath + this.FileName(), buffer, function (err) {
+      if (err) return console.log(err);
+    })
   }
 }
 
-export default async function ExportarCSV(path: string, list: Array<Object>) {
-  const csv = new ObjectsToCsv(list);
+class JSONExporter extends FileExporter {
 
-  try {
-    await csv.toDisk(path);
-  } catch (err) {
-    console.log(err);
+  constructor(data: Array<Object>) {
+    super(data, 'json')
   }
+  BuildData(values: any): any {
+    class ModalidadeEnsino {
+      tradicional: number;
+      profossionalizanteTecnico: number;
+      profissionalizante: number;
+      magisterio: number;
+      EJA: number;
+      outro: number;
+    }
+    class Cor {
+      branca: number;
+      prete: number;
+      amarela: number;
+      parda: number;
+      indigena: number;
+      naoDeclarado: number;
+    }
+    class Sexo {
+      feminino: number
+      masculino: number
+    }
 
+    class Data_h {
+      quantidade: number;
+      sexo: Sexo;
+      idade: Array<number>;
+      renda: Array<number>;
+      tipoEnsinoMedio: ModalidadeEnsino;
+      cor: Cor;
+    }
+
+    let v = {
+      Geral: {
+        Notas: [
+          new Data_h(),
+          new Data_h(),
+          new Data_h(),
+        ],
+        Presenca: [
+          new Data_h(),
+          new Data_h(),
+        ],
+        Participantes: [
+          new Data_h(),
+        ]
+      }
+    }
+
+    return JSON.stringify(v)
+  }
+  async CreateFile(): Promise<void> {
+    let buffer = this.BuildData(this.data)
+    await fs.writeFileSync(filePath + this.FileName(), buffer, function (err) {
+      if (err) return console.log(err);
+    })
+  }
 }
+
+
+export default class Exporter {
+
+  async ExportFile(data: Array<Object>, ext: string): Promise<string> {
+    switch (ext) {
+      case 'csv':
+        return await new CSVExporter(data).ExportFile()
+      case 'xlsx':
+        return await new XLSXExporter(data).ExportFile()
+      case 'json':
+        return await new JSONExporter(data).ExportFile()
+      default:
+        return null
+    }
+  }
+}
+// export default async function ExportarCSV(path: string, list: Array<Object>) {
+//   const csv = new ObjectsToCsv(list);
+
+//   try {
+//     await csv.toDisk(path);
+//   } catch (err) {
+//     console.log(err);
+//   }
+
+// }
