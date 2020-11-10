@@ -25,7 +25,7 @@ routes.get('/alunos/PercentualModalidadeEM', AlunoController.PercentualModalidad
 
 routes.get('/feedback', FeedbackController.Index);
 
-routes.get('/Provas/Sexo/:sexo', ProvaController.NotasPorSexo);
+routes.get('/Provas/Sexo', ProvaController.NotasPorSexo);
 routes.get('/Provas/Etnia', ProvaController.NotasPorEtnia);
 routes.get('/relatorio/:tipo', ExporterController.GetFile)
 

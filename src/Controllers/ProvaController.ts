@@ -99,15 +99,17 @@ export default {
         const pageSize: number = 10;
         const page: number = req.query.page;
         
-        class Rank{quantidade:number; percentual:number};
-        const Ranking:Array<Rank> =  new Array<Rank>();
+        let Ranks:Array<Ranking> = new Array<Ranking>();
 
-
+        Ranks[0] = new Ranking("Sexo Feminino");
+        Ranks[1] = new Ranking("Sexo Masculino");
+        let Alunos = []
         try
         {
-            var alunos =  await AlunoModel.find(req.params,{roll:1, }).skip(pageSize * page).limit(pageSize);
+            Alunos.push(   await AlunoModel.find({sexo:'M'},{roll:1, }).skip(pageSize * page).limit(pageSize));
+            Alunos.push(   await AlunoModel.find({sexo:'F'},{roll:1, }).skip(pageSize * page).limit(pageSize));
             var provas = [];
-            for await (const element of alunos) {
+            for await (const element of Alunos) {
                 let query = await ProvaModel.findOne({id_aluno:element});
                 provas.push(query);
             }
@@ -116,40 +118,17 @@ export default {
             console.log(error);
         }
 
-        var a:number = 0,b = 0,c = 0,d = 0, e = 0;
-        provas.forEach(element => {
-            if(element.nota_bruta >= 0 && element.nota_bruta <= 20)
+        let it = 0;
+        for await (const iterator of Alunos) {
+            let notas = [];
+            for await(const element of iterator)
             {
-                a++;
+                notas.push(await ProvaModel.findOne({id_aluno:element}));
             }
-            else if(element.nota_bruta > 20 && element.nota_bruta <= 40)
-            {
-                b++
-            }
-            else if(element.nota_bruta > 40 && element.nota_bruta <= 60)
-            {
-                c++;
-            }
-            else if(element.nota_bruta > 60 && element.nota_bruta <= 80)
-            {
-                d++;
-            }
-            else
-            {
-                e++;;
-            }
-        });
-        
-        var total = a + b + c + d + e;
-
-        Ranking.push({quantidade:a, percentual:(100 * a) / total});
-        Ranking.push({quantidade:b, percentual:(100 * b) / total});
-        Ranking.push({quantidade:c, percentual:(100 * c) / total});
-        Ranking.push({quantidade:d, percentual:(100 * d) / total});
-        Ranking.push({quantidade:e, percentual:(100 * e) / total});
-
-        var def = [1,10,11,4];
-        return res.json(Ranking);
+            Ranks[it].CalculaRankNotas(notas);
+            it++;
+        }
+        return res.json(Ranks);
 
     },
 
