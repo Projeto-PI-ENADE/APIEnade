@@ -12,6 +12,7 @@ export interface IAluno {
     familiar_curso: string
     extraclasse: string
     razao_insti_sup: string
+    grupo:string
 }
 
 const AlunoSchema: mongoose.Schema = new mongoose.Schema({
@@ -24,6 +25,7 @@ const AlunoSchema: mongoose.Schema = new mongoose.Schema({
     familiar_curso: { type: String, required: true },
     extraclasse: { type: String, required: true },
     razao_insti_sup: { type: String, required: true },
+    grupo:{type:String, required:true}
 })
 
 

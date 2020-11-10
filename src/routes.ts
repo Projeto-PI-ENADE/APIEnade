@@ -4,6 +4,7 @@ import AlunoController from './Controllers/AlunoController';
 import ProvaController from './Controllers/ProvaController';
 import FeedbackController from './Controllers/FeedbackController';
 import CursoController from './Controllers/CursoController'
+import ExporterController from './Controllers/ExporterController';
 
 const routes = Router();
 
@@ -23,5 +24,9 @@ routes.get('/alunos/TotalPorIdade', AlunoController.TotalPorIdade);
 routes.get('/alunos/PercentualModalidadeEM', AlunoController.PercentualModalidadeEM);
 
 routes.get('/feedback', FeedbackController.Index);
+
+routes.get('/Provas/Sexo/:sexo', ProvaController.NotasPorSexo);
+routes.get('/Provas/Etnia', ProvaController.NotasPorEtnia);
+routes.get('/relatorio/:tipo', ExporterController.GetFile)
 
 export default routes;
