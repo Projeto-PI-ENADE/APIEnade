@@ -27,6 +27,9 @@ routes.get('/feedback', FeedbackController.Index);
 
 routes.get('/Provas/Sexo', ProvaController.NotasPorSexo);
 routes.get('/Provas/Etnia', ProvaController.NotasPorEtnia);
+routes.get('/Provas/Renda', ProvaController.NotasPorRenda);
+routes.get('/Provas/Bolsa', ProvaController.NotasPorBolsa);
+routes.get('/Provas/Modalidade', ProvaController.NotasPorModalidade);
 routes.get('/relatorio/:tipo', ExporterController.GetFile)
 
 export default routes;

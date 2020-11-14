@@ -135,7 +135,7 @@ export default {
     async NotasPorEtnia(req:Request,res:Response)
     {
         const pageSize: number = 5;
-        const page: number = req.query.page;
+        const page: number = (req.query as unknown as IPage).page;
         
         let Ranks:Array<Ranking> = new Array<Ranking>();
 
@@ -176,6 +176,109 @@ export default {
         }
 
         return res.status(200).json(Ranks);
+    },
+
+    async NotasPorRenda(req:Request, res:Response) {
+    
+        const pageSize: number = 5;
+        const page: number = (req.query as unknown as IPage).page;
+
+        let Ranks:Array<Ranking> = new Array<Ranking>();
+
+        Ranks[0] = new Ranking("Renda Familiar A");
+        Ranks[1] = new Ranking("Renda Familiar B");
+        Ranks[2] = new Ranking("Renda Familiar C");
+        Ranks[3] = new Ranking("Renda Familiar D");
+        Ranks[4] = new Ranking("Renda Familiar E");
+        Ranks[5] = new Ranking("Renda Familiar F");
+        Ranks[6] = new Ranking("Renda Familiar G");
+
+        let Alunos = []
+        try
+        {
+            Alunos.push ( await AlunoModel.find({renda_fam:'A'}, {roll:1}).skip(pageSize * page).limit(pageSize));
+            Alunos.push ( await AlunoModel.find({renda_fam:'B'}, {roll:1}).skip(pageSize * page).limit(pageSize));
+            Alunos.push ( await AlunoModel.find({renda_fam:'C'}, {roll:1}).skip(pageSize * page).limit(pageSize));
+            Alunos.push ( await AlunoModel.find({renda_fam:'D'}, {roll:1}).skip(pageSize * page).limit(pageSize));
+            Alunos.push ( await AlunoModel.find({renda_fam:'E'}, {roll:1}).skip(pageSize * page).limit(pageSize));
+            Alunos.push ( await AlunoModel.find({renda_fam:'F'}, {roll:1}).skip(pageSize * page).limit(pageSize));
+            Alunos.push ( await AlunoModel.find({renda_fam:'G'}, {roll:1}).skip(pageSize * page).limit(pageSize));
+        }catch(error)
+        {
+            console.log(error);
+        }
+
+        let it = 0;
+        for await (const iterator of Alunos) {
+            let notas = [];
+            for await(const element of iterator)
+            {
+                notas.push(await ProvaModel.findOne({id_aluno:element}));
+            }
+            Ranks[it].CalculaRankNotas(notas);
+            it++;
+        }
+        res.status(200).json(Ranks);
+
+    },
+
+    async NotasPorBolsa(req:Request, res:Response) {
+            
+       // let response = await AlunoModel.findOne();
+       const pageSize: number = 5;
+       const page: number = (req.query as unknown as IPage).page;
+
+       let Ranks:Array<Ranking> = new Array<Ranking>();
+
+       Ranks[0] = new Ranking("Bolsa de Estudos do tipo A");
+       Ranks[1] = new Ranking("Bolsa de Estudos do tipo B");
+       Ranks[2] = new Ranking("Bolsa de Estudos do tipo C");
+       Ranks[3] = new Ranking("Bolsa de Estudos do tipo D");
+       Ranks[4] = new Ranking("Bolsa de Estudos do tipo E");
+       Ranks[5] = new Ranking("Bolsa de Estudos do tipo F");
+       Ranks[6] = new Ranking("Bolsa de Estudos do tipo G");
+       Ranks[7] = new Ranking("Bolsa de Estudos do tipo H");
+       Ranks[8] = new Ranking("Bolsa de Estudos do tipo I");
+       Ranks[9] = new Ranking("Bolsa de Estudos do tipo J");
+       Ranks[10] = new Ranking("Bolsa de Estudos do tipo K");
+
+       let Alunos = []
+       try
+       {
+           Alunos.push ( await AlunoModel.find({bolsa_estudo:'A'}, {roll:1}).skip(pageSize * page).limit(pageSize));
+           Alunos.push ( await AlunoModel.find({bolsa_estudo:'B'}, {roll:1}).skip(pageSize * page).limit(pageSize));
+           Alunos.push ( await AlunoModel.find({bolsa_estudo:'C'}, {roll:1}).skip(pageSize * page).limit(pageSize));
+           Alunos.push ( await AlunoModel.find({bolsa_estudo:'D'}, {roll:1}).skip(pageSize * page).limit(pageSize));
+           Alunos.push ( await AlunoModel.find({bolsa_estudo:'E'}, {roll:1}).skip(pageSize * page).limit(pageSize));
+           Alunos.push ( await AlunoModel.find({bolsa_estudo:'F'}, {roll:1}).skip(pageSize * page).limit(pageSize));
+           Alunos.push ( await AlunoModel.find({bolsa_estudo:'G'}, {roll:1}).skip(pageSize * page).limit(pageSize));
+           Alunos.push ( await AlunoModel.find({bolsa_estudo:'H'}, {roll:1}).skip(pageSize * page).limit(pageSize));
+           Alunos.push ( await AlunoModel.find({bolsa_estudo:'I'}, {roll:1}).skip(pageSize * page).limit(pageSize));
+           Alunos.push ( await AlunoModel.find({bolsa_estudo:'J'}, {roll:1}).skip(pageSize * page).limit(pageSize));
+           Alunos.push ( await AlunoModel.find({bolsa_estudo:'K'}, {roll:1}).skip(pageSize * page).limit(pageSize));
+       }catch(error)
+       {
+           console.log(error);
+       }
+       let it = 0;
+       for await (const iterator of Alunos) {
+           let notas = [];
+           for await(const element of iterator)
+           {
+               notas.push(await ProvaModel.findOne({id_aluno:element}));
+           }
+           Ranks[it].CalculaRankNotas(notas);
+           it++;
+       }
+        return res.status(200).json(Ranks);
+    },
+
+    async NotasPorModalidade(req:Request,res:Response)
+    {
+        let response = await AlunoModel.findOne();
+
+        return res.status(200).json(response);
     }
+
 }
 
