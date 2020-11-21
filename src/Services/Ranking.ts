@@ -21,19 +21,19 @@ class Ranking
     {
         var a = 0,b = 0,c = 0,d = 0, e = 0;
         list.forEach(element => {
-            if(element.nota_bruta >= 0 && element.nota_bruta <= 20)
+            if(element.prova.nota_bruta >= 0 && element.prova.nota_bruta <= 20)
             {
                 a++;
             }
-            else if(element.nota_bruta > 20 && element.nota_bruta <= 40)
+            else if(element.prova.nota_bruta > 20 && element.prova.nota_bruta <= 40)
             {
                 b++
             }
-            else if(element.nota_bruta > 40 && element.nota_bruta <= 60)
+            else if(element.prova.nota_bruta > 40 && element.prova.nota_bruta <= 60)
             {
                 c++;
             }
-            else if(element.nota_bruta > 60 && element.nota_bruta <= 80)
+            else if(element.prova.nota_bruta > 60 && element.prova.nota_bruta <= 80)
             {
                 d++;
             }
