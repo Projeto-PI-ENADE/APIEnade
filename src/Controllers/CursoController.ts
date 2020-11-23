@@ -23,7 +23,6 @@ export default {
         } catch (error) {
             console.log('[ERROR]: ', error)
         }
-
     },
 
     async CursosAvaliados(req: Request, res: Response) {

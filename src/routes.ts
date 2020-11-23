@@ -12,14 +12,14 @@ const routes = Router();
 // routes.get("/provas", ProvaController.Index);
 routes.get("/provas/RankingNotas", DocumentAlunoController.RankingNotas);
 
-// routes.get("/cursos", CursoController.Index);
-// routes.get("/cursos/TotalPorCurso", CursoController.TotalPorCurso);
-// routes.get("/cursos/CursosAvaliados", CursoController.CursosAvaliados);
-// routes.get("/cursos/PercentualTipoInstituicao", CursoController.PercentualTipoInstituição);
-// routes.get("/cursos/ProporcaoPresencialEAD", CursoController.ProporcaoPresencialEAD)
+routes.get("/cursos", DocumentAlunoController.Index);
+routes.get("/cursos/TotalPorCurso", DocumentAlunoController.TotalPorCurso);
+routes.get("/cursos/CursosAvaliados", DocumentAlunoController.CursosAvaliados);
+routes.get("/cursos/PercentualTipoInstituicao", DocumentAlunoController.PercentualTipoInstituição);
+routes.get("/cursos/ProporcaoPresencialEAD", CursoController.ProporcaoPresencialEAD)
 
 // routes.get('/alunos', AlunoController.Index);
-// routes.get("/alunos/NumeroAlunos", DocumentAlunoController.NumeroAlunos);
+routes.get("/alunos/NumeroAlunos", DocumentAlunoController.NumeroAlunos);
 routes.get('/alunos/TotalPorSexo', DocumentAlunoController.TotalPorSexo);
 routes.get('/alunos/TotalPorIdade', DocumentAlunoController.TotalPorIdade);
 routes.get('/alunos/PercentualModalidadeEM', DocumentAlunoController.PercentualModalidadeEM);
