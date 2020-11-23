@@ -3,7 +3,7 @@ import { ObjectID } from 'mongodb';
 import Aluno from '../Models/Aluno';
 import AlunoModel from '../Models/DocumentAluno';
 import Ranking from '../Services/Ranking';
-
+import Data from '../Services/IntendificadorCurso';
 interface IPage {
     page: number
 }
@@ -73,7 +73,6 @@ export default {
                 "prc": 0.3857481755493456
             }
         ]
-
         return await res.status(200).json(result)
 
         class rnk { qnt: number; prc: number };
@@ -311,8 +310,9 @@ export default {
                 "count": 12838
             }
         ];
-
-        return await res.status(200).json(value);
+        const resultado = Data(value)
+        console.log(resultado);
+        return await res.status(200).json(resultado);
 
         try {
             const tmp = await AlunoModel.distinct('curso.area_curso')

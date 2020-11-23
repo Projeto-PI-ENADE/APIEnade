@@ -153,7 +153,8 @@ export default {
                 "count": 12838
             }
         ];
-
+        //console.log(data(value));
+        
         return await res.status(200).json(value);
 
         try {
