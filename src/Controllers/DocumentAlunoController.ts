@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { ObjectID } from 'mongodb';
-import Aluno from '../Models/Aluno';
 import AlunoModel from '../Models/DocumentAluno';
 import Ranking from '../Services/Ranking';
 import Data from '../Services/IntendificadorCurso';
@@ -49,6 +48,33 @@ export default {
         }
     },
     
+    async TotalPorEtnia(req:Request, res:Response)
+    {
+        try
+        {
+            let A = await AlunoModel.countDocuments({grupo:'A'});
+            let B = await AlunoModel.countDocuments({grupo:'B'});
+            let C = await AlunoModel.countDocuments({grupo:'C'});
+            let D = await AlunoModel.countDocuments({grupo:'D'});
+            let E = await AlunoModel.countDocuments({grupo:'E'});
+            let F = await AlunoModel.countDocuments({grupo:'F'});
+
+            const result = {
+                grupo_A: A,
+                grupo_B: B,
+                grupo_C: C,
+                grupo_D: D,
+                grupo_E: E,
+                grupo_F: F
+            }
+            return res.status(200).json(result);
+        }catch(error)
+        {
+            console.log(error)
+            return res.status(404).send("erro");
+        }
+    },
+
     async RankingNotas(req:Request, res:Response)
     {
         const result = [
@@ -576,7 +602,7 @@ export default {
 
     async NotasPorIdade(req:Request, res:Response)
     {
-        const pageSize: number = 50;
+        const pageSize: number = 200;
         const page: number = (req.query as unknown as IPage).page;
         let Ranks:Array<Ranking> = new Array<Ranking>();
         Ranks[0] =  new Ranking("Entre 16 e 24 anos");
@@ -588,17 +614,17 @@ export default {
         Ranks[6] =  new Ranking("Entre 70 e 78 anos");
         Ranks[7] =  new Ranking("Entre 79 e 87 anos");
 
-        let response: Array<any> ;
+        let response: Array<any>  =  new Array<any>();
         try
         {
-            response[0] = await AlunoModel.find({ idade: { $gte: 16, $lte: 24 } }, {'prova.nota_bruta':1});
-            response[1] = await AlunoModel.find({ idade: { $gte: 25, $lte: 33 } }, {'prova.nota_bruta':1});
-            response[2] = await AlunoModel.find({ idade: { $gte: 34, $lte: 42 } }, {'prova.nota_bruta':1});
-            response[3] = await AlunoModel.find({ idade: { $gte: 43, $lte: 51 } }, {'prova.nota_bruta':1});
-            response[4] = await AlunoModel.find({ idade: { $gte: 52, $lte: 60 } }, {'prova.nota_bruta':1});
-            response[5] = await AlunoModel.find({ idade: { $gte: 61, $lte: 69 } }, {'prova.nota_bruta':1});
-            response[6] = await AlunoModel.find({ idade: { $gte: 70, $lte: 78 } }, {'prova.nota_bruta':1});
-            response[7] = await AlunoModel.find({ idade: { $gte: 79, $lte: 87 } }, {'prova.nota_bruta':1});
+            response[0] = await AlunoModel.find({ idade: { $gte: 16, $lte: 24 } }, {'prova.nota_bruta':1}).skip(page * pageSize).limit(pageSize);
+            response[1] = await AlunoModel.find({ idade: { $gte: 25, $lte: 33 } }, {'prova.nota_bruta':1}).skip(page * pageSize).limit(pageSize);
+            response[2] = await AlunoModel.find({ idade: { $gte: 34, $lte: 42 } }, {'prova.nota_bruta':1}).skip(page * pageSize).limit(pageSize);
+            response[3] = await AlunoModel.find({ idade: { $gte: 43, $lte: 51 } }, {'prova.nota_bruta':1}).skip(page * pageSize).limit(pageSize);
+            response[4] = await AlunoModel.find({ idade: { $gte: 52, $lte: 60 } }, {'prova.nota_bruta':1}).skip(page * pageSize).limit(pageSize);
+            response[5] = await AlunoModel.find({ idade: { $gte: 61, $lte: 69 } }, {'prova.nota_bruta':1}).skip(page * pageSize).limit(pageSize);
+            response[6] = await AlunoModel.find({ idade: { $gte: 70, $lte: 78 } }, {'prova.nota_bruta':1}).skip(page * pageSize).limit(pageSize);
+            response[7] = await AlunoModel.find({ idade: { $gte: 79, $lte: 87 } }, {'prova.nota_bruta':1}).skip(page * pageSize).limit(pageSize);
         }
         catch(error)
         {

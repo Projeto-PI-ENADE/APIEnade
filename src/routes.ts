@@ -23,6 +23,7 @@ routes.get("/alunos/NumeroAlunos", DocumentAlunoController.NumeroAlunos);
 routes.get('/alunos/TotalPorSexo', DocumentAlunoController.TotalPorSexo);
 routes.get('/alunos/TotalPorIdade', DocumentAlunoController.TotalPorIdade);
 routes.get('/alunos/PercentualModalidadeEM', DocumentAlunoController.PercentualModalidadeEM);
+routes.get('/alunos/TotalPorEtnia', DocumentAlunoController.TotalPorEtnia);
 
 // routes.get('/feedback', FeedbackController.Index);
 
@@ -31,6 +32,7 @@ routes.get('/Provas/Etnia', DocumentAlunoController.NotasPorEtnia);
 routes.get('/Provas/Renda', DocumentAlunoController.NotasPorRenda);
 routes.get('/Provas/Bolsa', DocumentAlunoController.NotasPorBolsa);
 routes.get('/Provas/Modalidade', DocumentAlunoController.NotasPorModalidade);
+routes.get('/Provas/Idade', DocumentAlunoController.NotasPorIdade);
 //routes.get('/relatorio/:tipo', ExporterController.GetFile)
 
 //routes.get('/Teste', AlunoController.teste);
