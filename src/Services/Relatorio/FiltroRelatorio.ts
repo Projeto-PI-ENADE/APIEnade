@@ -1,33 +1,5 @@
-class IValues {
-    title: string
-    checked: boolean
-}
-
-abstract class INode {
-    title: string;
-    values: Array<IValues>;
-    child: Array<INode>
-
-    constructor() {
-        this.values = new Array<IValues>()
-        this.child = new Array<INode>()
-        this.title = ''
-    }
-
-    AddChild(node: INode): void {
-        this.child.push(node);
-    }
-    RemoveChild(node: INode): void {
-        this.child.slice(this.child.indexOf(node), 1)
-    }
-    AddValue(value: IValues): void {
-        this.values.push(value)
-    }
-    RemoveValue(value: INode): void {
-        this.values.slice(this.child.indexOf(value), 1)
-    }
-
-}
+import IValues from './IValues'
+import INode from './INode'
 
 
 class FiltroBacharelado extends INode {
@@ -151,6 +123,7 @@ class FiltroAluno extends INode {
 class FiltroArquivo extends INode {
     constructor() {
         super()
+        this.title = 'FiltroArquivo'
         this.AddValue({ title: 'CSV', checked: false })
         this.AddValue({ title: 'XLSX', checked: false })
         this.AddValue({ title: 'JSON', checked: false })
@@ -160,6 +133,7 @@ class FiltroArquivo extends INode {
 export default class Filtro extends INode {
     constructor() {
         super()
+        this.title = 'FiltroOBJ'
         this.AddChild(new FiltroAluno())
         this.AddChild(new FiltroArquivo())
         this.AddChild(new FiltroPresenca())
