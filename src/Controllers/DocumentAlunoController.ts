@@ -114,7 +114,7 @@ export default {
 
             response[0] = await AlunoModel.countDocuments({ idade: { $gte: 16, $lte: 24 } })
             response[1] = await AlunoModel.countDocuments({ idade: { $gte: 25, $lte: 33 } })
-            response[2] = await AlunoModel.countDocuments({ idade: { $gte: 34, $lte: 32 } })
+            response[2] = await AlunoModel.countDocuments({ idade: { $gte: 34, $lte: 42 } })
             response[3] = await AlunoModel.countDocuments({ idade: { $gte: 43, $lte: 51 } })
             response[4] = await AlunoModel.countDocuments({ idade: { $gte: 52, $lte: 60 } })
             response[5] = await AlunoModel.countDocuments({ idade: { $gte: 61, $lte: 69 } })
@@ -393,6 +393,7 @@ export default {
             return res.status(404).send('Not Found')
         }
     },
+
     //#endregion
 
     //#region Notas por Parametro 
@@ -456,6 +457,7 @@ export default {
         }
         return res.json(Ranks);
     },
+
     async NotasPorModalidade(req:Request, res:Response)
     {
         const pageSize: number = 50;
@@ -477,6 +479,7 @@ export default {
 
         return res.json({clero:"asesino"})
     },
+
     async NotasPorRenda(req:Request, res:Response)
     {
 
@@ -516,6 +519,7 @@ export default {
         return res.status(200).json(Ranks);
 
     },
+
     async NotasPorBolsa(req:Request, res:Response)
     {
         const pageSize: number = 50;
@@ -569,6 +573,44 @@ export default {
         return res.status(200).json(Ranks);
 
     },
+
+    async NotasPorIdade(req:Request, res:Response)
+    {
+        const pageSize: number = 50;
+        const page: number = (req.query as unknown as IPage).page;
+        let Ranks:Array<Ranking> = new Array<Ranking>();
+        Ranks[0] =  new Ranking("Entre 16 e 24 anos");
+        Ranks[1] =  new Ranking("Entre 25 e 33 anos");
+        Ranks[2] =  new Ranking("Entre 34 e 42 anos");
+        Ranks[3] =  new Ranking("Entre 43 e 51 anos");
+        Ranks[4] =  new Ranking("Entre 52 e 60 anos");
+        Ranks[5] =  new Ranking("Entre 61 e 69 anos");
+        Ranks[6] =  new Ranking("Entre 70 e 78 anos");
+        Ranks[7] =  new Ranking("Entre 79 e 87 anos");
+
+        let response: Array<any> ;
+        try
+        {
+            response[0] = await AlunoModel.find({ idade: { $gte: 16, $lte: 24 } }, {'prova.nota_bruta':1});
+            response[1] = await AlunoModel.find({ idade: { $gte: 25, $lte: 33 } }, {'prova.nota_bruta':1});
+            response[2] = await AlunoModel.find({ idade: { $gte: 34, $lte: 42 } }, {'prova.nota_bruta':1});
+            response[3] = await AlunoModel.find({ idade: { $gte: 43, $lte: 51 } }, {'prova.nota_bruta':1});
+            response[4] = await AlunoModel.find({ idade: { $gte: 52, $lte: 60 } }, {'prova.nota_bruta':1});
+            response[5] = await AlunoModel.find({ idade: { $gte: 61, $lte: 69 } }, {'prova.nota_bruta':1});
+            response[6] = await AlunoModel.find({ idade: { $gte: 70, $lte: 78 } }, {'prova.nota_bruta':1});
+            response[7] = await AlunoModel.find({ idade: { $gte: 79, $lte: 87 } }, {'prova.nota_bruta':1});
+        }
+        catch(error)
+        {
+            console.log(error);
+        }
+        let iterator = 0;
+        response.forEach(element => {
+            Ranks[iterator].CalculaRankNotas(element);
+            iterator++;
+        });
+        return res.status(200).json(Ranks);
+    }
     //#endregion
 
 
