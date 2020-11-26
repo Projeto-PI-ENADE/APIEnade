@@ -15,7 +15,11 @@ class NotaGen implements IComponent {
         //FEÃO 
         filter.values.filter((v) => { v.checked === true }).map((f) => {
             if (f.title === 'Por idade') {
-                //data[0].push
+                data[0].push("valor 1", "valor2", "valor3", "valor4", "valor5", "valor6", "valor7", "valor8")
+                data[1].push("valor 1", "valor2", "valor3", "valor4", "valor5", "valor6", "valor7", "valor8")
+                data[2].push("valor 1", "valor2", "valor3", "valor4", "valor5", "valor6", "valor7", "valor8")
+                data[3].push("valor 1", "valor2", "valor3", "valor4", "valor5", "valor6", "valor7", "valor8")
+                data[4].push("valor 1", "valor2", "valor3", "valor4", "valor5", "valor6", "valor7", "valor8")
             }
         });
 
