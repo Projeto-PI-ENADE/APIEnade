@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { ObjectID } from 'mongodb';
-import Aluno from '../Models/Aluno';
 import AlunoModel from '../Models/DocumentAluno';
 import Ranking from '../Services/Ranking';
+import Data from '../Services/IntendificadorCurso';
 
 interface IPage {
     page: number
@@ -12,21 +12,6 @@ interface IPage {
 export default {
 
     //#region Alunos
-    async teste(req:Request, res:Response)
-    {
-        const pageSize: number = 5;
-        const page: number = (req.query as unknown as IPage).page;
-        try
-        {
-            let alunos = await AlunoModel.findOne({sexo:"M"});
-            console.log(alunos);
-            return res.status(200).json(alunos);
-        }catch(err)
-        {
-            console.log(err);
-        }
-
-    },
 
     async TotalPorSexo(req: Request, res: Response) {
         const value = {
@@ -49,6 +34,33 @@ export default {
         }
     },
     
+    async TotalPorEtnia(req:Request, res:Response)
+    {
+        try
+        {
+            let A = await AlunoModel.countDocuments({grupo:'A'});
+            let B = await AlunoModel.countDocuments({grupo:'B'});
+            let C = await AlunoModel.countDocuments({grupo:'C'});
+            let D = await AlunoModel.countDocuments({grupo:'D'});
+            let E = await AlunoModel.countDocuments({grupo:'E'});
+            let F = await AlunoModel.countDocuments({grupo:'F'});
+
+            const result = {
+                grupo_A: A,
+                grupo_B: B,
+                grupo_C: C,
+                grupo_D: D,
+                grupo_E: E,
+                grupo_F: F
+            }
+            return res.status(200).json(result);
+        }catch(error)
+        {
+            console.log(error)
+            return res.status(404).send("erro");
+        }
+    },
+
     async RankingNotas(req:Request, res:Response)
     {
         const result = [
@@ -73,7 +85,6 @@ export default {
                 "prc": 0.3857481755493456
             }
         ]
-
         return await res.status(200).json(result)
 
         class rnk { qnt: number; prc: number };
@@ -115,7 +126,7 @@ export default {
 
             response[0] = await AlunoModel.countDocuments({ idade: { $gte: 16, $lte: 24 } })
             response[1] = await AlunoModel.countDocuments({ idade: { $gte: 25, $lte: 33 } })
-            response[2] = await AlunoModel.countDocuments({ idade: { $gte: 34, $lte: 32 } })
+            response[2] = await AlunoModel.countDocuments({ idade: { $gte: 34, $lte: 42 } })
             response[3] = await AlunoModel.countDocuments({ idade: { $gte: 43, $lte: 51 } })
             response[4] = await AlunoModel.countDocuments({ idade: { $gte: 52, $lte: 60 } })
             response[5] = await AlunoModel.countDocuments({ idade: { $gte: 61, $lte: 69 } })
@@ -179,6 +190,27 @@ export default {
         } catch (error) {
             console.log('[ERROR]: ', error)
         }
+    },
+
+    async CountNotasPorIdade(req:Request, res:Response)
+    {
+        let response: Array<any>  =  new Array<any>();
+        try
+        {
+            response[0] = await AlunoModel.countDocuments({ idade: { $gte: 16, $lte: 24 } });
+            response[1] = await AlunoModel.countDocuments({ idade: { $gte: 25, $lte: 33 } });
+            response[2] = await AlunoModel.countDocuments({ idade: { $gte: 34, $lte: 42 } });
+            response[3] = await AlunoModel.countDocuments({ idade: { $gte: 43, $lte: 51 } });
+            response[4] = await AlunoModel.countDocuments({ idade: { $gte: 52, $lte: 60 } });
+            response[5] = await AlunoModel.countDocuments({ idade: { $gte: 61, $lte: 69 } });
+            response[6] = await AlunoModel.countDocuments({ idade: { $gte: 70, $lte: 78 } });
+            response[7] = await AlunoModel.countDocuments({ idade: { $gte: 79, $lte: 87 } });
+        }
+        catch(error)
+        {
+            console.log(error);
+        }
+        return res.status(200).json(response);
     },
     //#endregion
 
@@ -311,8 +343,9 @@ export default {
                 "count": 12838
             }
         ];
-
-        return await res.status(200).json(value);
+        const resultado = Data(value)
+        console.log(resultado);
+        return await res.status(200).json(resultado);
 
         try {
             const tmp = await AlunoModel.distinct('curso.area_curso')
@@ -393,6 +426,25 @@ export default {
             return res.status(404).send('Not Found')
         }
     },
+        
+    async ProporcaoPresencialEAD(req: Request, res: Response) {
+        const value = {
+            "presencial": 83.87019762369071,
+            "ead": 16.129802376309282
+        }
+        return res.status(200).json(value);
+        try {
+            const p = await AlunoModel.countDocuments({'curso.modalidade_ensino': 1 })
+            const e = await AlunoModel.countDocuments({'curso.modalidade_ensino': 2 })
+            const total = p + e
+            const response = { presencial: (100 * p) / total, ead: (100 * e) / total }
+
+            return res.status(200).json(response);
+        } catch (error) {
+            return res.status(404).send('Not Found')
+        }
+    },
+
     //#endregion
 
     //#region Notas por Parametro 
@@ -456,6 +508,7 @@ export default {
         }
         return res.json(Ranks);
     },
+
     async NotasPorModalidade(req:Request, res:Response)
     {
         const pageSize: number = 50;
@@ -477,6 +530,7 @@ export default {
 
         return res.json({clero:"asesino"})
     },
+
     async NotasPorRenda(req:Request, res:Response)
     {
 
@@ -516,6 +570,7 @@ export default {
         return res.status(200).json(Ranks);
 
     },
+
     async NotasPorBolsa(req:Request, res:Response)
     {
         const pageSize: number = 50;
@@ -569,6 +624,44 @@ export default {
         return res.status(200).json(Ranks);
 
     },
+
+    async NotasPorIdade(req:Request, res:Response)
+    {
+        const pageSize: number = 200;
+        const page: number = (req.query as unknown as IPage).page;
+        let Ranks:Array<Ranking> = new Array<Ranking>();
+        Ranks[0] =  new Ranking("Entre 16 e 24 anos");
+        Ranks[1] =  new Ranking("Entre 25 e 33 anos");
+        Ranks[2] =  new Ranking("Entre 34 e 42 anos");
+        Ranks[3] =  new Ranking("Entre 43 e 51 anos");
+        Ranks[4] =  new Ranking("Entre 52 e 60 anos");
+        Ranks[5] =  new Ranking("Entre 61 e 69 anos");
+        Ranks[6] =  new Ranking("Entre 70 e 78 anos");
+        Ranks[7] =  new Ranking("Entre 79 e 87 anos");
+
+        let response: Array<any>  =  new Array<any>();
+        try
+        {
+            response[0] = await AlunoModel.find({ idade: { $gte: 16, $lte: 24 } }, {'prova.nota_bruta':1}).skip(page * pageSize).limit(pageSize);
+            response[1] = await AlunoModel.find({ idade: { $gte: 25, $lte: 33 } }, {'prova.nota_bruta':1}).skip(page * pageSize).limit(pageSize);
+            response[2] = await AlunoModel.find({ idade: { $gte: 34, $lte: 42 } }, {'prova.nota_bruta':1}).skip(page * pageSize).limit(pageSize);
+            response[3] = await AlunoModel.find({ idade: { $gte: 43, $lte: 51 } }, {'prova.nota_bruta':1}).skip(page * pageSize).limit(pageSize);
+            response[4] = await AlunoModel.find({ idade: { $gte: 52, $lte: 60 } }, {'prova.nota_bruta':1}).skip(page * pageSize).limit(pageSize);
+            response[5] = await AlunoModel.find({ idade: { $gte: 61, $lte: 69 } }, {'prova.nota_bruta':1}).skip(page * pageSize).limit(pageSize);
+            response[6] = await AlunoModel.find({ idade: { $gte: 70, $lte: 78 } }, {'prova.nota_bruta':1}).skip(page * pageSize).limit(pageSize);
+            response[7] = await AlunoModel.find({ idade: { $gte: 79, $lte: 87 } }, {'prova.nota_bruta':1}).skip(page * pageSize).limit(pageSize);
+        }
+        catch(error)
+        {
+            console.log(error);
+        }
+        let iterator = 0;
+        response.forEach(element => {
+            Ranks[iterator].CalculaRankNotas(element);
+            iterator++;
+        });
+        return res.status(200).json(Ranks);
+    }
     //#endregion
 
 
