@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
+import { Request, response, Response } from 'express';
 import { ObjectID } from 'mongodb';
 import AlunoModel from '../Models/DocumentAluno';
 import Ranking from '../Services/Ranking';
-import Data from '../Services/IntendificadorCurso';
+import Indentificador from '../Services/IntendificadorCurso';
 
 interface IPage {
     page: number
@@ -216,18 +216,19 @@ export default {
 
     //#region Cursos
     async CursosAvaliados(req: Request, res: Response) {
-        const value = [1, 2, 13, 18, 22, 26, 29, 38, 67, 81, 83, 84, 85, 86, 87, 88, 93, 94, 100, 101, 102, 103, 104, 105, 106, 803, 804];
-        return await res.status(200).json(value);
-
-        try {
-            const response = await AlunoModel.distinct('curso.area_curso');
-            if (response) {
-                res.status(200).json(response)
-            } else {
-                res.status(404).send('Not Found');
-            }
-        } catch (error) {
-            console.log('[ERROR]: ', error)
+        let ano:string;
+        let tipo:string;
+        ano = req.query.ano as string;
+        tipo = req.query.tipo as string;
+        console.log(typeof(tipo));
+        if(tipo == "true")
+        {
+            let file = await Indentificador.IndentificarPorTipo(ano);
+            return res.status(200).json(file);
+        }else
+        {
+            let file = await Indentificador.IndentificarPorID(ano);
+            return res.status(200).json(file);
         }
     },
 
@@ -442,6 +443,22 @@ export default {
             return res.status(200).json(response);
         } catch (error) {
             return res.status(404).send('Not Found')
+        }
+    },
+
+    async TipoCursos(req:Request, res:Response)
+    {
+        let ano = req.query.year;
+
+        try {
+            const response = await AlunoModel.distinct('curso.area_curso');
+            if (response) {
+                res.status(200).json(response)
+            } else {
+                res.status(404).send('Not Found');
+            }
+        } catch (error) {
+            console.log('[ERROR]: ', error)
         }
     },
 
