@@ -1,0 +1,52 @@
+{
+    "bacharelado": {
+        "21": "Arquitetura e Urbanismo",
+        "701": "Matemática",
+        "903": "Letras-Português",
+        "1401": "Física",
+        "1501": "Química",
+        "1601": "Ciências Biológicas",
+        "2401": "História",
+        "3001": "Geografia",
+        "3201": " Filosofia",
+        "4003": "Engenharia Da Computação",
+        "4004": "Ciência Da Computação",
+        "4006": "Sistemas De Informação",
+        "5401": "Ciências Sociais",
+        "5710": "Engenharia Civil",
+        "5806": "Engenharia Elétrica",
+        "5814": "Engenharia de Controle e Automação",
+        "5902": "Engenharia Mecânica",
+        "6002": "Engenharia de Alimentos",
+        "6008": "Engenharia Química",
+        "6208": "Engenharia de Produção",
+        "6306": "Engenharia",
+        "6307": "Engenharia Ambiental",
+        "6405": "Engenharia Florestal"
+    },
+    "licenciatura": {
+        "702": "Matemática",
+        "904": "Letras-Português",
+        "905": "Letras-Português e Inglês",
+        "906": "Letras-Português e Espanhol",
+        "1402": "Física",
+        "1502": "Química",
+        "1602": "Ciências Biológicas",
+        "2001": "Pedagogia",
+        "2402": "História",
+        "2501": "Artes Visuais",
+        "3002": "Geografia",
+        "3202": "Filosofia",
+        "3502": "Educação Física",
+        "4005": "Ciência Da Computação",
+        "4301": "Música",
+        "5402": "Ciências Sociais",
+        "6407": "Letras - Inglês"
+    },
+    "tecnologo": {
+        "72": "Tecnologia em Análise e Desenvolvimento de Sistemas",
+        "76": "Tecnologia em Gestão da Produção Industrial",
+        "79": "Tecnologia em Redes de Computadores",
+        "6409": "Tecnologia em Gestão da Tecnologia da Informação"
+    }
+}
