@@ -3,6 +3,7 @@ import { ObjectID } from 'mongodb';
 import AlunoModel from '../Models/DocumentAluno';
 import Ranking from '../Services/Ranking';
 import Data from '../Services/IntendificadorCurso';
+
 interface IPage {
     page: number
 }
@@ -11,21 +12,6 @@ interface IPage {
 export default {
 
     //#region Alunos
-    async teste(req:Request, res:Response)
-    {
-        const pageSize: number = 5;
-        const page: number = (req.query as unknown as IPage).page;
-        try
-        {
-            let alunos = await AlunoModel.findOne({sexo:"M"});
-            console.log(alunos);
-            return res.status(200).json(alunos);
-        }catch(err)
-        {
-            console.log(err);
-        }
-
-    },
 
     async TotalPorSexo(req: Request, res: Response) {
         const value = {
@@ -204,6 +190,27 @@ export default {
         } catch (error) {
             console.log('[ERROR]: ', error)
         }
+    },
+
+    async CountNotasPorIdade(req:Request, res:Response)
+    {
+        let response: Array<any>  =  new Array<any>();
+        try
+        {
+            response[0] = await AlunoModel.countDocuments({ idade: { $gte: 16, $lte: 24 } });
+            response[1] = await AlunoModel.countDocuments({ idade: { $gte: 25, $lte: 33 } });
+            response[2] = await AlunoModel.countDocuments({ idade: { $gte: 34, $lte: 42 } });
+            response[3] = await AlunoModel.countDocuments({ idade: { $gte: 43, $lte: 51 } });
+            response[4] = await AlunoModel.countDocuments({ idade: { $gte: 52, $lte: 60 } });
+            response[5] = await AlunoModel.countDocuments({ idade: { $gte: 61, $lte: 69 } });
+            response[6] = await AlunoModel.countDocuments({ idade: { $gte: 70, $lte: 78 } });
+            response[7] = await AlunoModel.countDocuments({ idade: { $gte: 79, $lte: 87 } });
+        }
+        catch(error)
+        {
+            console.log(error);
+        }
+        return res.status(200).json(response);
     },
     //#endregion
 
@@ -414,6 +421,24 @@ export default {
                 const c = await AlunoModel.countDocuments({ 'curso.tipo_org_acad': i })
                 response.push({ tipo_org: i, prc: (100 * c) / total })
             }
+            return res.status(200).json(response);
+        } catch (error) {
+            return res.status(404).send('Not Found')
+        }
+    },
+        
+    async ProporcaoPresencialEAD(req: Request, res: Response) {
+        const value = {
+            "presencial": 83.87019762369071,
+            "ead": 16.129802376309282
+        }
+        return res.status(200).json(value);
+        try {
+            const p = await AlunoModel.countDocuments({'curso.modalidade_ensino': 1 })
+            const e = await AlunoModel.countDocuments({'curso.modalidade_ensino': 2 })
+            const total = p + e
+            const response = { presencial: (100 * p) / total, ead: (100 * e) / total }
+
             return res.status(200).json(response);
         } catch (error) {
             return res.status(404).send('Not Found')
