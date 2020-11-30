@@ -468,12 +468,13 @@ export default {
     //#region Notas por Parametro 
     async NotasPorSexo(req:Request, res:Response)
     {
-        const pageSize: number = 50;
+        const pageSize: number = 1000;
         const page: number = (req.query as unknown as IPage).page;
 
 
         let ano = Number(req.query.ano);
         let curso = Number(req.query.curso); 
+
         let rankFem =  new Ranking("Alunos do Sexo Feminino");
         let rankMasc = new Ranking("Alunos do Sexo Masculino");
         try
