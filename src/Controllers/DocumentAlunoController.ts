@@ -9,6 +9,11 @@ interface IPage {
 }
 
 
+/*
+Por query seram passados como parametro o ano, o curso 
+*/
+
+
 export default {
 
     //#region Alunos
@@ -453,17 +458,30 @@ export default {
         const pageSize: number = 50;
         const page: number = (req.query as unknown as IPage).page;
 
-        let ano = Number(req.query.ano); 
+
+        let ano = Number(req.query.ano);
+        let curso = Number(req.query.curso); 
         let rankFem =  new Ranking("Alunos do Sexo Feminino");
         let rankMasc = new Ranking("Alunos do Sexo Masculino");
         try
         {
-            var masculino = await AlunoModel.find({sexo:"M", "prova.ano_prova":ano}, {"prova.nota_bruta":1}).skip(page * pageSize).limit(pageSize);
-            var feminino = await AlunoModel.find({sexo:"F", "prova.ano_prova":ano}, {"prova.nota_bruta":1}).skip(page * pageSize).limit(pageSize);
-            console.log(masculino);
-            console.log(feminino);
-            rankMasc.CalculaRankNotas(masculino);
-            rankFem.CalculaRankNotas(feminino);
+            if(!Number.isNaN(curso))
+            {
+                var masculino = await AlunoModel.find({sexo:"M", "prova.ano_prova":ano, "curso.area_curso": curso}, {"prova.nota_bruta":1})
+                .skip(page * pageSize).limit(pageSize);
+                var feminino = await AlunoModel.find({sexo:"F", "prova.ano_prova":ano, "curso.area_curso": curso}, {"prova.nota_bruta":1})
+                .skip(page * pageSize).limit(pageSize);
+                rankMasc.CalculaRankNotas(masculino);
+                rankFem.CalculaRankNotas(feminino);
+            }else
+            {
+                var masculino = await AlunoModel.find({sexo:"M", "prova.ano_prova":ano}, {"prova.nota_bruta":1})
+                .skip(page * pageSize).limit(pageSize);
+                var feminino = await AlunoModel.find({sexo:"F", "prova.ano_prova":ano}, {"prova.nota_bruta":1})
+                .skip(page * pageSize).limit(pageSize);
+                rankMasc.CalculaRankNotas(masculino);
+                rankFem.CalculaRankNotas(feminino);
+            }
         }
         catch(error)
         {
@@ -482,6 +500,9 @@ export default {
         const page: number = (req.query as unknown as IPage).page;
 
         let ano = Number(req.query.ano);
+        let curso = Number(req.query.curso); 
+
+        var A,B,C,D,E,F;
 
         let Ranks:Array<Ranking> = new Array<Ranking>();
         Ranks[0] = new Ranking("Grupo A");
@@ -493,12 +514,35 @@ export default {
 
         try
         {
-            let A = await AlunoModel.find({grupo:'A'},{"prova.nota_bruta":1,"prova.ano_prova":ano}).skip(page*pageSize).limit(pageSize);
-            let B = await AlunoModel.find({grupo:'B'},{"prova.nota_bruta":1,"prova.ano_prova":ano}).skip(page*pageSize).limit(pageSize);
-            let C = await AlunoModel.find({grupo:'C'},{"prova.nota_bruta":1,"prova.ano_prova":ano}).skip(page*pageSize).limit(pageSize);
-            let D = await AlunoModel.find({grupo:'D'},{"prova.nota_bruta":1,"prova.ano_prova":ano}).skip(page*pageSize).limit(pageSize);
-            let E = await AlunoModel.find({grupo:'E'},{"prova.nota_bruta":1,"prova.ano_prova":ano}).skip(page*pageSize).limit(pageSize);
-            let F = await AlunoModel.find({grupo:'F'},{"prova.nota_bruta":1,"prova.ano_prova":ano}).skip(page*pageSize).limit(pageSize);
+            if(Number.isNaN(curso))
+            {
+                A = await AlunoModel.find({grupo:'A'},{"prova.nota_bruta":1,"prova.ano_prova":ano})
+                .skip(page*pageSize).limit(pageSize);
+                B = await AlunoModel.find({grupo:'B'},{"prova.nota_bruta":1,"prova.ano_prova":ano})
+                .skip(page*pageSize).limit(pageSize);
+                C = await AlunoModel.find({grupo:'C'},{"prova.nota_bruta":1,"prova.ano_prova":ano})
+                .skip(page*pageSize).limit(pageSize);
+                D = await AlunoModel.find({grupo:'D'},{"prova.nota_bruta":1,"prova.ano_prova":ano})
+                .skip(page*pageSize).limit(pageSize);
+                E = await AlunoModel.find({grupo:'E'},{"prova.nota_bruta":1,"prova.ano_prova":ano})
+                .skip(page*pageSize).limit(pageSize);
+                F = await AlunoModel.find({grupo:'F'},{"prova.nota_bruta":1,"prova.ano_prova":ano})
+                .skip(page*pageSize).limit(pageSize);
+            }else
+            {
+                A = await AlunoModel.find({grupo:'A'},{"prova.nota_bruta":1,"prova.ano_prova":ano, "curso.area_curso": curso})
+                .skip(page*pageSize).limit(pageSize);
+                B = await AlunoModel.find({grupo:'B'},{"prova.nota_bruta":1,"prova.ano_prova":ano, "curso.area_curso": curso})
+                .skip(page*pageSize).limit(pageSize);
+                C = await AlunoModel.find({grupo:'C'},{"prova.nota_bruta":1,"prova.ano_prova":ano, "curso.area_curso": curso})
+                .skip(page*pageSize).limit(pageSize);
+                D = await AlunoModel.find({grupo:'D'},{"prova.nota_bruta":1,"prova.ano_prova":ano, "curso.area_curso": curso})
+                .skip(page*pageSize).limit(pageSize);
+                E = await AlunoModel.find({grupo:'E'},{"prova.nota_bruta":1,"prova.ano_prova":ano, "curso.area_curso": curso})
+                .skip(page*pageSize).limit(pageSize);
+                F = await AlunoModel.find({grupo:'F'},{"prova.nota_bruta":1,"prova.ano_prova":ano, "curso.area_curso": curso})
+                .skip(page*pageSize).limit(pageSize);
+            }
             
             Ranks[0].CalculaRankNotas(A);
             Ranks[1].CalculaRankNotas(B)
@@ -520,22 +564,39 @@ export default {
         const page: number = (req.query as unknown as IPage).page;
         
         let ano = Number(req.query.ano);
+        let curso = Number(req.query.curso); 
+
+        var Mod1, Mod2;
 
         let RankMod1 =  new Ranking("Modalidade 1");
         let RankMod2 =  new Ranking("Modalidade 2");
 
         try
         {
-            var Mod1 = await AlunoModel.find({curso:{modalidade_ensino:1},"prova.ano_prova":ano}, {"prova.nota_bruta":1}).skip(page * pageSize).limit(pageSize);
-            var Mod2 = await AlunoModel.find({curso:{modalidade_ensino:2},"prova.ano_prova":ano}, {"prova.nota_bruta":1}).skip(page * pageSize).limit(pageSize);
-        
-            console.log(Mod1);
+        if(Number.isNaN(curso))
+        {
+            Mod1 = await AlunoModel.find({"curso.modalidade_ensino":1 ,"prova.ano_prova":ano}, {"prova.nota_bruta":1})
+            .skip(page * pageSize).limit(pageSize);
+            Mod2 = await AlunoModel.find({"curso.modalidade_ensino":2 ,"prova.ano_prova":ano}, {"prova.nota_bruta":1})
+            .skip(page * pageSize).limit(pageSize);
+        }else
+        {
+            Mod1 = await AlunoModel.find({"curso.modalidade_ensino":1,"prova.ano_prova":ano, "curso.area_curso": curso},
+            {"prova.nota_bruta":1})
+            .skip(page * pageSize).limit(pageSize);
+            Mod2 = await AlunoModel.find({"curso.modalidade_ensino":2,"prova.ano_prova":ano, "curso.area_curso": curso},
+            {"prova.nota_bruta":1})
+            .skip(page * pageSize).limit(pageSize);
+        }
+        RankMod1.CalculaRankNotas(Mod1);
+        RankMod2.CalculaRankNotas(Mod2);
+
         }catch(error)
         {
             console.log(error);
         }
 
-        return res.json({clero:"asesino"})
+        return res.status(200).json({RankMod1, RankMod2});
     },
 
     async NotasPorRenda(req:Request, res:Response)
@@ -545,7 +606,7 @@ export default {
         const page: number = (req.query as unknown as IPage).page;
 
         let ano = Number(req.query.ano);
-
+        let curso = Number(req.query.curso);
         let Ranks:Array<Ranking> = new Array<Ranking>();
         Ranks[0] = new Ranking("Renda Familiar A");
         Ranks[1] = new Ranking("Renda Familiar B");
@@ -587,7 +648,7 @@ export default {
         const page: number = (req.query as unknown as IPage).page;
  
         let ano = Number(req.query.ano);
-
+        let curso = Number(req.query.curso);
         let Ranks:Array<Ranking> = new Array<Ranking>();
  
         Ranks[0] = new Ranking("Bolsa de Estudos do tipo A");
@@ -643,7 +704,7 @@ export default {
         const page: number = (req.query as unknown as IPage).page;
 
         let ano = Number(req.query.ano);
-
+        let curso = Number(req.query.curso);
         let Ranks:Array<Ranking> = new Array<Ranking>();
         Ranks[0] =  new Ranking("Entre 16 e 24 anos");
         Ranks[1] =  new Ranking("Entre 25 e 33 anos");
