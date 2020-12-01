@@ -1,0 +1,23 @@
+{
+    "bacharelado": {
+        "5": "MEDICINA VETERINÁRIA",
+        "6": "ODONTOLOGIA",
+        "12": "MEDICINA",
+        "17": "AGRONOMIA",
+        "19": "FARMÁCIA",
+        "23": "ENFERMAGEM",
+        "27": "FONOAUDIOLOGIA",
+        "28": "NUTRIÇÃO",
+        "36": "FISIOTERAPIA",
+        "38": "SERVIÇO SOCIAL",
+        "51": "ZOOTECNIA",
+        "55": "BIOMEDICINA",
+        "3501": "EDUCAÇÃO FÍSICA"
+    },
+    "tecnologo": {
+        "69": "TECNOLOGIA EM RADIOLOGIA",
+        "90": "TECNOLOGIA EM AGRONEGÓCIOS",
+        "91": "TECNOLOGIA EM GESTÃO HOSPITALAR",
+        "92": "TECNOLOGIA EM GESTÃO AMBIENTAL"
+    }
+}

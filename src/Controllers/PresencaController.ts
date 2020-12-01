@@ -13,9 +13,11 @@ export default {
         const pageSize: number = 50;
         const page: number = (req.query as unknown as IPage).page;
 
+        const ano = Number(req.query.ano);
+
         try
         {
-            const index = await PresencaModel.find({}).skip(page * pageSize).limit(pageSize);
+            const index = await PresencaModel.find({ano_prova:ano}).skip(page * pageSize).limit(pageSize);
 
             return res.status(200).json(index);
         }catch(error)
@@ -29,10 +31,11 @@ export default {
         let Presentes:number;
         let Ausentes:number;
         let total;
+        const ano = Number(req.query.ano);
         try
         {
-            Presentes = await PresencaModel.countDocuments({tipo_presenca:555});
-            Ausentes = await PresencaModel.countDocuments({tipo_presenca:222});
+            Presentes = await PresencaModel.countDocuments({tipo_presenca:555,ano_prova:ano});
+            Ausentes = await PresencaModel.countDocuments({tipo_presenca:222, ano_prova:ano});
             total = Presentes + Ausentes;
         }catch(error)
         {
