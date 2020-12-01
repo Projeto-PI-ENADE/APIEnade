@@ -182,8 +182,8 @@ export default {
 
         const ano = Number(req.query.ano);
         try {
-            const tmp = await AlunoModel.distinct('tip_ens_medio', 'prova.ano_prova')
-            const total = await AlunoModel.countDocuments();
+            const tmp = await AlunoModel.distinct('tip_ens_medio');
+            const total = await AlunoModel.countDocuments({'prova.ano_prova':ano});
             let response = []
             for await (const i of tmp) {
                 const c = await AlunoModel.countDocuments({ tip_ens_medio: i, 'prova.ano_prova':ano })
