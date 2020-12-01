@@ -4,12 +4,12 @@ const Schema = mongoose.Schema;
 
 export interface IPresenca
 {
-    ano_prova:Date,
+    ano_prova:Number,
     tipo_presenca:number
 }
 
 const PresenceSchema = new Schema({
-    ano_prova:{type:Date, required:true},
+    ano_prova:{type:Number, required:true},
     tipo_presenca:{type:Number, required:true}
 });
 

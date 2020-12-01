@@ -32,10 +32,12 @@ export default {
         let Ausentes:number;
         let total;
         const ano = Number(req.query.ano);
+        console.log(ano);
         try
         {
-            Presentes = await PresencaModel.countDocuments({tipo_presenca:555,ano_prova:ano});
+            Presentes = await PresencaModel.countDocuments({tipo_presenca:555, ano_prova:ano});
             Ausentes = await PresencaModel.countDocuments({tipo_presenca:222, ano_prova:ano});
+            console.log(Presentes);
             total = Presentes + Ausentes;
         }catch(error)
         {
