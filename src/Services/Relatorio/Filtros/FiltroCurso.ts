@@ -1,41 +1,29 @@
 import INode from '../INode'
-import FiltroBacharelado from './FiltroBacharelado'
-import FiltroLicenciatura from './FiltroLicenciatura'
-import { FiltroTecnologo } from './FiltroTecnologo'
 
-enum eFiltroCursoValues {
-    bacharelado,
-    licenciatura,
-    tecnologo
-}
 
-class FiltroCurso extends INode {
-    filtroBacharelado: FiltroBacharelado;
-    filtroLicenciatura: FiltroLicenciatura;
-    filtroTecnologo: FiltroTecnologo;
+export default class FiltroCurso extends INode {
+
     constructor() {
-        super()
-        this.title = 'FiltroCurso'
-        this.AddValue({ title: "Bacharelado", type: eFiltroCursoValues.bacharelado, checked: false });
-        this.AddValue({ title: "Licenciatura", type: eFiltroCursoValues.licenciatura, checked: false });
-        this.AddValue({ title: "Tecnologo", type: eFiltroCursoValues.tecnologo, checked: false });
-
-        this.filtroBacharelado = new FiltroBacharelado();
-        this.filtroLicenciatura = new FiltroLicenciatura();
-        this.filtroTecnologo = new FiltroTecnologo();
-
-        this.AddChild(this.filtroTecnologo);
-        this.AddChild(this.filtroBacharelado);
-        this.AddChild(this.filtroLicenciatura);
+        super();
+        this.title = 'FiltroBacharelado'
+        this.AddValue({ title: "Administração", type: 0, checked: false })
 
     }
 
-    async Generate(data: Array<Array<any>>, parentProps: any): Promise<any> {
+    async Generate(data: string[][], parentProps: any): Promise<any> {
+        const vals = this.values.filter((v) => { v.checked === true })
+
+        for await (const v of vals) {
+            parentProps["curso"] = v.type;
+            data.push([])
+            data.push([v.title])
+            for await (const c of this.child) {
+                await c.Generate(data, parentProps)
+            }
+
+        }
 
     }
+
 }
 
-export {
-    eFiltroCursoValues,
-    FiltroCurso
-}

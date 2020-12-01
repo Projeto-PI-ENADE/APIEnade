@@ -5,9 +5,9 @@ import XLSXExporter from '../../../Services/FileExporter/XLSXExporter'
 import JSONExporter from '../../../Services/FileExporter/JSONExporter'
 
 enum eFiltroArquivoValues {
-    CSV,
-    XLSX,
-    JSON
+    CSV = 1,
+    XLSX = 2,
+    JSON = 3
 }
 
 class FiltroArquivo extends INode {
