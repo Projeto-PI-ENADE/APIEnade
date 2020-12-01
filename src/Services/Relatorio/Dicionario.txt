@@ -1,10 +1,11 @@
 Quantidade[1]:
     Valor
 
-Sexo[2]: 
+Sexo[3]: 
     Feminino
     Masculino
-
+    N (acho q é não informado)
+    
 Idade[4]:
     16-24
     25-33

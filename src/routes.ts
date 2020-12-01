@@ -1,10 +1,54 @@
 import { Router } from 'express';
-
+import { Request, Response } from 'express';
 import DocumentAlunoController from './Controllers/DocumentAlunoController';
 import PresenceController from './Controllers/PresencaController';
-
+import AlunoModel from './Models/DocumentAluno';
 
 const routes = Router();
+
+
+async function NotasPorIdade(req: Request, res: Response) {
+
+    const prom = [
+        AlunoModel.aggregate([
+            { $match: { "prova.nota_bruta": { "$gte": 0, "$lt": 20 } } },
+            { $group: { _id: "$sexo", count: { $sum: 1 } } }
+        ]),
+        AlunoModel.aggregate([
+            { $match: { "prova.nota_bruta": { "$gte": 20, "$lt": 40 } } },
+            { $group: { _id: "$sexo", count: { $sum: 1 } } }
+        ]),
+        AlunoModel.aggregate([
+            { $match: { "prova.nota_bruta": { "$gte": 40, "$lt": 60 } } },
+            { $group: { _id: "$sexo", count: { $sum: 1 } } }
+        ]),
+        AlunoModel.aggregate([
+            { $match: { "prova.nota_bruta": { "$gte": 60, "$lt": 80 } } },
+            { $group: { _id: "$sexo", count: { $sum: 1 } } }
+        ]),
+        AlunoModel.aggregate([
+            { $match: { "prova.nota_bruta": { "$gte": 80, "$lt": 101 } } },
+            { $group: { _id: "$sexo", count: { $sum: 1 } } }
+        ])
+    ]
+
+    const val = await Promise.all(prom);
+    let r = new Array<Array<number>>()
+    const index = { "F": 0, "M": 1, "N": 2 }
+
+    for (let i = 0; i < val.length; i++) {
+        r[i] = new Array<number>(3).fill(0)
+        for (let j = 0; j < val[i].length; j++) {
+            r[i][index[val[i][j]._id]] = val[i][j].count;
+        }
+    }
+    return res.status(200).json(r);
+    // const val1 = await AlunoModel.aggregate([
+    //     { $match: { "prova.nota_bruta": { "$gte": 0, "$lt": 20 } } },
+    //     { $bucket: { groupBy: "$idade", boundaries: [0, 16, 25, 34, 43, 52, 61, 70, 79, 87, 100] } }
+    // ]);
+
+}
 
 //#region  /PROVAS
 // routes.get("/provas", ProvaController.Index);
@@ -49,7 +93,7 @@ routes.get('/Presenca/ProporcaoAusentePresente', PresenceController.ProporcaoPre
 //#endregion
 
 //#region RELATORIO
-//routes.get('/relatorio/:tipo', ExporterController.GetFile)
+routes.get('/relatorio/teste', NotasPorIdade);
 //#endregion
 
 
