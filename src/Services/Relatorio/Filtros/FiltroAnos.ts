@@ -1,4 +1,4 @@
-import INode from './INode'
+import INode from '../INode'
 
 export default class FiltroAnos extends INode {
     constructor() {
@@ -13,6 +13,22 @@ export default class FiltroAnos extends INode {
         this.AddValue({ title: '2012', type: 2012, checked: false })
         this.AddValue({ title: '2011', type: 2011, checked: false })
         this.AddValue({ title: '2010', type: 2010, checked: false })
-        this.AddValue({ title: '2009', type: 2009, checked: false })
+    }
+
+    async Generate(data: Array<Array<any>>, parentProps: any): Promise<any> {
+        if (parentProps == null) {
+            parentProps = { ano: 0 };
+        } else {
+            parentProps["ano"] = 0;
+        }
+
+        this.values.filter((v) => { v.checked === true }).map(async (f) => {
+            data.push([]);
+            data.push([f.title]);
+            for await (const c of this.child) {
+                parentProps["ano"] = f.type;
+                await c.Generate(data, parentProps);
+            }
+        });
     }
 }

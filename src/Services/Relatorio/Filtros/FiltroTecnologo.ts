@@ -1,4 +1,4 @@
-import INode from './INode'
+import INode from '../INode'
 
 enum eFiltroTecnologoValues {
     comercioExterior,
@@ -16,7 +16,7 @@ enum eFiltroTecnologoValues {
     processosGerenciais
 }
 
-export default class FiltroTecnologo extends INode {
+class FiltroTecnologo extends INode {
     constructor() {
         super();
         this.title = 'FiltroTecnologo'
@@ -34,5 +34,24 @@ export default class FiltroTecnologo extends INode {
         this.AddValue({ title: "Tecnologia em Marketing", type: eFiltroTecnologoValues.gestaoMarketing, checked: false })
         this.AddValue({ title: "Tecnologia em Processos Gerenciais", type: eFiltroTecnologoValues.processosGerenciais, checked: false })
     }
+
+    async Generate(data: string[][], parentProps: any): Promise<any> {
+        const vals = this.values.filter((v) => { v.checked === true })
+
+        for await (const v of vals) {
+            parentProps["curso"] = v.type;
+            data.push([])
+            data.push([v.title])
+            for await (const c of this.child) {
+                await c.Generate(data, parentProps)
+            }
+
+        }
+
+    }
 }
 
+export {
+    eFiltroTecnologoValues,
+    FiltroTecnologo
+}

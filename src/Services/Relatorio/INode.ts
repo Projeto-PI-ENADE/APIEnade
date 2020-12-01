@@ -10,7 +10,7 @@ export default abstract class INode {
         this.child = new Array<INode>()
         this.title = ''
     }
-
+    abstract async Generate(data: Array<Array<string>>, parentProps: any): Promise<any>;
     AddChild(node: INode): void {
         this.child.push(node);
     }

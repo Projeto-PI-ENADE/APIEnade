@@ -1,23 +1,24 @@
-import INode from './INode'
+import INode from '../INode'
 
 enum eFiltroBachareladoValues {
-    administracao,
-    administraçãoPublica,
-    cienciasContabeis,
-    cienciasEconomicas,
-    design,
-    direito,
-    jornalismo,
-    psicologia,
-    publicidadePropaganda,
-    relacoesInternacionais,
-    secretariadoExecutivo,
-    servicoSocial,
-    teologia,
-    turismo,
+    administracao = 1,
+    direito = 2,
+    cienciasEconomicas = 13,
+    psicologia = 18,
+    cienciasContabeis = 22,
+    design = 26,
+    turismo = 29,
+    servicoSocial = 38,
+    secretariadoExecutivo = 67,
+    relacoesInternacionais = 81,
+    administraçãoPublica = 100,
+    teologia = 101,
+    jornalismo = 803,
+    publicidadePropaganda = 804,
 }
 
 export default class FiltroBacharelado extends INode {
+
     constructor() {
         super();
         this.title = 'FiltroBacharelado'
@@ -37,5 +38,24 @@ export default class FiltroBacharelado extends INode {
         this.AddValue({ title: "Turismo", type: eFiltroBachareladoValues.turismo, checked: false })
     }
 
+    async Generate(data: string[][], parentProps: any): Promise<any> {
+        const vals = this.values.filter((v) => { v.checked === true })
 
+        for await (const v of vals) {
+            parentProps["curso"] = v.type;
+            data.push([])
+            data.push([v.title])
+            for await (const c of this.child) {
+                await c.Generate(data, parentProps)
+            }
+
+        }
+
+    }
+
+}
+
+export {
+    eFiltroBachareladoValues,
+    FiltroBacharelado
 }

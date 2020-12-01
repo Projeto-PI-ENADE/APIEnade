@@ -1,0 +1,42 @@
+Quantidade[1]:
+    Valor
+
+Sexo[2]: 
+    Feminino
+    Masculino
+
+Idade[4]:
+    16-24
+    25-33
+    34-42
+    43-51
+    52-60
+    61-69
+    70-78
+    79-87
+
+Renda[12]:
+    0   - 1,5
+    1,5 - 3
+    3   - 4,5
+    4,5 - 6
+    6   - 10
+    10  - 30
+    30  - ?
+
+Tipo Ensino Medio[19]:
+    Tradicional
+    Profissionalizante
+    Profissionalizante Tecnico
+    Magisterio
+    EJA
+    Outro
+
+Etnia[25]:
+    Branca
+    Preta
+    Amarela
+    Parda
+    Indigena
+    Nao Declarado
+
