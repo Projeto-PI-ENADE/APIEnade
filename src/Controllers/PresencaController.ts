@@ -58,7 +58,7 @@ export default {
     async NumeroAlunos(req: Request, res: Response) {
         const ano = Number(req.query.ano);
         try {
-            let response = await PresencaModel.countDocuments({'prova.ano_prova':ano})
+            let response = await PresencaModel.countDocuments({ano_prova:ano})
             return res.status(200).json(response)
         } catch (error) {
             console.log('[ERROR]: ', error)
