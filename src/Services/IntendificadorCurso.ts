@@ -1,35 +1,85 @@
-
-interface ITipoCurso
+//metodo que classifica os JSONS
+abstract class Classificador
 {
-    id_curso:number
-    nome_curso:string
+    public abstract Classificate();
 }
- 
-//    const index = Object.keys(cursos2018).find(key => key == pos)
 
+//Classe que recebe um algoritmo para indentificar os jsons
+class Indentificador
+{
+    index:Classificador;
 
-export default {
-
-    async IndentificarPorID(ano:string)
+    constructor(algoritmo:Classificador)
     {
-        const url = './data/cursos_'+ano;
-        const file = await import(url);
-        return file;
-    },
-
-    async IndentificarPorTipo(ano:string)
-    {
-        const url = './data/cursos_'+ano+'_por_tipo.json';
-        const file = await import(url);
-        return file;
+        this.index = algoritmo;
     }
 
-
-
+    public GetIndentificadores()
+    {
+        return this.index.Classificate();
+    }
 
 }
 
+enum ECategoria
+{
+    Licenciatura,Bacharelado,Tecnologo
+}
 
+
+//Classificar usando o Tipo do curso como separador
+class ClassificarPorTipo extends Classificador
+{
+    ano:Number;
+    constructor(ano:Number)
+    {
+        super();
+        this.ano = ano;
+    }
+    
+    public async Classificate(){
+        try
+        {
+            const url = './data/cursos_'+this.ano+'_por_tipo';
+            const file = await import(url);
+            return file;
+        }catch(error)
+        {
+            return {Message:"Erro ao importar arquivo", Erro:error};
+        }
+    }
+}
+
+class ClassificarPorAno extends Classificador
+{
+
+    ano:Number;
+    constructor(ano:Number)
+    {
+        super();
+        this.ano = ano;
+    }
+
+    public async Classificate() {
+        try
+        {
+            const url = './data/cursos_'+this.ano;
+            const file = await import(url);
+            return file;
+        }catch(error)
+        {
+            return {Message:"Erro ao importar arquivo", Erro:error};
+        };
+    }
+    
+}
+
+
+export{
+    Indentificador,
+    ClassificarPorTipo,
+    ClassificarPorAno
+}
 
 
 

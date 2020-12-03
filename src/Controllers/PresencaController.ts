@@ -37,7 +37,6 @@ export default {
         {
             Presentes = await PresencaModel.countDocuments({tipo_presenca:555, ano_prova:ano});
             Ausentes = await PresencaModel.countDocuments({tipo_presenca:222, ano_prova:ano});
-            console.log(Presentes);
             total = Presentes + Ausentes;
         }catch(error)
         {
@@ -46,7 +45,11 @@ export default {
         {
             let pcPresente = (Presentes/total) * 100;
             let pcAusente = (Ausentes/total) * 100;
-            return res.status(200).json({Total:total, PercentualPresente:pcPresente, PercentualAusente:pcAusente});
+            return res.status(200).json({Total:total, 
+                NumeroALunosPresentes:Presentes,
+                PercentualPresente:pcPresente,
+                NumeroAlunosAusentes:Ausentes,
+                PercentualAusente:pcAusente});
         }
 
 

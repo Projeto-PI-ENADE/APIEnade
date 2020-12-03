@@ -2,7 +2,7 @@ import { Request, response, Response } from 'express';
 import { ObjectID } from 'mongodb';
 import AlunoModel from '../Models/DocumentAluno';
 import Ranking from '../Services/Ranking';
-import Indentificador from '../Services/IntendificadorCurso';
+import {Indentificador, ClassificarPorAno, ClassificarPorTipo} from '../Services/IntendificadorCurso';
 
 interface IPage {
     page: number
@@ -230,20 +230,22 @@ export default {
 
     //#region Cursos
     async CursosAvaliados(req: Request, res: Response) {
-        let ano:string;
+        let ano:Number;
         let tipo:string;
-        ano = req.query.ano as string;
+        ano = Number(req.query.ano);
         tipo = req.query.tipo as string;
-        console.log(typeof(tipo));
+        var Indentify:Indentificador;
         if(tipo == "true")
         {
-            let file = await Indentificador.IndentificarPorTipo(ano);
-            return res.status(200).json(file);
+            Indentify =  new Indentificador(new ClassificarPorTipo(ano));
         }else
         {
-            let file = await Indentificador.IndentificarPorID(ano);
-            return res.status(200).json(file);
+            Indentify = new Indentificador(new ClassificarPorAno(ano));
         }
+
+        const resposta  =  await Indentify.GetIndentificadores();
+        return res.status(200).json(resposta);
+
     },
 
     async TotalPorCurso(req: Request, res: Response) {
