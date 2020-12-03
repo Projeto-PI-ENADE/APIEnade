@@ -37,7 +37,7 @@ export default {
         {
             Presentes = await PresencaModel.countDocuments({tipo_presenca:555, ano_prova:ano});
             Ausentes = await PresencaModel.countDocuments({tipo_presenca:222, ano_prova:ano});
-            total = Presentes + Ausentes;
+            total = await PresencaModel.countDocuments({ano_prova:ano});
         }catch(error)
         {
             console.log(error);
