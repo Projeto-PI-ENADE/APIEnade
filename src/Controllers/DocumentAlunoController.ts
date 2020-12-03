@@ -195,16 +195,6 @@ export default {
         }
     },
 
-    async NumeroAlunos(req: Request, res: Response) {
-        const ano = Number(req.query.ano);
-        try {
-            let response = await AlunoModel.countDocuments({'prova.ano_prova':ano})
-            return res.status(200).json(response)
-        } catch (error) {
-            console.log('[ERROR]: ', error)
-        }
-    },
-
     async CountNotasPorIdade(req:Request, res:Response)
     {
         const ano = Number(req.query.ano);
