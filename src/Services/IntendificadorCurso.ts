@@ -27,6 +27,8 @@ enum ECategoria
 }
 
 
+//Object.keys(data).find(key => key === value);
+
 //Classificar usando o Tipo do curso como separador
 class ClassificarPorTipo extends Classificador
 {
@@ -74,11 +76,35 @@ class ClassificarPorAno extends Classificador
     
 }
 
+class ClassificarLocal extends Classificador
+{
+    ano:Number;
+    constructor(ano:Number)
+    {
+        super();
+        this.ano = ano;
+    }
+
+
+    public async Classificate() {
+       const resposta = []
+       const file = await import('./Locais/locais_de_aplicacao.json');
+       file.forEach(element => {
+           if(element.ano == this.ano)
+           {
+               resposta.push(element)
+           }
+       });
+        return resposta;
+    }
+    
+}
 
 export{
     Indentificador,
     ClassificarPorTipo,
-    ClassificarPorAno
+    ClassificarPorAno,
+    ClassificarLocal
 }
 
 

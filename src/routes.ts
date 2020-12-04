@@ -52,5 +52,7 @@ routes.get('/Presenca/ProporcaoAusentePresente', PresenceController.ProporcaoPre
 //routes.get('/relatorio/:tipo', ExporterController.GetFile)
 //#endregion
 
+    //Locais
+    routes.get('/Locais', DocumentAlunoController.Locais);
 
 export default routes;

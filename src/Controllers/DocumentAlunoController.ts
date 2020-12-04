@@ -2,16 +2,17 @@ import { Request, response, Response } from 'express';
 import { ObjectID } from 'mongodb';
 import AlunoModel from '../Models/DocumentAluno';
 import Ranking from '../Services/Ranking';
-import {Indentificador, ClassificarPorAno, ClassificarPorTipo} from '../Services/IntendificadorCurso';
+import {
+    Indentificador,
+    ClassificarPorAno,
+    ClassificarPorTipo,
+    ClassificarLocal
+} from '../Services/IntendificadorCurso';
 
 interface IPage {
     page: number
 }
 
-
-/*
-Por query seram passados como parametro o ano, o curso 
-*/
 
 
 export default {
@@ -19,12 +20,6 @@ export default {
     //#region Alunos
 
     async TotalPorSexo(req: Request, res: Response) {
-        const value = {
-            "feminino": 244334,
-            "masculino": 153594
-        };
-        //return res.status(200).json(value);
-
         const ano = Number(req.query.ano);
 
         try {
@@ -71,30 +66,6 @@ export default {
 
     async RankingNotas(req:Request, res:Response)
     {
-        const result = [
-            {
-                "qnt": 15103,
-                "prc": 3.7954102249653205
-            },
-            {
-                "qnt": 156231,
-                "prc": 39.26112261514646
-            },
-            {
-                "qnt": 173801,
-                "prc": 43.67649424016405
-            },
-            {
-                "qnt": 51258,
-                "prc": 12.881224744174826
-            },
-            {
-                "qnt": 1535,
-                "prc": 0.3857481755493456
-            }
-        ]
-        //return await res.status(200).json(result)
-
         const ano = Number(req.query.ano);
         class rnk { qnt: number; prc: number };
         let ranking: Array<rnk> = new Array<rnk>();
@@ -127,9 +98,6 @@ export default {
     },
 
     async TotalPorIdade(req: Request, res: Response) {
-        const value = [165698, 145312, 0, 21670, 7464, 1400, 131, 9]
-        //return await res.status(200).json(value)
-
         const ano = Number(req.query.ano);
 
         try {
@@ -152,34 +120,6 @@ export default {
     },
 
     async PercentualModalidadeEM(req: Request, res: Response) {
-        const value = [
-            {
-                "tip_ens_medio": "A",
-                "prc": 66.42030719125067
-            },
-            {
-                "tip_ens_medio": "B",
-                "prc": 24.501668643573712
-            },
-            {
-                "tip_ens_medio": "C",
-                "prc": 0.10253111115578697
-            },
-            {
-                "tip_ens_medio": "D",
-                "prc": 4.7279909933455295
-            },
-            {
-                "tip_ens_medio": "E",
-                "prc": 3.9499607969280874
-            },
-            {
-                "tip_ens_medio": "F",
-                "prc": 0.2975412637462053
-            }
-        ]
-        //return await res.status(200).json(value)
-
         const ano = Number(req.query.ano);
         try {
             const tmp = await AlunoModel.distinct('tip_ens_medio');
@@ -239,118 +179,6 @@ export default {
     },
 
     async TotalPorCurso(req: Request, res: Response) {
-
-        const value = [
-            {
-                "curso_id": 1,
-                "count": 84976
-            },
-            {
-                "curso_id": 2,
-                "count": 114313
-            },
-            {
-                "curso_id": 13,
-                "count": 6634
-            },
-            {
-                "curso_id": 18,
-                "count": 33886
-            },
-            {
-                "curso_id": 22,
-                "count": 37936
-            },
-            {
-                "curso_id": 26,
-                "count": 5183
-            },
-            {
-                "curso_id": 29,
-                "count": 2470
-            },
-            {
-                "curso_id": 38,
-                "count": 18284
-            },
-            {
-                "curso_id": 67,
-                "count": 961
-            },
-            {
-                "curso_id": 81,
-                "count": 4528
-            },
-            {
-                "curso_id": 83,
-                "count": 1226
-            },
-            {
-                "curso_id": 84,
-                "count": 4753
-            },
-            {
-                "curso_id": 85,
-                "count": 7560
-            },
-            {
-                "curso_id": 86,
-                "count": 16503
-            },
-            {
-                "curso_id": 87,
-                "count": 3941
-            },
-            {
-                "curso_id": 88,
-                "count": 4032
-            },
-            {
-                "curso_id": 93,
-                "count": 4158
-            },
-            {
-                "curso_id": 94,
-                "count": 8232
-            },
-            {
-                "curso_id": 100,
-                "count": 3056
-            },
-            {
-                "curso_id": 101,
-                "count": 3364
-            },
-            {
-                "curso_id": 102,
-                "count": 1622
-            },
-            {
-                "curso_id": 103,
-                "count": 1872
-            },
-            {
-                "curso_id": 104,
-                "count": 2345
-            },
-            {
-                "curso_id": 105,
-                "count": 1144
-            },
-            {
-                "curso_id": 106,
-                "count": 3075
-            },
-            {
-                "curso_id": 803,
-                "count": 9036
-            },
-            {
-                "curso_id": 804,
-                "count": 12838
-            }
-        ];
-      //  return await res.status(200).json(value);
         let ano = Number(req.query.ano);
 
         try {
@@ -376,7 +204,7 @@ export default {
     },    
 
     async Index(req: Request, res: Response) {
-        const pageSize: number = 5;
+        const pageSize: number = 100;
         const page: number = (req.query as unknown as IPage).page;
 
         try {
@@ -395,30 +223,6 @@ export default {
     },
 
     async PercentualTipoInstituição(req: Request, res: Response) {
-        const value = [
-            {
-                "tipo_org": 10019,
-                "prc": 0.03518224402404455
-            },
-            {
-                "tipo_org": 10020,
-                "prc": 24.055608049697433
-            },
-            {
-                "tipo_org": 10022,
-                "prc": 27.1338031000583
-            },
-            {
-                "tipo_org": 10026,
-                "prc": 0.7428479523933978
-            },
-            {
-                "tipo_org": 10028,
-                "prc": 48.032558653826825
-            }
-        ]
-        //return res.status(200).json(value);
-
         const ano = Number(req.query.ano);
 
         try {
@@ -436,12 +240,7 @@ export default {
     },
         
     async ProporcaoPresencialEAD(req: Request, res: Response) {
-        const value = {
-            "presencial": 83.87019762369071,
-            "ead": 16.129802376309282
-        }
         const ano = Number(req.query.ano);
-        //return res.status(200).json(value);
         try {
             const p = await AlunoModel.countDocuments({'curso.modalidade_ensino': 1, 'prova.ano_prova':ano })
             const e = await AlunoModel.countDocuments({'curso.modalidade_ensino': 2, 'prova.ano_prova':ano })
@@ -460,7 +259,7 @@ export default {
     //#region Notas por Parametro 
     async NotasPorSexo(req:Request, res:Response)
     {
-        const pageSize: number = 1000;
+        const pageSize: number = 100;
         const page: number = (req.query as unknown as IPage).page;
 
 
@@ -502,7 +301,7 @@ export default {
     
     async NotasPorEtnia(req:Request, res:Response)
     {
-        const pageSize: number = 50;
+        const pageSize: number = 100;
         const page: number = (req.query as unknown as IPage).page;
 
         let ano = Number(req.query.ano);
@@ -566,7 +365,7 @@ export default {
 
     async NotasPorModalidade(req:Request, res:Response)
     {
-        const pageSize: number = 50;
+        const pageSize: number = 100;
         const page: number = (req.query as unknown as IPage).page;
         
         let ano = Number(req.query.ano);
@@ -608,7 +407,7 @@ export default {
     async NotasPorRenda(req:Request, res:Response)
     {
 
-        const pageSize: number = 50;
+        const pageSize: number = 100;
         const page: number = (req.query as unknown as IPage).page;
 
         let ano = Number(req.query.ano);
@@ -678,7 +477,7 @@ export default {
 
     async NotasPorBolsa(req:Request, res:Response)
     {
-        const pageSize: number = 50;
+        const pageSize: number = 100;
         const page: number = (req.query as unknown as IPage).page;
  
         let ano = Number(req.query.ano);
@@ -784,7 +583,7 @@ export default {
 
     async NotasPorIdade(req:Request, res:Response)
     {
-        const pageSize: number = 200;
+        const pageSize: number = 100;
         const page: number = (req.query as unknown as IPage).page;
 
         let ano = Number(req.query.ano);
@@ -858,8 +657,31 @@ export default {
             iterator++;
         });
         return res.status(200).json(Ranks);
-    }
+    },
     //#endregion
 
+    //#region Locais da Prova 
+
+    async Locais(req:Request, res:Response)
+    {
+        var id:Indentificador;
+        const ano = Number(req.query.ano);
+
+        try
+        {
+            id =  new Indentificador(new ClassificarLocal(ano));
+            const response = await id.GetIndentificadores();
+            var pog = response[0];
+            return res.status(200).send(pog);
+        }catch(error)
+        {
+            console.log(error);
+        }
+
+
+
+    }
+
+    //#endregion
 
 }

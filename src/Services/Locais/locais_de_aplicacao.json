@@ -1,0 +1,37 @@
+[
+    {
+        "UF":27,
+        "ano": 2019,
+        "municipios":1003,
+        "local_ap": 1219, 
+        "salas": 11990
+    },
+    {
+        "UF":27,
+        "ano": 2018,
+        "municipios":1385,
+        "local_ap": 1581, 
+        "salas": 15051
+    },
+    {
+        "UF":27,
+        "ano": 2017,
+        "municipios":1497,
+        "local_ap": 1700, 
+        "salas": 2164
+    },
+    {
+        "UF":27,
+        "ano": 2016,
+        "municipios":942,
+        "local_ap": 1009, 
+        "salas": 7388
+    },
+    {
+        "UF":27,
+        "ano": 2015,
+        "municipios":1497,
+        "local_ap": 1700, 
+        "salas": 2164
+    }
+]
