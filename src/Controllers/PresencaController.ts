@@ -37,8 +37,7 @@ export default {
         {
             Presentes = await PresencaModel.countDocuments({tipo_presenca:555, ano_prova:ano});
             Ausentes = await PresencaModel.countDocuments({tipo_presenca:222, ano_prova:ano});
-            console.log(Presentes);
-            total = Presentes + Ausentes;
+            total = await PresencaModel.countDocuments({ano_prova:ano});
         }catch(error)
         {
             console.log(error);
@@ -46,11 +45,24 @@ export default {
         {
             let pcPresente = (Presentes/total) * 100;
             let pcAusente = (Ausentes/total) * 100;
-            return res.status(200).json({Total:total, PercentualPresente:pcPresente, PercentualAusente:pcAusente});
+            return res.status(200).json({Total:total, 
+                NumeroALunosPresentes:Presentes,
+                PercentualPresente:pcPresente,
+                NumeroAlunosAusentes:Ausentes,
+                PercentualAusente:pcAusente});
         }
 
 
-    }
+    },
 
+    async NumeroAlunos(req: Request, res: Response) {
+        const ano = Number(req.query.ano);
+        try {
+            let response = await PresencaModel.countDocuments({ano_prova:ano})
+            return res.status(200).json(response)
+        } catch (error) {
+            console.log('[ERROR]: ', error)
+        }
+    },
 
 }

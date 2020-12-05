@@ -24,7 +24,7 @@ routes.get("/cursos/ProporcaoPresencialEAD", DocumentAlunoController.ProporcaoPr
 
 //#region  /ALUNOS
 // routes.get('/alunos', AlunoController.Index);
-routes.get("/alunos/NumeroAlunos", DocumentAlunoController.NumeroAlunos);
+routes.get("/alunos/NumeroAlunos", PresenceController.NumeroAlunos);
 routes.get('/alunos/TotalPorSexo', DocumentAlunoController.TotalPorSexo);
 routes.get('/alunos/TotalPorIdade', DocumentAlunoController.TotalPorIdade);
 routes.get('/alunos/PercentualModalidadeEM', DocumentAlunoController.PercentualModalidadeEM);
@@ -69,5 +69,7 @@ routes.get('/relatorio', ExporterController.GetFile)
 
 //#endregion
 
+    //Locais
+    routes.get('/Locais', DocumentAlunoController.Locais);
 
 export default routes;

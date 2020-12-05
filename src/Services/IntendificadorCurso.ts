@@ -1,35 +1,111 @@
-
-interface ITipoCurso
+//metodo que classifica os JSONS
+abstract class Classificador
 {
-    id_curso:number
-    nome_curso:string
+    public abstract Classificate();
 }
- 
-//    const index = Object.keys(cursos2018).find(key => key == pos)
 
+//Classe que recebe um algoritmo para indentificar os jsons
+class Indentificador
+{
+    index:Classificador;
 
-export default {
-
-    async IndentificarPorID(ano:string)
+    constructor(algoritmo:Classificador)
     {
-        const url = './data/cursos_'+ano;
-        const file = await import(url);
-        return file;
-    },
+        this.index = algoritmo;
+    }
 
-    async IndentificarPorTipo(ano:string)
+    public GetIndentificadores()
     {
-        const url = './data/cursos_'+ano+'_por_tipo.json';
-        const file = await import(url);
-        return file;
+        return this.index.Classificate();
+    }
+
+}
+
+enum ECategoria
+{
+    Licenciatura,Bacharelado,Tecnologo
+}
+
+
+//Object.keys(data).find(key => key === value);
+
+//Classificar usando o Tipo do curso como separador
+class ClassificarPorTipo extends Classificador
+{
+    ano:Number;
+    constructor(ano:Number)
+    {
+        super();
+        this.ano = ano;
+    }
+    
+    public async Classificate(){
+        try
+        {
+            const url = './data/cursos_'+this.ano+'_por_tipo';
+            const file = await import(url);
+            return file;
+        }catch(error)
+        {
+            return {Message:"Erro ao importar arquivo", Erro:error};
+        }
+    }
+}
+
+class ClassificarPorAno extends Classificador
+{
+
+    ano:Number;
+    constructor(ano:Number)
+    {
+        super();
+        this.ano = ano;
+    }
+
+    public async Classificate() {
+        try
+        {
+            const url = './data/cursos_'+this.ano;
+            const file = await import(url);
+            return file;
+        }catch(error)
+        {
+            return {Message:"Erro ao importar arquivo", Erro:error};
+        };
+    }
+    
+}
+
+class ClassificarLocal extends Classificador
+{
+    ano:Number;
+    constructor(ano:Number)
+    {
+        super();
+        this.ano = ano;
     }
 
 
-
-
+    public async Classificate() {
+       const resposta = []
+       const file = await import('./Locais/locais_de_aplicacao.json');
+       file.forEach(element => {
+           if(element.ano == this.ano)
+           {
+               resposta.push(element)
+           }
+       });
+        return resposta;
+    }
+    
 }
 
-
+export{
+    Indentificador,
+    ClassificarPorTipo,
+    ClassificarPorAno,
+    ClassificarLocal
+}
 
 
 
