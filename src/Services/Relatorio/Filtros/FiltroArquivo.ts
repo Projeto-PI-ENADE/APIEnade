@@ -19,6 +19,7 @@ class FiltroArquivo extends INode {
     async Generate(data: Array<Array<any>>, parentProps: any): Promise<any> {
 
         data = [[]]
+        let files: Array<String> = new Array<String>();
 
         for await (const c of this.child) {
             await c.Generate(data, null);
@@ -26,13 +27,16 @@ class FiltroArquivo extends INode {
 
         for await (const f of this.values) {
             if (f.type == eFiltroArquivoValues.CSV) {
-                return await new CSVExporter(data).ExportFile()
+                const r = await new CSVExporter(data).ExportFile()
+                files.push(r);
             }
             if (f.type == eFiltroArquivoValues.XLSX) {
-                return await new XLSXExporter(data).ExportFile()
+                const r = await new XLSXExporter(data).ExportFile()
+                files.push(r)
             }
         }
 
+        return files;
 
     }
 }

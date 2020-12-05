@@ -51,7 +51,9 @@ routes.get('/Presenca/ProporcaoAusentePresente', PresenceController.ProporcaoPre
 
 //#endregion
 
-//#region RELATORIO
+//#region RELATORIO 
+
+//#region APENAS PARA TESTE
 routes.get('/relatorio/notasIdade', RelatorioController.notasPodIdade);
 routes.get('/relatorio/notasQuantidade', RelatorioController.notasPorQuantidade);
 routes.get('/relatorio/notasSexo', RelatorioController.notasPorSexo);
@@ -65,11 +67,13 @@ routes.get('/relatorio/presencaSexo', RelatorioController.presencaPorSexo);
 routes.get('/relatorio/presencaRenda', RelatorioController.presencaPorRenda);
 routes.get('/relatorio/presencaModalidade', RelatorioController.presencaPorModalidade);
 routes.get('/relatorio/presencaEtnia', RelatorioController.presencaPorEtnia);
+//#endregion
+
 routes.get('/relatorio', ExporterController.GetFile)
 
 //#endregion
 
-    //Locais
-    routes.get('/Locais', DocumentAlunoController.Locais);
+//Locais
+routes.get('/Locais', DocumentAlunoController.Locais);
 
 export default routes;

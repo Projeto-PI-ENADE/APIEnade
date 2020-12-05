@@ -16,18 +16,12 @@ class FiltroPresenca extends INode {
     constructor() {
         super()
         this.title = 'FiltroPresenca'
-        this.AddValue({ title: 'Por quantidade de alunos', type: eFiltroOpcoes.quantidade, checked: false })
-        this.AddValue({ title: 'Por idade', type: eFiltroOpcoes.idade, checked: false })
-        this.AddValue({ title: 'Por sexo', type: eFiltroOpcoes.sexo, checked: false })
-        this.AddValue({ title: 'Por renda familiar', type: eFiltroOpcoes.renda, checked: false })
-        this.AddValue({ title: 'Por modalidade de ensino', type: eFiltroOpcoes.modalidade, checked: false })
-        this.AddValue({ title: 'Por etnia', type: eFiltroOpcoes.etnia, checked: false })
     }
 
     async Generate(data: Array<Array<string>>, parentProps: any) {
-        console.log("Filtro Presença.")
+        console.log("FILTRO PRESENCA")
         let tmpData = [
-            ['Presença']
+            ['Presenca'],
             ['Total'],
             ['Ausente'],
             ['Eliminado'],
@@ -36,7 +30,8 @@ class FiltroPresenca extends INode {
             ['Resultado Desconsiderado']
         ]
         const { ano, curso } = parentProps;
-        this.values.filter((v) => { v.checked === true }).map(async (f) => {
+
+        for await (const f of this.values) {
 
             if (f.type === eFiltroOpcoes.idade) {
 
@@ -76,6 +71,8 @@ class FiltroPresenca extends INode {
                     }
                 }
 
+                console.log("PRESENCA: IDADE", ano, curso)
+                console.log(r)
 
                 tmpData[1] = overwriteArray<any>(tmpData[1], r[0], IndexTable.indexIdade);
                 tmpData[2] = overwriteArray<any>(tmpData[2], r[1], IndexTable.indexIdade);
@@ -98,6 +95,10 @@ class FiltroPresenca extends INode {
                 let r = [val.length + 1].fill(0)
                 r = overwriteArray<any>(r, val, 1);
                 r[0] = val.reduce((total, num) => { return total + num; })
+
+                console.log("PRESENCA: QUANTIDADE", ano, curso)
+                console.log(r)
+
 
                 tmpData[1] = overwriteArray<any>(tmpData[1], [r[0]], IndexTable.indexQuantidade);
                 tmpData[2] = overwriteArray<any>(tmpData[2], [r[1]], IndexTable.indexQuantidade);
@@ -145,6 +146,9 @@ class FiltroPresenca extends INode {
                     }
                 }
 
+                console.log("PRESENCA: SEXO", ano, curso)
+                console.log(r)
+
                 tmpData[1] = overwriteArray<any>(tmpData[1], r[0], IndexTable.indexSexo);
                 tmpData[2] = overwriteArray<any>(tmpData[2], r[1], IndexTable.indexSexo);
                 tmpData[3] = overwriteArray<any>(tmpData[3], r[2], IndexTable.indexSexo);
@@ -190,6 +194,9 @@ class FiltroPresenca extends INode {
                         r[0][index[val[i][j]._id]] += val[i][j].count;
                     }
                 }
+
+                console.log("PRESENCA: RENDA", ano, curso)
+                console.log(r)
 
                 tmpData[1] = overwriteArray<any>(tmpData[1], r[0], IndexTable.indexRenda);
                 tmpData[2] = overwriteArray<any>(tmpData[2], r[1], IndexTable.indexRenda);
@@ -237,6 +244,9 @@ class FiltroPresenca extends INode {
                     }
                 }
 
+                console.log("PRESENCA: MODALIDADE", ano, curso)
+                console.log(r)
+
                 tmpData[1] = overwriteArray<any>(tmpData[1], r[0], IndexTable.indexModalidade);
                 tmpData[2] = overwriteArray<any>(tmpData[2], r[1], IndexTable.indexModalidade);
                 tmpData[3] = overwriteArray<any>(tmpData[3], r[2], IndexTable.indexModalidade);
@@ -282,6 +292,10 @@ class FiltroPresenca extends INode {
                         r[0][index[val[i][j]._id]] += val[i][j].count;
                     }
                 }
+
+                console.log("PRESENCA: ETNIA", ano, curso)
+                console.log(r)
+
                 tmpData[1] = overwriteArray<any>(tmpData[1], r[0], IndexTable.indexEtnia);
                 tmpData[2] = overwriteArray<any>(tmpData[2], r[1], IndexTable.indexEtnia);
                 tmpData[3] = overwriteArray<any>(tmpData[3], r[2], IndexTable.indexEtnia);
@@ -289,7 +303,10 @@ class FiltroPresenca extends INode {
                 tmpData[5] = overwriteArray<any>(tmpData[5], r[4], IndexTable.indexEtnia);
                 tmpData[6] = overwriteArray<any>(tmpData[6], r[5], IndexTable.indexEtnia);
             }
-        });
+        }
+
+        for (let i = 0; i < tmpData.length; i++)
+            data.push(tmpData[i])
     }
 
 }

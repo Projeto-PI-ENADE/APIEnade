@@ -14,7 +14,7 @@ abstract class FileExporter {
     abstract BuildData(values: any): any;
 
     FileName(): string {
-        return 'test.' + this.ext;
+        return this.ext + '_' + this.time + '.' + this.ext;
     }
 
     async ExportFile(): Promise<string> {

@@ -14,7 +14,7 @@ class FiltroNotas extends INode {
     }
 
     async Generate(data: Array<Array<string>>, parentProps: any) {
-
+        console.log("FILTRO NOTAS")
         const { ano, curso } = parentProps;
         var tmpData = []
         tmpData.push(['Notas']);
@@ -27,7 +27,6 @@ class FiltroNotas extends INode {
         console.log("NOTAS:")
         console.log(tmpData)
 
-        const vals = this.values.filter((v) => { v.checked === true })
 
         for await (const f of this.values) {
             if (f.type === eFiltroOpcoes.idade) {
@@ -67,7 +66,7 @@ class FiltroNotas extends INode {
                     }
                 }
 
-                console.log("RESULTADO IDADE")
+                console.log("NOTAS: IDADE", ano, curso)
                 console.log(r)
 
                 tmpData[1] = overwriteArray<any>(tmpData[1], r[0], IndexTable.indexIdade);
@@ -90,7 +89,7 @@ class FiltroNotas extends INode {
                 const val = await Promise.all(prom);
 
 
-                console.log("RESULTADO QUANTIDADE")
+                console.log("NOTAS: QUANTIDADE", ano, curso)
                 console.log(val)
 
                 tmpData[1] = overwriteArray<any>(tmpData[1], [val[0]], IndexTable.indexQuantidade);
@@ -135,7 +134,7 @@ class FiltroNotas extends INode {
                     }
                 }
 
-                console.log("RESULTADO SEXO")
+                console.log("NOTAS: SEXO", ano, curso)
                 console.log(r)
 
                 tmpData[1] = overwriteArray<any>(tmpData[1], r[0], IndexTable.indexSexo);
@@ -181,7 +180,7 @@ class FiltroNotas extends INode {
                     }
                 }
 
-                console.log("RESULTADO RENDA")
+                console.log("NOTAS: RENDA", ano, curso)
                 console.log(r)
 
                 tmpData[1] = overwriteArray<any>(tmpData[1], r[0], IndexTable.indexRenda);
@@ -228,7 +227,7 @@ class FiltroNotas extends INode {
                     }
                 }
 
-                console.log("RESULTADO MODALIDADE")
+                console.log("NOTAS: MODALIDADE", ano, curso)
                 console.log(r)
 
                 tmpData[1] = overwriteArray<any>(tmpData[1], r[0], IndexTable.indexModalidade);
@@ -274,7 +273,7 @@ class FiltroNotas extends INode {
                     }
                 }
 
-                console.log("RESULTADO ETNIA")
+                console.log("NOTAS: ETNIA", ano, curso)
                 console.log(r)
 
                 tmpData[1] = overwriteArray<any>(tmpData[1], r[0], IndexTable.indexEtnia);
