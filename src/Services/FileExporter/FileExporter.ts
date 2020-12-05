@@ -1,19 +1,20 @@
 abstract class FileExporter {
-    data: Array<Object>;
+    data: Array<Array<any>>;
     ext: string;
     time: number
 
-    constructor(data: Array<Object>, ext: string) {
+    constructor(data: Array<Array<any>>, ext: string) {
         this.data = data;
         this.ext = ext;
         this.time = Date.now()
     }
 
     abstract async CreateFile(): Promise<void>;
+
     abstract BuildData(values: any): any;
 
     FileName(): string {
-        return this.ext + '_' + this.time + '.' + this.ext;
+        return 'test.' + this.ext;
     }
 
     async ExportFile(): Promise<string> {

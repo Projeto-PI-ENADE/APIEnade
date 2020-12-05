@@ -1,27 +1,16 @@
 import { Request, Response } from 'express';
 import Exporter from '../Services/FileExporter/Exportador'
-
-
+import INode from '../Services/Relatorio/INode'
+import Example from '../Services/Relatorio/Filtros/Example'
 
 export default {
     async GetFile(req: Request, res: Response) {
 
         try {
-            const e: Exporter = new Exporter()
+            const op: INode = Example;
 
-            let path = '';
-            switch (req.params.tipo) {
-                case '1':
-                    path = await e.ExportFile(null, 'xlsx')
-                    break
-                case '2':
-                    path = await e.ExportFile(null, 'json')
-                    break
-                default:
-                    path = await e.ExportFile(null, 'csv')
-
-            }
-
+            let path = String(await op.Generate(null, null));
+            console.log(path)
             return res.sendFile(path, { root: 'Files' })
         } catch (error) {
             console.log(error)
