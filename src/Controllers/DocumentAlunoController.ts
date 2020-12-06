@@ -8,6 +8,7 @@ import {
     ClassificarPorTipo,
     ClassificarLocal
 } from '../Services/IntendificadorCurso';
+import DocumentAluno from '../Models/DocumentAluno';
 
 interface IPage {
     page: number
@@ -121,18 +122,23 @@ export default {
 
     async PercentualModalidadeEM(req: Request, res: Response) {
         const ano = Number(req.query.ano);
-        try {
-            const tmp = await AlunoModel.distinct('tip_ens_medio');
-            const total = await AlunoModel.countDocuments({'prova.ano_prova':ano});
-            let response = []
-            for await (const i of tmp) {
-                const c = await AlunoModel.countDocuments({ tip_ens_medio: i, 'prova.ano_prova':ano })
-                response.push({ tip_ens_medio: i, prc: (100 * c) / total })
-            }
-            return res.status(200).json(response);
-        } catch (error) {
-            console.log('[ERROR]: ', error)
+        const curso = Number(req.query.curso);
+        var tmp;
+        if(isNaN(curso))
+        {
+            tmp = await AlunoModel.distinct('tip_ens_medio', {'prova.ano_prova':ano});
+        }else
+        {
+            tmp = await AlunoModel.distinct('tip_ens_medio', {'curso.area_curso':curso});
         }
+        const total = await AlunoModel.countDocuments({'prova.ano_prova':ano});
+        let response = []
+
+        for await (const i of tmp) {
+        const c = await AlunoModel.countDocuments({ tip_ens_medio: i, 'prova.ano_prova':ano});
+        response.push({ tip_ens_medio: i, prc: (100 * c) / total });
+        }
+        return res.status(200).json(response);
     },
 
     async CountNotasPorIdade(req:Request, res:Response)
@@ -176,50 +182,6 @@ export default {
         const resposta  =  await Indentify.GetIndentificadores();
         return res.status(200).json(resposta);
 
-    },
-
-    async TotalPorCurso(req: Request, res: Response) {
-        let ano = Number(req.query.ano);
-
-        try {
-            const tmp = await AlunoModel.distinct('curso.area_curso')
-
-            if (tmp) {
-                let resp = []
-                for await (const i of tmp) {
-                    const c = await AlunoModel.countDocuments({ 'curso.area_curso': i, "prova.ano_prova":ano })
-                    resp.push({ curso_id: i, count: c });
-                }
-
-                return res.status(200).json(resp);
-            }
-            else {
-                return res.status(404).send('Not Found')
-            }
-
-
-        } catch (error) {
-            console.log('[ERROR]: ', error)
-        }
-    },    
-
-    async Index(req: Request, res: Response) {
-        const pageSize: number = 100;
-        const page: number = (req.query as unknown as IPage).page;
-
-        try {
-            await AlunoModel.find({},{curso:1},(error: any, curso: any) => {
-                if (error) {
-                    return res.status(404).send('Not Found')
-                }
-                else {
-                    return res.status(200).json(curso);
-                }
-            }).skip(pageSize * page).limit(pageSize);
-
-        } catch (error) {
-            console.log('[ERROR]: ', error)
-        }
     },
 
     async PercentualTipoInstituição(req: Request, res: Response) {
