@@ -12,8 +12,6 @@ routes.get("/provas/RankingNotas", DocumentAlunoController.RankingNotas);
 //#endregion
 
 //#region  /CURSOS
-routes.get("/cursos", DocumentAlunoController.Index);
-routes.get("/cursos/TotalPorCurso", DocumentAlunoController.TotalPorCurso);
 routes.get("/cursos/CursosAvaliados", DocumentAlunoController.CursosAvaliados);
 routes.get("/cursos/PercentualTipoInstituicao", DocumentAlunoController.PercentualTipoInstituição);
 routes.get("/cursos/ProporcaoPresencialEAD", DocumentAlunoController.ProporcaoPresencialEAD)
