@@ -15,4 +15,4 @@ app.use(routes);
 
 
 
-app.listen(3232, () => { console.log("Servidor Online em http://localhost:3232") });
+app.listen(process.env.PORT || 3232, () => { console.log("Servidor Online") });
