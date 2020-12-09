@@ -18,7 +18,7 @@ export default {
     async GetFile(req: Request, res: Response) {
         console.log("GET FILE")
         const { data } = req.params
-        return res.json({ val: 1 })
+
         try {
 
             const filtros = JSON.parse(data) as INode[]
