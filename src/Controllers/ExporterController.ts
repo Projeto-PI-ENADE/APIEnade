@@ -16,7 +16,7 @@ async function makeZip(files: String[]): Promise<string> {
 
 export default {
     async GetFile(req: Request, res: Response) {
-        const { data } = req.params
+        const { data } = req.body
 
         console.log(data)
         try {

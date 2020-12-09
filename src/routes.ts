@@ -69,7 +69,7 @@ routes.get('/relatorio/presencaModalidade', RelatorioController.presencaPorModal
 routes.get('/relatorio/presencaEtnia', RelatorioController.presencaPorEtnia);
 //#endregion
 
-routes.get('/relatorio', ExporterController.GetFile)
+routes.post('/relatorio', ExporterController.GetFile)
 
 //#endregion
 
