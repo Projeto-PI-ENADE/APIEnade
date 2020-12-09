@@ -6,34 +6,34 @@ import { FiltroPresenca } from './FiltroPresenca'
 import INode from '../INode'
 
 let arq: INode = new FiltroArquivo();
-arq.AddValue({ title: 'CSV', type: eFiltroArquivoValues.CSV, checked: true });
-arq.AddValue({ title: 'XLSX', type: eFiltroArquivoValues.XLSX, checked: true });
+arq.AddValue({ nome: 'CSV', id: eFiltroArquivoValues.CSV });
+arq.AddValue({ nome: 'XLSX', id: eFiltroArquivoValues.XLSX });
 
 let ano: INode = new FiltroAnos();
-ano.AddValue({ title: '2018', type: 2018, checked: true });
-ano.AddValue({ title: '2010', type: 2010, checked: true });
+ano.AddValue({ nome: '2018', id: 2018 });
+ano.AddValue({ nome: '2010', id: 2010 });
 
 
 
 let cur: INode = new FiltroCurso();
-cur.AddValue({ title: "Medicina Veterinaria", type: 5, checked: true });
-cur.AddValue({ title: "Odontologia", type: 6, checked: true });
+cur.AddValue({ nome: "Medicina Veterinaria", id: 5 });
+cur.AddValue({ nome: "Odontologia", id: 6 });
 
 let cur2: INode = new FiltroCurso();
-cur2.AddValue({ title: "Administração", type: 1, checked: true });
-cur2.AddValue({ title: "Direito", type: 2, checked: true });
+cur2.AddValue({ nome: "Administração", id: 1 });
+cur2.AddValue({ nome: "Direito", id: 2 });
 
 
 let fno: INode = new FiltroNotas();
-fno.AddValue({ title: 'Por quantidade de alunos', type: eFiltroOpcoes.quantidade, checked: true })
-fno.AddValue({ title: 'Por idade', type: eFiltroOpcoes.idade, checked: true })
-fno.AddValue({ title: 'Por sexo', type: eFiltroOpcoes.sexo, checked: true })
-fno.AddValue({ title: 'Por renda familiar', type: eFiltroOpcoes.renda, checked: true })
-fno.AddValue({ title: 'Por modalidade de ensino', type: eFiltroOpcoes.modalidade, checked: true })
-fno.AddValue({ title: 'Por etnia', type: eFiltroOpcoes.etnia, checked: true })
+fno.AddValue({ nome: 'Por quantidade de alunos', id: eFiltroOpcoes.quantidade })
+fno.AddValue({ nome: 'Por idade', id: eFiltroOpcoes.idade })
+fno.AddValue({ nome: 'Por sexo', id: eFiltroOpcoes.sexo })
+fno.AddValue({ nome: 'Por renda familiar', id: eFiltroOpcoes.renda })
+fno.AddValue({ nome: 'Por modalidade de ensino', id: eFiltroOpcoes.modalidade })
+fno.AddValue({ nome: 'Por etnia', id: eFiltroOpcoes.etnia })
 
 let fpr: INode = new FiltroPresenca();
-fpr.AddValue({ title: 'Por quantidade de alunos', type: eFiltroOpcoes.quantidade, checked: true })
+fpr.AddValue({ nome: 'Por quantidade de alunos', id: eFiltroOpcoes.quantidade })
 // fpr.AddValue({ title: 'Por idade', type: eFiltroOpcoes.idade, checked: true })
 // fpr.AddValue({ title: 'Por sexo', type: eFiltroOpcoes.sexo, checked: true })
 // fpr.AddValue({ title: 'Por renda familiar', type: eFiltroOpcoes.renda, checked: true })

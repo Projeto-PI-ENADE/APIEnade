@@ -1,11 +1,6 @@
 import INode from '../INode'
 
 export default class FiltroAnos extends INode {
-    constructor() {
-        super()
-        this.title = 'FiltroAnos'
-
-    }
 
     async Generate(data: Array<Array<any>>, parentProps: any): Promise<any> {
 
@@ -15,15 +10,15 @@ export default class FiltroAnos extends INode {
             parentProps["ano"] = 0;
         }
 
-        const vals = this.values.filter((v) => { v.checked === true })
+
 
         for await (const f of this.values) {
 
             data.push([]);
-            data.push([f.title]);
+            data.push([f.nome]);
 
-            for await (const c of this.child) {
-                parentProps["ano"] = f.type;
+            for await (const c of this.childs) {
+                parentProps["ano"] = f.id;
                 await c.Generate(data, parentProps);
             }
         }

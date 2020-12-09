@@ -7,11 +7,7 @@ import AlunoModel from '../../../Models/DocumentAluno'
 
 class FiltroNotas extends INode {
 
-    constructor() {
-        super();
-        this.title = 'FiltroNotas'
 
-    }
 
     async Generate(data: Array<Array<string>>, parentProps: any) {
         console.log("FILTRO NOTAS")
@@ -29,7 +25,7 @@ class FiltroNotas extends INode {
 
 
         for await (const f of this.values) {
-            if (f.type === eFiltroOpcoes.idade) {
+            if (f.id === eFiltroOpcoes.idade) {
 
                 const prom = [
                     AlunoModel.aggregate([
@@ -77,7 +73,7 @@ class FiltroNotas extends INode {
 
             }
 
-            if (f.type == eFiltroOpcoes.quantidade) {
+            if (f.id == eFiltroOpcoes.quantidade) {
 
                 const prom = [
                     AlunoModel.countDocuments({ "prova.nota_bruta": { "$gte": 0, "$lt": 20 }, "prova.ano_prova": ano, "curso.area_curso": curso }),
@@ -99,7 +95,7 @@ class FiltroNotas extends INode {
                 tmpData[5] = overwriteArray<any>(tmpData[5], [val[4]], IndexTable.indexQuantidade);
             }
 
-            if (f.type == eFiltroOpcoes.sexo) {
+            if (f.id == eFiltroOpcoes.sexo) {
                 const prom = [
                     AlunoModel.aggregate([
                         { $match: { "prova.nota_bruta": { "$gte": 0, "$lt": 20 }, "prova.ano_prova": ano, "curso.area_curso": curso } },
@@ -144,7 +140,7 @@ class FiltroNotas extends INode {
                 tmpData[5] = overwriteArray<any>(tmpData[5], r[4], IndexTable.indexSexo);
             }
 
-            if (f.type == eFiltroOpcoes.renda) {
+            if (f.id == eFiltroOpcoes.renda) {
 
                 const prom = [
                     AlunoModel.aggregate([
@@ -190,7 +186,7 @@ class FiltroNotas extends INode {
                 tmpData[5] = overwriteArray<any>(tmpData[5], r[4], IndexTable.indexRenda);
             }
 
-            if (f.type == eFiltroOpcoes.modalidade) {
+            if (f.id == eFiltroOpcoes.modalidade) {
 
 
                 const prom = [
@@ -237,7 +233,7 @@ class FiltroNotas extends INode {
                 tmpData[5] = overwriteArray<any>(tmpData[5], r[4], IndexTable.indexModalidade);
             }
 
-            if (f.type == eFiltroOpcoes.etnia) {
+            if (f.id == eFiltroOpcoes.etnia) {
 
                 const prom = [
                     AlunoModel.aggregate([

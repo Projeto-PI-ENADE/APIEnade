@@ -13,10 +13,7 @@ enum pres_cod {
 }
 
 class FiltroPresenca extends INode {
-    constructor() {
-        super()
-        this.title = 'FiltroPresenca'
-    }
+
 
     async Generate(data: Array<Array<string>>, parentProps: any) {
         console.log("FILTRO PRESENCA")
@@ -33,7 +30,7 @@ class FiltroPresenca extends INode {
 
         for await (const f of this.values) {
 
-            if (f.type === eFiltroOpcoes.idade) {
+            if (f.id === eFiltroOpcoes.idade) {
 
                 const prom = [
                     AlunoModel.aggregate([
@@ -82,7 +79,7 @@ class FiltroPresenca extends INode {
                 tmpData[6] = overwriteArray<any>(tmpData[6], r[5], IndexTable.indexIdade);
             }
 
-            if (f.type == eFiltroOpcoes.quantidade) {
+            if (f.id == eFiltroOpcoes.quantidade) {
 
                 const prom = [
                     AlunoModel.countDocuments({ "prova.tipo_presenca": pres_cod.ausente, "prova.ano_prova": ano, "curso.area_curso": curso }),
@@ -108,7 +105,7 @@ class FiltroPresenca extends INode {
                 tmpData[6] = overwriteArray<any>(tmpData[6], [r[5]], IndexTable.indexQuantidade);
             }
 
-            if (f.type == eFiltroOpcoes.sexo) {
+            if (f.id == eFiltroOpcoes.sexo) {
 
                 const prom = [
                     AlunoModel.aggregate([
@@ -157,7 +154,7 @@ class FiltroPresenca extends INode {
                 tmpData[6] = overwriteArray<any>(tmpData[6], r[5], IndexTable.indexSexo);
             }
 
-            if (f.type == eFiltroOpcoes.renda) {
+            if (f.id == eFiltroOpcoes.renda) {
 
                 const prom = [
                     AlunoModel.aggregate([
@@ -206,7 +203,7 @@ class FiltroPresenca extends INode {
                 tmpData[6] = overwriteArray<any>(tmpData[6], r[5], IndexTable.indexRenda);
             }
 
-            if (f.type == eFiltroOpcoes.modalidade) {
+            if (f.id == eFiltroOpcoes.modalidade) {
 
                 const prom = [
                     AlunoModel.aggregate([
@@ -255,7 +252,7 @@ class FiltroPresenca extends INode {
                 tmpData[6] = overwriteArray<any>(tmpData[6], r[5], IndexTable.indexModalidade);
             }
 
-            if (f.type == eFiltroOpcoes.etnia) {
+            if (f.id == eFiltroOpcoes.etnia) {
 
                 const prom = [
                     AlunoModel.aggregate([

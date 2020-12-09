@@ -11,26 +11,22 @@ enum eFiltroArquivoValues {
 }
 
 class FiltroArquivo extends INode {
-    constructor() {
-        super()
-        this.title = 'FiltroArquivo'
-    }
 
     async Generate(data: Array<Array<any>>, parentProps: any): Promise<any> {
 
         data = [[]]
         let files: Array<String> = new Array<String>();
 
-        for await (const c of this.child) {
+        for await (const c of this.childs) {
             await c.Generate(data, null);
         }
 
         for await (const f of this.values) {
-            if (f.type == eFiltroArquivoValues.CSV) {
+            if (f.id == eFiltroArquivoValues.CSV) {
                 const r = await new CSVExporter(data).ExportFile()
                 files.push(r);
             }
-            if (f.type == eFiltroArquivoValues.XLSX) {
+            if (f.id == eFiltroArquivoValues.XLSX) {
                 const r = await new XLSXExporter(data).ExportFile()
                 files.push(r)
             }

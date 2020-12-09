@@ -1,5 +1,4 @@
 export default class IValues {
-    title: string
-    type: number
-    checked: boolean
+    nome: string
+    id: number
 }
