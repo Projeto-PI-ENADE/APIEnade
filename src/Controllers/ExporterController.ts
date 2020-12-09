@@ -16,9 +16,9 @@ async function makeZip(files: String[]): Promise<string> {
 
 export default {
     async GetFile(req: Request, res: Response) {
-        console.log("GET FILE")
         const { data } = req.params
 
+        console.log(data)
         try {
 
             const filtros = JSON.parse(data) as INode[]
