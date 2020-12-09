@@ -16,9 +16,13 @@ async function makeZip(files: String[]): Promise<string> {
 
 export default {
     async GetFile(req: Request, res: Response) {
-        const { data } = req.body
+        console.log("GET FILE")
+        const { data } = req.params
+        return res.json({ val: 1 })
         try {
-            const op: INode = JSON.parse(data) as INode;
+
+            const filtros = JSON.parse(data) as INode[]
+            const op: INode = filtros[0];
 
             let path = await op.Generate(null, null);
             console.log('Files:', path)
