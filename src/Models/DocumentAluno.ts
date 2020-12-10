@@ -1,6 +1,6 @@
 import { Mongoose } from 'mongoose';
 import mongoose from '../db';
-
+const Schema = mongoose.Schema;
 
 //Documento geral do Aluno
 export interface IProva {

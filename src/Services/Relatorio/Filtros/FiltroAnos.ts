@@ -14,9 +14,8 @@ export default class FiltroAnos extends INode {
 
         for await (const f of this.values) {
 
-            data.push([]);
+            data.push([' ']);
             data.push([f.nome]);
-
             for await (const c of this.childs) {
                 parentProps["ano"] = f.id;
                 await c.Generate(data, parentProps);

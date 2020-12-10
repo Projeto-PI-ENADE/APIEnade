@@ -10,6 +10,7 @@ export default abstract class INode {
         this.childs = new Array<INode>()
     }
     abstract async Generate(data: Array<Array<string>>, parentProps: any): Promise<any>;
+
     AddChild(node: INode): void {
         this.childs.push(node);
     }
@@ -22,5 +23,4 @@ export default abstract class INode {
     RemoveValue(value: INode): void {
         this.values.slice(this.childs.indexOf(value), 1)
     }
-
 }

@@ -4,6 +4,7 @@ abstract class TableExporter extends FileExporter {
     BuildData(values: [[]]): any {
         let tmp_data = []
 
+
         let header = ['', '', 'Sexo', '', 'Idade', '', '', '', '', '', '', '', '', '', 'Renda', '', '', '', '', '', '', 'Tipo Ensino Médio', '', '', '', '', '', 'Cor', '', '', '', '', '']
         let header2 = [
             '', 'Quantidade',

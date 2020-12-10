@@ -13,7 +13,7 @@ export default class FiltroCurso extends INode {
             if (Object.keys(c).includes(String(v.id))) {
 
 
-                data.push([""])
+                data.push([' '])
                 data.push([v.nome])
 
                 parentProps["curso"] = v.id;
