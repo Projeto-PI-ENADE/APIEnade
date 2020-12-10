@@ -94,6 +94,7 @@ class QuantidadeOpcoes extends FiltroOpcoes {
     }
     protected prepareData(data: any): any {
         let r = [data.length + 1].fill(0)
+
         r = overwriteArray<any>(r, data, 1);
         r[0] = data.reduce((total, num) => { return total + num; })
         return r
