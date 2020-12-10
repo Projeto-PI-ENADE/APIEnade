@@ -6,7 +6,6 @@ import { FiltroPresenca } from './FiltroPresenca'
 import INode from '../INode'
 
 let arq: INode = new FiltroArquivo();
-arq.AddValue({ nome: 'CSV', id: eFiltroArquivoValues.CSV });
 arq.AddValue({ nome: 'XLSX', id: eFiltroArquivoValues.XLSX });
 
 let ano: INode = new FiltroAnos();
@@ -17,6 +16,7 @@ ano.AddValue({ nome: '2018', id: 2018 });
 let cur2: INode = new FiltroCurso();
 cur2.AddValue({ nome: "Administração", id: 1 });
 cur2.AddValue({ nome: "Direito", id: 2 });
+
 
 
 let fno: INode = new FiltroNotas();
@@ -34,6 +34,7 @@ fpr.AddValue({ nome: 'Por sexo', id: eFiltroOpcoes.sexo })
 fpr.AddValue({ nome: 'Por renda familiar', id: eFiltroOpcoes.renda })
 fpr.AddValue({ nome: 'Por modalidade de ensino', id: eFiltroOpcoes.modalidade })
 fpr.AddValue({ nome: 'Por etnia', id: eFiltroOpcoes.etnia })
+
 
 
 cur2.AddChild(fno)

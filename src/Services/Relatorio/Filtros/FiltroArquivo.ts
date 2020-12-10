@@ -21,16 +21,22 @@ class FiltroArquivo extends INode {
             await c.Generate(data, null);
         }
 
-        for await (const f of this.values) {
-            if (f.id == eFiltroArquivoValues.CSV) {
-                const r = await new CSVExporter(data).ExportFile()
-                files.push(r);
+
+        try {
+            for await (const f of this.values) {
+                if (f.id == eFiltroArquivoValues.CSV) {
+                    const r = await new CSVExporter(data).ExportFile()
+                    files.push(r);
+                }
+                if (f.id == eFiltroArquivoValues.XLSX) {
+                    const r = await new XLSXExporter(data).ExportFile()
+                    files.push(r)
+                }
             }
-            if (f.id == eFiltroArquivoValues.XLSX) {
-                const r = await new XLSXExporter(data).ExportFile()
-                files.push(r)
-            }
+        } catch (error) {
+            console.log(error)
         }
+
 
         return files;
 

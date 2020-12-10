@@ -34,29 +34,30 @@ class FiltroNotas extends INode {
 
         for await (const f of this.values) {
             if (f.id === eFiltroOpcoes.idade) {
-                tmpData = await new IdadeOpcoes(sel).Generate(tmpData);
+                await new IdadeOpcoes(sel).Generate(tmpData);
             }
 
             if (f.id == eFiltroOpcoes.quantidade) {
-                tmpData = await new QuantidadeOpcoes(sel).Generate(tmpData);
+                await new QuantidadeOpcoes(sel).Generate(tmpData);
             }
 
             if (f.id == eFiltroOpcoes.sexo) {
-                tmpData = await new SexoOpcoes(sel).Generate(tmpData);
+                await new SexoOpcoes(sel).Generate(tmpData);
             }
 
             if (f.id == eFiltroOpcoes.renda) {
-                tmpData = await new RendaOpcoes(sel).Generate(tmpData);
+                await new RendaOpcoes(sel).Generate(tmpData);
             }
 
             if (f.id == eFiltroOpcoes.modalidade) {
-                tmpData = await new ModalidadeOpcoes(sel).Generate(tmpData);
+                await new ModalidadeOpcoes(sel).Generate(tmpData);
             }
 
             if (f.id == eFiltroOpcoes.etnia) {
-                tmpData = await new EtniaOpcoes(sel).Generate(tmpData);
+                await new EtniaOpcoes(sel).Generate(tmpData);
             }
         }
+
 
         for (let i = 0; i < tmpData.length; i++)
             data.push(tmpData[i])

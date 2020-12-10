@@ -1,4 +1,5 @@
 import AlunoModel from '../../../../Models/DocumentAluno'
+import AlunoModelF from '../../../../Models/DocumentAlunoF'
 import overwriteArray from '../../ArrayAux';
 import IndexTable from '../IndexTable';
 
@@ -43,23 +44,53 @@ class IdadeOpcoes extends FiltroOpcoes {
             AlunoModel.aggregate([
                 { $match: this.selectData[4] },
                 { $bucket: { groupBy: "$idade", boundaries: [0, 16, 25, 34, 43, 52, 61, 70, 79, 87, 100] } }
-            ])
+            ]),
+
+            AlunoModelF.aggregate([
+                { $match: this.selectData[0] },
+                { $bucket: { groupBy: "$idade", boundaries: [0, 16, 25, 34, 43, 52, 61, 70, 79, 87, 100] } }
+            ]),
+            AlunoModelF.aggregate([
+                { $match: this.selectData[1] },
+                { $bucket: { groupBy: "$idade", boundaries: [0, 16, 25, 34, 43, 52, 61, 70, 79, 87, 100] } }
+            ]),
+            AlunoModelF.aggregate([
+                { $match: this.selectData[2] },
+                { $bucket: { groupBy: "$idade", boundaries: [0, 16, 25, 34, 43, 52, 61, 70, 79, 87, 100] } }
+            ]),
+            AlunoModelF.aggregate([
+                { $match: this.selectData[3] },
+                { $bucket: { groupBy: "$idade", boundaries: [0, 16, 25, 34, 43, 52, 61, 70, 79, 87, 100] } }
+            ]),
+            AlunoModelF.aggregate([
+                { $match: this.selectData[4] },
+                { $bucket: { groupBy: "$idade", boundaries: [0, 16, 25, 34, 43, 52, 61, 70, 79, 87, 100] } }
+            ]),
         ]
         return await Promise.all(prom);
 
     }
     prepareData(data: any): any {
+
         let r = new Array<Array<number>>()
         const index = { 0: 0, 16: 1, 25: 2, 34: 3, 43: 4, 52: 5, 61: 6, 70: 7, 79: 8, 87: 9 }
 
         r[0] = new Array<number>(Object.keys(index).length).fill(0)
+
         for (let i = 0; i < data.length; i++) {
             r[i + 1] = new Array<number>(Object.keys(index).length).fill(0)
             for (let j = 0; j < data[i].length; j++) {
                 r[i + 1][index[data[i][j]._id]] = data[i][j].count;
-                r[0][index[data[i][j]._id]] += data[i][j].count;
             }
         }
+
+        for (let i = 1; i < 5; i++) {
+            for (let j = 0; j < r[i].length; j++) {
+                r[i][j] += r[i + 5][j]
+                r[0][j] += r[i][j]
+            }
+        }
+        r = r.slice(0, 6);
 
         return r;
     }
@@ -88,17 +119,32 @@ class QuantidadeOpcoes extends FiltroOpcoes {
             AlunoModel.countDocuments(this.selectData[1]),
             AlunoModel.countDocuments(this.selectData[2]),
             AlunoModel.countDocuments(this.selectData[3]),
-            AlunoModel.countDocuments(this.selectData[4])]
+            AlunoModel.countDocuments(this.selectData[4]),
+
+            AlunoModelF.countDocuments(this.selectData[0]),
+            AlunoModelF.countDocuments(this.selectData[1]),
+            AlunoModelF.countDocuments(this.selectData[2]),
+            AlunoModelF.countDocuments(this.selectData[3]),
+            AlunoModelF.countDocuments(this.selectData[4])
+        ]
 
         return await Promise.all(prom);
     }
     protected prepareData(data: any): any {
+
         let r = [data.length + 1].fill(0)
         r = overwriteArray<any>(r, data, 1);
-        r[0] = data.reduce((total, num) => { return total + num; })
+        for (let i = 1; i < 5; i++) {
+            r[i] += r[i + 5]
+            r[0] += r[i]
+        }
+        r = r.slice(0, 6);
+
         return r
     }
     protected mountData(data_out: any[], data_in: any[]) {
+
+
         data_out[2] = overwriteArray<any>(data_out[2], [data_in[0]], IndexTable.indexQuantidade);
         data_out[3] = overwriteArray<any>(data_out[3], [data_in[1]], IndexTable.indexQuantidade);
         data_out[4] = overwriteArray<any>(data_out[4], [data_in[2]], IndexTable.indexQuantidade);
@@ -140,6 +186,27 @@ class SexoOpcoes extends FiltroOpcoes {
             AlunoModel.aggregate([
                 { $match: this.selectData[4] },
                 { $group: { _id: "$sexo", count: { $sum: 1 } } }
+            ]),
+
+            AlunoModelF.aggregate([
+                { $match: this.selectData[0] },
+                { $group: { _id: "$sexo", count: { $sum: 1 } } }
+            ]),
+            AlunoModelF.aggregate([
+                { $match: this.selectData[1] },
+                { $group: { _id: "$sexo", count: { $sum: 1 } } }
+            ]),
+            AlunoModelF.aggregate([
+                { $match: this.selectData[2] },
+                { $group: { _id: "$sexo", count: { $sum: 1 } } }
+            ]),
+            AlunoModelF.aggregate([
+                { $match: this.selectData[3] },
+                { $group: { _id: "$sexo", count: { $sum: 1 } } }
+            ]),
+            AlunoModelF.aggregate([
+                { $match: this.selectData[4] },
+                { $group: { _id: "$sexo", count: { $sum: 1 } } }
             ])
         ]
 
@@ -154,9 +221,16 @@ class SexoOpcoes extends FiltroOpcoes {
             r[i + 1] = new Array<number>(Object.keys(index).length).fill(0)
             for (let j = 0; j < data[i].length; j++) {
                 r[i + 1][index[data[i][j]._id]] = data[i][j].count;
-                r[0][index[data[i][j]._id]] += data[i][j].count;
             }
         }
+
+        for (let i = 1; i < 5; i++) {
+            for (let j = 0; j < r[i].length; j++) {
+                r[i][j] += r[i + 5][j]
+                r[0][j] += r[i][j]
+            }
+        }
+        r = r.slice(0, 6);
         return r
     }
     protected mountData(data_out: any[], data_in: any[]) {
@@ -200,6 +274,27 @@ class RendaOpcoes extends FiltroOpcoes {
             AlunoModel.aggregate([
                 { $match: this.selectData[4] },
                 { $group: { _id: "$renda_fam", count: { $sum: 1 } } }
+            ]),
+
+            AlunoModelF.aggregate([
+                { $match: this.selectData[0] },
+                { $group: { _id: "$renda_fam", count: { $sum: 1 } } }
+            ]),
+            AlunoModelF.aggregate([
+                { $match: this.selectData[1] },
+                { $group: { _id: "$renda_fam", count: { $sum: 1 } } }
+            ]),
+            AlunoModelF.aggregate([
+                { $match: this.selectData[2] },
+                { $group: { _id: "$renda_fam", count: { $sum: 1 } } }
+            ]),
+            AlunoModelF.aggregate([
+                { $match: this.selectData[3] },
+                { $group: { _id: "$renda_fam", count: { $sum: 1 } } }
+            ]),
+            AlunoModelF.aggregate([
+                { $match: this.selectData[4] },
+                { $group: { _id: "$renda_fam", count: { $sum: 1 } } }
             ])
         ]
 
@@ -214,9 +309,16 @@ class RendaOpcoes extends FiltroOpcoes {
             r[i + 1] = new Array<number>(Object.keys(index).length).fill(0)
             for (let j = 0; j < data[i].length; j++) {
                 r[i + 1][index[data[i][j]._id]] = data[i][j].count;
-                r[0][index[data[i][j]._id]] += data[i][j].count;
             }
         }
+
+        for (let i = 1; i < 5; i++) {
+            for (let j = 0; j < r[i].length; j++) {
+                r[i][j] += r[i + 5][j]
+                r[0][j] += r[i][j]
+            }
+        }
+        r = r.slice(0, 6);
         return r
     }
     protected mountData(data_out: any[], data_in: any[]) {
@@ -259,6 +361,27 @@ class ModalidadeOpcoes extends FiltroOpcoes {
             AlunoModel.aggregate([
                 { $match: this.selectData[4] },
                 { $group: { _id: "$tip_ens_medio", count: { $sum: 1 } } }
+            ]),
+
+            AlunoModelF.aggregate([
+                { $match: this.selectData[0] },
+                { $group: { _id: "$tip_ens_medio", count: { $sum: 1 } } }
+            ]),
+            AlunoModelF.aggregate([
+                { $match: this.selectData[1] },
+                { $group: { _id: "$tip_ens_medio", count: { $sum: 1 } } }
+            ]),
+            AlunoModelF.aggregate([
+                { $match: this.selectData[2] },
+                { $group: { _id: "$tip_ens_medio", count: { $sum: 1 } } }
+            ]),
+            AlunoModelF.aggregate([
+                { $match: this.selectData[3] },
+                { $group: { _id: "$tip_ens_medio", count: { $sum: 1 } } }
+            ]),
+            AlunoModelF.aggregate([
+                { $match: this.selectData[4] },
+                { $group: { _id: "$tip_ens_medio", count: { $sum: 1 } } }
             ])
         ]
 
@@ -273,9 +396,16 @@ class ModalidadeOpcoes extends FiltroOpcoes {
             r[i + 1] = new Array<number>(Object.keys(index).length).fill(0)
             for (let j = 0; j < data[i].length; j++) {
                 r[i + 1][index[data[i][j]._id]] = data[i][j].count;
-                r[0][index[data[i][j]._id]] += data[i][j].count;
             }
         }
+
+        for (let i = 1; i < 5; i++) {
+            for (let j = 0; j < r[i].length; j++) {
+                r[i][j] += r[i + 5][j]
+                r[0][j] += r[i][j]
+            }
+        }
+        r = r.slice(0, 6);
         return r;
     }
     protected mountData(data_out: any[], data_in: any[]) {
@@ -317,6 +447,27 @@ class EtniaOpcoes extends FiltroOpcoes {
             AlunoModel.aggregate([
                 { $match: this.selectData[4] },
                 { $group: { _id: "$grupo", count: { $sum: 1 } } }
+            ]),
+
+            AlunoModelF.aggregate([
+                { $match: this.selectData[0] },
+                { $group: { _id: "$grupo", count: { $sum: 1 } } }
+            ]),
+            AlunoModelF.aggregate([
+                { $match: this.selectData[1] },
+                { $group: { _id: "$grupo", count: { $sum: 1 } } }
+            ]),
+            AlunoModelF.aggregate([
+                { $match: this.selectData[2] },
+                { $group: { _id: "$grupo", count: { $sum: 1 } } }
+            ]),
+            AlunoModelF.aggregate([
+                { $match: this.selectData[3] },
+                { $group: { _id: "$grupo", count: { $sum: 1 } } }
+            ]),
+            AlunoModelF.aggregate([
+                { $match: this.selectData[4] },
+                { $group: { _id: "$grupo", count: { $sum: 1 } } }
             ])
         ]
 
@@ -331,9 +482,16 @@ class EtniaOpcoes extends FiltroOpcoes {
             r[i + 1] = new Array<number>(Object.keys(index).length).fill(0)
             for (let j = 0; j < data[i].length; j++) {
                 r[i + 1][index[data[i][j]._id]] = data[i][j].count;
-                r[0][index[data[i][j]._id]] += data[i][j].count;
             }
         }
+
+        for (let i = 1; i < 5; i++) {
+            for (let j = 0; j < r[i].length; j++) {
+                r[i][j] += r[i + 5][j]
+                r[0][j] += r[i][j]
+            }
+        }
+        r = r.slice(0, 6);
         return r
     }
     protected mountData(data_out: any[], data_in: any[]) {
