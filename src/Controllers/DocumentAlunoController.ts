@@ -167,8 +167,15 @@ export default {
     {
         const ano = Number(req.query.ano);
         const curso = Number(req.query.curso);
+        let response;
         try {
-            let response = await AlunoModel.countDocuments({'prova.ano_prova':ano, 'curso.area_curso':curso});
+            if(isNaN(curso))
+            {
+                response = await AlunoModel.countDocuments({'prova.ano_prova':ano});
+            }else
+            {
+                response = await AlunoModel.countDocuments({'prova.ano_prova':ano, 'curso.area_curso':curso});
+            }
             console.log(response);
             return res.status(200).json(response)
         } catch (error) {
