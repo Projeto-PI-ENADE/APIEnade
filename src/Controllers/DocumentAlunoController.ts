@@ -8,6 +8,7 @@ import {
     ClassificarPorTipo,
     ClassificarLocal
 } from '../Services/IntendificadorCurso';
+import DocumentAluno from '../Models/DocumentAluno';
 
 interface IPage {
     page: number
@@ -21,10 +22,19 @@ export default {
 
     async TotalPorSexo(req: Request, res: Response) {
         const ano = Number(req.query.ano);
-
+        const curso = Number(req.query.curso);
+        let m, f;
         try {
-            const m = await AlunoModel.countDocuments({ sexo: 'M', 'prova.ano_prova':ano});
-            const f = await AlunoModel.countDocuments({ sexo: 'F', 'prova.ano_prova':ano});
+
+            if(isNaN(curso))
+            {
+                m = await AlunoModel.countDocuments({ sexo: 'M', 'prova.ano_prova':ano});
+                f = await AlunoModel.countDocuments({ sexo: 'F', 'prova.ano_prova':ano});
+            }else
+            {
+                m = await AlunoModel.countDocuments({ sexo: 'M', 'prova.ano_prova':ano, 'curso.ano_curso':curso});
+                f = await AlunoModel.countDocuments({ sexo: 'F', 'prova.ano_prova':ano, 'curso.ano_curso':curso});
+            }
             const response = {
                 "feminino": f,
                 "masculino": m
@@ -39,14 +49,27 @@ export default {
     async TotalPorEtnia(req:Request, res:Response)
     {
         const ano = Number(req.query.ano);
+        const curso = Number(req.query.curso);
+        let A,B,C,D,E,F;
         try
         {
-            let A = await AlunoModel.countDocuments({grupo:'A', 'prova.ano_prova': ano});
-            let B = await AlunoModel.countDocuments({grupo:'B', 'prova.ano_prova': ano});
-            let C = await AlunoModel.countDocuments({grupo:'C', 'prova.ano_prova': ano});
-            let D = await AlunoModel.countDocuments({grupo:'D', 'prova.ano_prova': ano});
-            let E = await AlunoModel.countDocuments({grupo:'E', 'prova.ano_prova': ano});
-            let F = await AlunoModel.countDocuments({grupo:'F', 'prova.ano_prova': ano});
+            if(isNaN(curso))
+            {
+                A = await AlunoModel.countDocuments({grupo:'A', 'prova.ano_prova': ano});
+                B = await AlunoModel.countDocuments({grupo:'B', 'prova.ano_prova': ano});
+                C = await AlunoModel.countDocuments({grupo:'C', 'prova.ano_prova': ano});
+                D = await AlunoModel.countDocuments({grupo:'D', 'prova.ano_prova': ano});
+                E = await AlunoModel.countDocuments({grupo:'E', 'prova.ano_prova': ano});
+                F = await AlunoModel.countDocuments({grupo:'F', 'prova.ano_prova': ano});
+            }else
+            {
+                A = await AlunoModel.countDocuments({grupo:'A', 'prova.ano_prova':ano, 'curso.area_curso':curso});
+                B = await AlunoModel.countDocuments({grupo:'B', 'prova.ano_prova':ano, 'curso.area_curso':curso});
+                C = await AlunoModel.countDocuments({grupo:'C', 'prova.ano_prova':ano, 'curso.area_curso':curso});
+                D = await AlunoModel.countDocuments({grupo:'D', 'prova.ano_prova':ano, 'curso.area_curso':curso});
+                E = await AlunoModel.countDocuments({grupo:'E', 'prova.ano_prova':ano, 'curso.area_curso':curso});
+                F = await AlunoModel.countDocuments({grupo:'F', 'prova.ano_prova':ano, 'curso.area_curso':curso});
+            }
 
             const result = {
                 grupo_A: A,
@@ -67,24 +90,46 @@ export default {
     async RankingNotas(req:Request, res:Response)
     {
         const ano = Number(req.query.ano);
+        const curso = Number(req.query.curso);
+        let a,b,c,d,e;
         class rnk { qnt: number; prc: number };
         let ranking: Array<rnk> = new Array<rnk>();
 
-        const a = await AlunoModel.countDocuments({ 'prova.nota_bruta': { $gte: 0, $lt: 20 }, 'prova.ano_prova':ano }, (error: any, notas: any) => {
-            return notas
-        });
-        const b = await AlunoModel.countDocuments({ 'prova.nota_bruta': { $gte: 20, $lt: 40 }, 'prova.ano_prova':ano }, (error: any, notas: any) => {
-            return notas
-        });
-        const c = await AlunoModel.countDocuments({ 'prova.nota_bruta': { $gte: 40, $lt: 60 }, 'prova.ano_prova':ano }, (error: any, notas: any) => {
-            return notas
-        });
-        const d = await AlunoModel.countDocuments({ 'prova.nota_bruta': { $gte: 60, $lt: 80 }, 'prova.ano_prova':ano }, (error: any, notas: any) => {
-            return notas
-        });
-        const e = await AlunoModel.countDocuments({ 'prova.nota_bruta': { $gte: 80, $lt: 100 }, 'prova.ano_prova':ano }, (error: any, notas: any) => {
-            return notas
-        });
+        if(!isNaN(curso))
+        {
+            a = await AlunoModel.countDocuments({ 'prova.nota_bruta': { $gte: 0, $lt: 20 }, 'prova.ano_prova':ano,'curso.area_curso':curso }, (error: any, notas: any) => {
+                return notas
+            });
+            b = await AlunoModel.countDocuments({ 'prova.nota_bruta': { $gte: 20, $lt: 40 }, 'prova.ano_prova':ano,'curso.area_curso':curso}, (error: any, notas: any) => {
+                return notas
+            });
+            c = await AlunoModel.countDocuments({ 'prova.nota_bruta': { $gte: 40, $lt: 60 }, 'prova.ano_prova':ano,'curso.area_curso':curso}, (error: any, notas: any) => {
+                return notas
+            });
+            d = await AlunoModel.countDocuments({ 'prova.nota_bruta': { $gte: 60, $lt: 80 }, 'prova.ano_prova':ano,'curso.area_curso':curso}, (error: any, notas: any) => {
+                return notas
+            });
+            e = await AlunoModel.countDocuments({ 'prova.nota_bruta': { $gte: 80, $lt: 100 }, 'prova.ano_prova':ano,'curso.area_curso':curso}, (error: any, notas: any) => {
+                return notas
+            });
+        }else
+        {
+            a = await AlunoModel.countDocuments({ 'prova.nota_bruta': { $gte: 0, $lt: 20 }, 'prova.ano_prova':ano }, (error: any, notas: any) => {
+                return notas
+            });
+            b = await AlunoModel.countDocuments({ 'prova.nota_bruta': { $gte: 20, $lt: 40 }, 'prova.ano_prova':ano }, (error: any, notas: any) => {
+                return notas
+            });
+            c = await AlunoModel.countDocuments({ 'prova.nota_bruta': { $gte: 40, $lt: 60 }, 'prova.ano_prova':ano }, (error: any, notas: any) => {
+                return notas
+            });
+            d = await AlunoModel.countDocuments({ 'prova.nota_bruta': { $gte: 60, $lt: 80 }, 'prova.ano_prova':ano }, (error: any, notas: any) => {
+                return notas
+            });
+            e = await AlunoModel.countDocuments({ 'prova.nota_bruta': { $gte: 80, $lt: 100 }, 'prova.ano_prova':ano }, (error: any, notas: any) => {
+                return notas
+            });
+        }
 
         const total = a + b + c + d + e;
 
@@ -99,18 +144,32 @@ export default {
 
     async TotalPorIdade(req: Request, res: Response) {
         const ano = Number(req.query.ano);
+        const curso = Number(req.query.curso);
 
         try {
             let response: Array<number> = [0, 0, 0, 0, 0, 0, 0, 0];
 
-            response[0] = await AlunoModel.countDocuments({ idade: { $gte: 16, $lte: 24 }, 'prova.ano_prova':ano })
-            response[1] = await AlunoModel.countDocuments({ idade: { $gte: 25, $lte: 33 }, 'prova.ano_prova':ano })
-            response[2] = await AlunoModel.countDocuments({ idade: { $gte: 34, $lte: 42 }, 'prova.ano_prova':ano })
-            response[3] = await AlunoModel.countDocuments({ idade: { $gte: 43, $lte: 51 }, 'prova.ano_prova':ano })
-            response[4] = await AlunoModel.countDocuments({ idade: { $gte: 52, $lte: 60 }, 'prova.ano_prova':ano })
-            response[5] = await AlunoModel.countDocuments({ idade: { $gte: 61, $lte: 69 }, 'prova.ano_prova':ano })
-            response[6] = await AlunoModel.countDocuments({ idade: { $gte: 70, $lte: 78 }, 'prova.ano_prova':ano })
-            response[7] = await AlunoModel.countDocuments({ idade: { $gte: 79, $lte: 87 }, 'prova.ano_prova':ano })
+            if(isNaN(curso))
+            {
+                response[0] = await AlunoModel.countDocuments({ idade: { $gte: 16, $lte: 24 }, 'prova.ano_prova':ano })
+                response[1] = await AlunoModel.countDocuments({ idade: { $gte: 25, $lte: 33 }, 'prova.ano_prova':ano })
+                response[2] = await AlunoModel.countDocuments({ idade: { $gte: 34, $lte: 42 }, 'prova.ano_prova':ano })
+                response[3] = await AlunoModel.countDocuments({ idade: { $gte: 43, $lte: 51 }, 'prova.ano_prova':ano })
+                response[4] = await AlunoModel.countDocuments({ idade: { $gte: 52, $lte: 60 }, 'prova.ano_prova':ano })
+                response[5] = await AlunoModel.countDocuments({ idade: { $gte: 61, $lte: 69 }, 'prova.ano_prova':ano })
+                response[6] = await AlunoModel.countDocuments({ idade: { $gte: 70, $lte: 78 }, 'prova.ano_prova':ano })
+                response[7] = await AlunoModel.countDocuments({ idade: { $gte: 79, $lte: 87 }, 'prova.ano_prova':ano })
+            }else
+            {
+                response[0] = await AlunoModel.countDocuments({ idade: { $gte: 16, $lte: 24 }, 'prova.ano_prova':ano, 'curso.area_curso':curso })
+                response[1] = await AlunoModel.countDocuments({ idade: { $gte: 25, $lte: 33 }, 'prova.ano_prova':ano, 'curso.area_curso':curso })
+                response[2] = await AlunoModel.countDocuments({ idade: { $gte: 34, $lte: 42 }, 'prova.ano_prova':ano, 'curso.area_curso':curso })
+                response[3] = await AlunoModel.countDocuments({ idade: { $gte: 43, $lte: 51 }, 'prova.ano_prova':ano, 'curso.area_curso':curso })
+                response[4] = await AlunoModel.countDocuments({ idade: { $gte: 52, $lte: 60 }, 'prova.ano_prova':ano, 'curso.area_curso':curso })
+                response[5] = await AlunoModel.countDocuments({ idade: { $gte: 61, $lte: 69 }, 'prova.ano_prova':ano, 'curso.area_curso':curso })
+                response[6] = await AlunoModel.countDocuments({ idade: { $gte: 70, $lte: 78 }, 'prova.ano_prova':ano, 'curso.area_curso':curso })
+                response[7] = await AlunoModel.countDocuments({ idade: { $gte: 79, $lte: 87 }, 'prova.ano_prova':ano, 'curso.area_curso':curso })
+            }
 
 
             return res.status(200).json(response)
@@ -121,34 +180,53 @@ export default {
 
     async PercentualModalidadeEM(req: Request, res: Response) {
         const ano = Number(req.query.ano);
-        try {
-            const tmp = await AlunoModel.distinct('tip_ens_medio');
-            const total = await AlunoModel.countDocuments({'prova.ano_prova':ano});
-            let response = []
-            for await (const i of tmp) {
-                const c = await AlunoModel.countDocuments({ tip_ens_medio: i, 'prova.ano_prova':ano })
-                response.push({ tip_ens_medio: i, prc: (100 * c) / total })
-            }
-            return res.status(200).json(response);
-        } catch (error) {
-            console.log('[ERROR]: ', error)
+        const curso = Number(req.query.curso);
+        var tmp;
+        if(isNaN(curso))
+        {
+            tmp = await AlunoModel.distinct('tip_ens_medio', {'prova.ano_prova':ano});
+        }else
+        {
+            tmp = await AlunoModel.distinct('tip_ens_medio', {'curso.area_curso':curso});
         }
+        const total = await AlunoModel.countDocuments({'prova.ano_prova':ano});
+        let response = []
+
+        for await (const i of tmp) {
+        const c = await AlunoModel.countDocuments({ tip_ens_medio: i, 'prova.ano_prova':ano});
+        response.push({ tip_ens_medio: i, prc: (100 * c) / total });
+        }
+        return res.status(200).json(response);
     },
 
     async CountNotasPorIdade(req:Request, res:Response)
     {
         const ano = Number(req.query.ano);
+        const curso = Number(req.query.curso);
         let response: Array<any>  =  new Array<any>();
         try
         {
-            response[0] = await AlunoModel.countDocuments({ idade: { $gte: 16, $lte: 24 }, 'prova.ano_prova':ano });
-            response[1] = await AlunoModel.countDocuments({ idade: { $gte: 25, $lte: 33 }, 'prova.ano_prova':ano });
-            response[2] = await AlunoModel.countDocuments({ idade: { $gte: 34, $lte: 42 }, 'prova.ano_prova':ano });
-            response[3] = await AlunoModel.countDocuments({ idade: { $gte: 43, $lte: 51 }, 'prova.ano_prova':ano });
-            response[4] = await AlunoModel.countDocuments({ idade: { $gte: 52, $lte: 60 }, 'prova.ano_prova':ano });
-            response[5] = await AlunoModel.countDocuments({ idade: { $gte: 61, $lte: 69 }, 'prova.ano_prova':ano });
-            response[6] = await AlunoModel.countDocuments({ idade: { $gte: 70, $lte: 78 }, 'prova.ano_prova':ano });
-            response[7] = await AlunoModel.countDocuments({ idade: { $gte: 79, $lte: 87 }, 'prova.ano_prova':ano });
+            if(isNaN(curso))
+            {
+                response[0] = await AlunoModel.countDocuments({ idade: { $gte: 16, $lte: 24 }, 'prova.ano_prova':ano });
+                response[1] = await AlunoModel.countDocuments({ idade: { $gte: 25, $lte: 33 }, 'prova.ano_prova':ano });
+                response[2] = await AlunoModel.countDocuments({ idade: { $gte: 34, $lte: 42 }, 'prova.ano_prova':ano });
+                response[3] = await AlunoModel.countDocuments({ idade: { $gte: 43, $lte: 51 }, 'prova.ano_prova':ano });
+                response[4] = await AlunoModel.countDocuments({ idade: { $gte: 52, $lte: 60 }, 'prova.ano_prova':ano });
+                response[5] = await AlunoModel.countDocuments({ idade: { $gte: 61, $lte: 69 }, 'prova.ano_prova':ano });
+                response[6] = await AlunoModel.countDocuments({ idade: { $gte: 70, $lte: 78 }, 'prova.ano_prova':ano });
+                response[7] = await AlunoModel.countDocuments({ idade: { $gte: 79, $lte: 87 }, 'prova.ano_prova':ano });
+            }else
+            {
+                response[0] = await AlunoModel.countDocuments({ idade: { $gte: 16, $lte: 24 }, 'prova.ano_prova':ano, 'curso.area_curso':curso });
+                response[1] = await AlunoModel.countDocuments({ idade: { $gte: 25, $lte: 33 }, 'prova.ano_prova':ano, 'curso.area_curso':curso });
+                response[2] = await AlunoModel.countDocuments({ idade: { $gte: 34, $lte: 42 }, 'prova.ano_prova':ano, 'curso.area_curso':curso });
+                response[3] = await AlunoModel.countDocuments({ idade: { $gte: 43, $lte: 51 }, 'prova.ano_prova':ano, 'curso.area_curso':curso });
+                response[4] = await AlunoModel.countDocuments({ idade: { $gte: 52, $lte: 60 }, 'prova.ano_prova':ano, 'curso.area_curso':curso });
+                response[5] = await AlunoModel.countDocuments({ idade: { $gte: 61, $lte: 69 }, 'prova.ano_prova':ano, 'curso.area_curso':curso });
+                response[6] = await AlunoModel.countDocuments({ idade: { $gte: 70, $lte: 78 }, 'prova.ano_prova':ano, 'curso.area_curso':curso });
+                response[7] = await AlunoModel.countDocuments({ idade: { $gte: 79, $lte: 87 }, 'prova.ano_prova':ano, 'curso.area_curso':curso });
+            }
         }
         catch(error)
         {
@@ -156,6 +234,26 @@ export default {
         }
         return res.status(200).json(response);
     },
+
+    async QuantidadeDeAlunos(req:Request, res:Response)
+    {
+        const ano = Number(req.query.ano);
+        const curso = Number(req.query.curso);
+        let response;
+        try {
+            if(isNaN(curso))
+            {
+                response = await AlunoModel.countDocuments({'prova.ano_prova':ano});
+            }else
+            {
+                response = await AlunoModel.countDocuments({'prova.ano_prova':ano, 'curso.area_curso':curso});
+            }
+            return res.status(200).json(response)
+        } catch (error) {
+            console.log('[ERROR]: ', error)
+        }
+    },
+
     //#endregion
 
     //#region Cursos
@@ -176,50 +274,6 @@ export default {
         const resposta  =  await Indentify.GetIndentificadores();
         return res.status(200).json(resposta);
 
-    },
-
-    async TotalPorCurso(req: Request, res: Response) {
-        let ano = Number(req.query.ano);
-
-        try {
-            const tmp = await AlunoModel.distinct('curso.area_curso')
-
-            if (tmp) {
-                let resp = []
-                for await (const i of tmp) {
-                    const c = await AlunoModel.countDocuments({ 'curso.area_curso': i, "prova.ano_prova":ano })
-                    resp.push({ curso_id: i, count: c });
-                }
-
-                return res.status(200).json(resp);
-            }
-            else {
-                return res.status(404).send('Not Found')
-            }
-
-
-        } catch (error) {
-            console.log('[ERROR]: ', error)
-        }
-    },    
-
-    async Index(req: Request, res: Response) {
-        const pageSize: number = 100;
-        const page: number = (req.query as unknown as IPage).page;
-
-        try {
-            await AlunoModel.find({},{curso:1},(error: any, curso: any) => {
-                if (error) {
-                    return res.status(404).send('Not Found')
-                }
-                else {
-                    return res.status(200).json(curso);
-                }
-            }).skip(pageSize * page).limit(pageSize);
-
-        } catch (error) {
-            console.log('[ERROR]: ', error)
-        }
     },
 
     async PercentualTipoInstituição(req: Request, res: Response) {

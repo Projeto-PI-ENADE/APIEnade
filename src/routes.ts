@@ -15,8 +15,6 @@ routes.get("/provas/RankingNotas", DocumentAlunoController.RankingNotas);
 //#endregion
 
 //#region  /CURSOS
-routes.get("/cursos", DocumentAlunoController.Index);
-routes.get("/cursos/TotalPorCurso", DocumentAlunoController.TotalPorCurso);
 routes.get("/cursos/CursosAvaliados", DocumentAlunoController.CursosAvaliados);
 routes.get("/cursos/PercentualTipoInstituicao", DocumentAlunoController.PercentualTipoInstituição);
 routes.get("/cursos/ProporcaoPresencialEAD", DocumentAlunoController.ProporcaoPresencialEAD)
@@ -24,7 +22,7 @@ routes.get("/cursos/ProporcaoPresencialEAD", DocumentAlunoController.ProporcaoPr
 
 //#region  /ALUNOS
 // routes.get('/alunos', AlunoController.Index);
-routes.get("/alunos/NumeroAlunos", PresenceController.NumeroAlunos);
+routes.get("/alunos/NumeroAlunos", DocumentAlunoController.QuantidadeDeAlunos);
 routes.get('/alunos/TotalPorSexo', DocumentAlunoController.TotalPorSexo);
 routes.get('/alunos/TotalPorIdade', DocumentAlunoController.TotalPorIdade);
 routes.get('/alunos/PercentualModalidadeEM', DocumentAlunoController.PercentualModalidadeEM);
