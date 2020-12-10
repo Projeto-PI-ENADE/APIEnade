@@ -162,6 +162,20 @@ export default {
         }
         return res.status(200).json(response);
     },
+
+    async QuantidadeDeAlunos(req:Request, res:Response)
+    {
+        const ano = Number(req.query.ano);
+        const curso = Number(req.query.curso);
+        try {
+            let response = await AlunoModel.countDocuments({'prova.ano_prova':ano, 'curso.area_curso':curso});
+            console.log(response);
+            return res.status(200).json(response)
+        } catch (error) {
+            console.log('[ERROR]: ', error)
+        }
+    },
+
     //#endregion
 
     //#region Cursos
