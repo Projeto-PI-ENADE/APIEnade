@@ -23,21 +23,28 @@ export default {
     async TotalPorSexo(req: Request, res: Response) {
         const ano = Number(req.query.ano);
         const curso = Number(req.query.curso);
-        let m, f;
+        let m, f, resp;
         try {
 
             if(isNaN(curso))
             {
-                m = await AlunoModel.countDocuments({ sexo: 'M', 'prova.ano_prova':ano});
-                f = await AlunoModel.countDocuments({ sexo: 'F', 'prova.ano_prova':ano});
+                m = AlunoModel.countDocuments({ sexo: 'M', 'prova.ano_prova':ano});
+                f = AlunoModel.countDocuments({ sexo: 'F', 'prova.ano_prova':ano});
+                resp =  await Promise.all([
+                    m,f
+                ])
             }else
             {
-                m = await AlunoModel.countDocuments({ sexo: 'M', 'prova.ano_prova':ano, 'curso.ano_curso':curso});
-                f = await AlunoModel.countDocuments({ sexo: 'F', 'prova.ano_prova':ano, 'curso.ano_curso':curso});
+                m = AlunoModel.countDocuments({ sexo: 'M', 'prova.ano_prova':ano, 'curso.area_curso':curso});
+                f = AlunoModel.countDocuments({ sexo: 'F', 'prova.ano_prova':ano, 'curso.area_curso':curso});
+
+                resp =  await Promise.all([
+                    m,f
+                ])
             }
             const response = {
-                "feminino": f,
-                "masculino": m
+                "feminino": resp[1],
+                "masculino": resp[0]
             };
 
             return res.status(200).json(response)
@@ -55,29 +62,33 @@ export default {
         {
             if(isNaN(curso))
             {
-                A = await AlunoModel.countDocuments({grupo:'A', 'prova.ano_prova': ano});
-                B = await AlunoModel.countDocuments({grupo:'B', 'prova.ano_prova': ano});
-                C = await AlunoModel.countDocuments({grupo:'C', 'prova.ano_prova': ano});
-                D = await AlunoModel.countDocuments({grupo:'D', 'prova.ano_prova': ano});
-                E = await AlunoModel.countDocuments({grupo:'E', 'prova.ano_prova': ano});
-                F = await AlunoModel.countDocuments({grupo:'F', 'prova.ano_prova': ano});
+                A = AlunoModel.countDocuments({grupo:'A', 'prova.ano_prova': ano});
+                B = AlunoModel.countDocuments({grupo:'B', 'prova.ano_prova': ano});
+                C = AlunoModel.countDocuments({grupo:'C', 'prova.ano_prova': ano});
+                D = AlunoModel.countDocuments({grupo:'D', 'prova.ano_prova': ano});
+                E = AlunoModel.countDocuments({grupo:'E', 'prova.ano_prova': ano});
+                F = AlunoModel.countDocuments({grupo:'F', 'prova.ano_prova': ano});
             }else
             {
-                A = await AlunoModel.countDocuments({grupo:'A', 'prova.ano_prova':ano, 'curso.area_curso':curso});
-                B = await AlunoModel.countDocuments({grupo:'B', 'prova.ano_prova':ano, 'curso.area_curso':curso});
-                C = await AlunoModel.countDocuments({grupo:'C', 'prova.ano_prova':ano, 'curso.area_curso':curso});
-                D = await AlunoModel.countDocuments({grupo:'D', 'prova.ano_prova':ano, 'curso.area_curso':curso});
-                E = await AlunoModel.countDocuments({grupo:'E', 'prova.ano_prova':ano, 'curso.area_curso':curso});
-                F = await AlunoModel.countDocuments({grupo:'F', 'prova.ano_prova':ano, 'curso.area_curso':curso});
+                A = AlunoModel.countDocuments({grupo:'A', 'prova.ano_prova':ano, 'curso.area_curso':curso});
+                B = AlunoModel.countDocuments({grupo:'B', 'prova.ano_prova':ano, 'curso.area_curso':curso});
+                C = AlunoModel.countDocuments({grupo:'C', 'prova.ano_prova':ano, 'curso.area_curso':curso});
+                D = AlunoModel.countDocuments({grupo:'D', 'prova.ano_prova':ano, 'curso.area_curso':curso});
+                E = AlunoModel.countDocuments({grupo:'E', 'prova.ano_prova':ano, 'curso.area_curso':curso});
+                F = AlunoModel.countDocuments({grupo:'F', 'prova.ano_prova':ano, 'curso.area_curso':curso});
             }
 
+            const resp = await Promise.all([
+                A,B,C,D,E,F
+            ])
+
             const result = {
-                grupo_A: A,
-                grupo_B: B,
-                grupo_C: C,
-                grupo_D: D,
-                grupo_E: E,
-                grupo_F: F
+                grupo_A: resp[0],
+                grupo_B: resp[1],
+                grupo_C: resp[2],
+                grupo_D: resp[3],
+                grupo_E: resp[4],
+                grupo_F: resp[5]
             }
             return res.status(200).json(result);
         }catch(error)
